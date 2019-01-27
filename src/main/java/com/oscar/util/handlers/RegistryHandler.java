@@ -27,15 +27,5 @@ public class RegistryHandler {
 		}
 
 	}
-/*
-	public static void registerEntities()
-	{
-		ResourceLocation speedGelBallRL = new ResourceLocation(Reference.MOD_ID, "lb_gel_speed_ball");
 
-		EntityEntry speedGelBallEntity = EntityEntryBuilder.create().entity(EntitySpeedGelBall.class)
-				.id(speedGelBallRL, 1).name("lb_gel_speed_ball").tracker(64, 20, true).build();
-
-		ForgeRegistries.ENTITIES.register(speedGelBallEntity);
-	}
-	*/
 }

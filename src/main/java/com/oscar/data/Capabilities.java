@@ -12,6 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class Capabilities {
@@ -36,7 +37,6 @@ public class Capabilities {
 				System.out.println("added Exp cap");
 				System.out.println("added Needed Exp cap");
 				System.out.println("added Quirk cap");
-
 			}
 		}
 		

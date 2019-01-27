@@ -1,7 +1,13 @@
 
-//SheetMetals
-key.activate=Activate/Deactivate Qurik
-key.cs=Character Sheet
-key.categories.bokunoheroacademia=Boku no Hero Academia
+key.quirk=Activate/Deactivate Qurik
+key.categories.bnha=Boku no Hero Academia
+
 item.ua_sports_chestplate.name=UA sports Chest
 item.ua_sports_leggings.name=UA sports leggings
+item.deku_armor_chestplate.name=Deku Chest
+item.deku_armor_leggings.name=Deku leggings
+item.deku_armor_feet.name=Deku shoes
+item.bakugo_armor_head.name=Bakugo Mask
+item.bakugo_armor_chestplate.name=Bakugo Chest
+item.bakugo_armor_leggings.name=Bakugo leggings
+item.bakugo_armor_feet.name=Bakugo shoes

@@ -3,7 +3,6 @@ package com.oscar.data.packets;
 import com.oscar.data.types.interfaces.IQuirk;
 import com.oscar.data.types.quirk.Quirk;
 import com.oscar.data.types.quirk.QuirkProvider;
-import com.oscar.util.Multipliers;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
@@ -18,9 +17,6 @@ public class MessageQuirk implements IMessage{
 	static int act;
 	static int maxAct;
 		
-	static Multipliers multipliers;
-	
-	
 	public MessageQuirk() {}
 
 	
@@ -55,6 +51,9 @@ public class MessageQuirk implements IMessage{
 	    		//Activation Time
 	    		tag.setInteger("maxAct", instance.maxAct);
 	    		tag.setInteger("act", instance.act);
+	    		
+	    		//Quirk ID
+	    		tag.setInteger("quirkid", instance.quirkID);
 	    		
 	        });
 	            

@@ -2,7 +2,7 @@ package com.oscar.util;
 
 import org.apache.logging.log4j.Level;
 
-import com.oscar.proxy.CommonProxy;
+import com.oscar.BNHA;
 
 import net.minecraftforge.common.config.Configuration;
 
@@ -12,7 +12,7 @@ public class BNHAConfig
 
    public static void readCfg()
    {
-      Configuration cfg = CommonProxy.config;
+      Configuration cfg = BNHA.config;
       try {
          cfg.load();
          initGeneralConfig(cfg);

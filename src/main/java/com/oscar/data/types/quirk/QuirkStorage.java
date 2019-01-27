@@ -3,9 +3,7 @@ package com.oscar.data.types.quirk;
 import com.oscar.data.types.interfaces.IQuirk;
 
 import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagByte;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
@@ -16,17 +14,20 @@ public class QuirkStorage implements IStorage<IQuirk>{
 	public NBTBase writeNBT(Capability<IQuirk> capability, IQuirk instance, EnumFacing side) {
 		NBTTagCompound tag = new NBTTagCompound();
 		
-		tag.setString("name", instance.name);
+		tag.setString("name", instance.getName());
 		
-		tag.setBoolean("activated", instance.activated);
-		tag.setBoolean("available",instance.available);
+		tag.setBoolean("activated", instance.getActivated());
+		tag.setBoolean("available",instance.getAvailable());
 		//Cooldown
-		tag.setInteger("maxCooldown", instance.maxCooldown);
-		tag.setInteger("cooldown", instance.cooldown);
+		tag.setInteger("maxCooldown", instance.getMaxCooldown());
+		tag.setInteger("cooldown", instance.getCooldown());
 		
 		//Activation Time
-		tag.setInteger("maxAct", instance.maxAct);
-		tag.setInteger("act", instance.act);
+		tag.setInteger("maxAct", instance.getMaxActivatedTime());
+		tag.setInteger("act", instance.getAct());
+		
+		//Quirk ID
+		tag.setInteger("quirkid", instance.getQuirkID());
 		
 		return tag;
 	}
@@ -46,6 +47,8 @@ public class QuirkStorage implements IStorage<IQuirk>{
 		tag.getInteger("maxAct");
 		tag.getInteger("act");
 			
+		//Quirk ID
+		tag.getInteger("quirkid");
 		}
 	}
 

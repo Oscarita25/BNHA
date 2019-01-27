@@ -41,6 +41,9 @@ public class MessageRequestQuirk implements IMessage{
 			tag.getInteger("maxAct");
 			tag.getInteger("act");
 				
+			//Quirk ID
+			tag.getInteger("quirkid");
+			
 	        return null;
 	    }
 

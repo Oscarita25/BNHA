@@ -67,11 +67,6 @@ public class ModItems {
 					2,
 					EntityEquipmentSlot.LEGS);
 	
-	public static final Item DEKU_HEAD = 
-			new ClothArmor("deku_armor_head",
-					DEKU_ARMOR_MAT,
-					1,
-					EntityEquipmentSlot.HEAD);
 	
 	public static final Item DEKU_CHESTPLATE = 
 			new ClothArmor("deku_armor_chestplate",
