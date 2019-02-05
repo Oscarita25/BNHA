@@ -3,7 +3,6 @@ package com.oscar.data.types.quirk.name;
 import com.oscar.data.types.interfaces.IQName;
 
 import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTPrimitive;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
@@ -18,7 +17,7 @@ public class QNameStorage implements IStorage<IQName>{
 
 	@Override
 	public void readNBT(Capability<IQName> capability, IQName instance, EnumFacing side, NBTBase nbt) {
-		instance.setname(((NBTPrimitive) nbt).toString());
+		instance.setname(((NBTTagString) nbt).getString());
 	}
 
 }
