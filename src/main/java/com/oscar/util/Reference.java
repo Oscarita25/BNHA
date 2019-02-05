@@ -1,8 +1,6 @@
 package com.oscar.util;
 
-import com.oscar.BNHA;
-import com.oscar.data.packets.MessageQuirk;
-import com.oscar.data.types.interfaces.IQuirk;
+import com.oscar.data.types.quirk.Quirk;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextComponentString;
@@ -23,29 +21,19 @@ public class Reference {
 		return (Math.random() <= 0.5) ? 1 : 2;
 	}
 	
-	public static void RandomQuirkChoose(IQuirk iquirk,EntityPlayer player) {
-		if(iquirk.getQuirkID() == Reference.none) {
+	public static void RandomQuirkChoose(EntityPlayer player) {
 			int random = Reference.RandomIntChoose();
 			System.out.println(random + "Quirk NONE");
-			iquirk.setQuirkID(random);
-			BNHA.NETWORK.sendToServer(new MessageQuirk());
+			Quirk.setQuirkID(player,random);
 			
-			if(iquirk.getQuirkID() == Reference.quirkless) {
+			if(Quirk.getQuirkID(player) == Reference.quirkless) {
 				System.out.println(random + "Quirk QUIRKLESS");
-				iquirk.setName("Quirkless");
-				BNHA.NETWORK.sendToServer(new MessageQuirk());
+				Quirk.setQuirkName(player,"Quirkless");
 				
-			}else if(iquirk.getQuirkID() == Reference.explosionquirk) {
+			}else if(Quirk.getQuirkID(player) == Reference.explosionquirk) {
 				System.out.println(random + "Quirk EXPLOSION");
-				iquirk.setName("Explosion Quirk");
-				BNHA.NETWORK.sendToServer(new MessageQuirk());
+				Quirk.setQuirkName(player,"Explosion Quirk");
 		}
-			
-			if(iquirk.getQuirkID() == Reference.quirkless) {
-				player.sendMessage(new TextComponentString("You are " + iquirk.getName()));
-			}else {
-				player.sendMessage(new TextComponentString("Your Quirk is: " + iquirk.getName()));
-				}
-			}
+		
 	}
 }
