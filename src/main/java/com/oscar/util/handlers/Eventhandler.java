@@ -1,10 +1,10 @@
 package com.oscar.util.handlers;
 
 import com.oscar.BNHA;
-import com.oscar.data.packets.MessageEXP;
-import com.oscar.data.packets.MessageLEVEL;
-import com.oscar.data.packets.MessageNEXP;
-import com.oscar.data.packets.MessageQuirkID;
+import com.oscar.data.packets.MessageRequestEXP;
+import com.oscar.data.packets.MessageRequestLEVEL;
+import com.oscar.data.packets.MessageRequestNEXP;
+import com.oscar.data.packets.MessageRequestQuirkID;
 import com.oscar.data.types.exp.ExpProvider;
 import com.oscar.data.types.interfaces.IExp;
 import com.oscar.data.types.interfaces.ILevel;
@@ -53,10 +53,10 @@ public class Eventhandler {
 		IQName iqname = player.getCapability(QNameProvider.QURIKNAME_CAP, null);
 		IQuirkID iqID = player.getCapability(QuirkIDProvider.QUIRKID_CAP, null);
 		
-		BNHA.NETWORK.sendToServer(new MessageLEVEL());
-		BNHA.NETWORK.sendToServer(new MessageEXP());
-		BNHA.NETWORK.sendToServer(new MessageNEXP());
-		BNHA.NETWORK.sendToServer(new MessageQuirkID());
+		BNHA.NETWORK.sendToServer(new MessageRequestLEVEL());
+		BNHA.NETWORK.sendToServer(new MessageRequestEXP());
+		BNHA.NETWORK.sendToServer(new MessageRequestNEXP());
+		BNHA.NETWORK.sendToServer(new MessageRequestQuirkID());
 
 		player.sendMessage(new TextComponentString("Your level is: " + level.getlvl()));
 		player.sendMessage(new TextComponentString("Your exp is: " + exp.getexp()));

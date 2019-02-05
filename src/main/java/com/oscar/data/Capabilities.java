@@ -11,7 +11,10 @@ import com.oscar.data.types.quirk.maxcool.QMaxCoolProvider;
 import com.oscar.data.types.quirk.name.QNameProvider;
 import com.oscar.util.Reference;
 
-import ibxm.Player;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -30,8 +33,12 @@ public class Capabilities {
 
 	
 	@SubscribeEvent
-	public void attachCapability(AttachCapabilitiesEvent<Player> event) {
+	public void attachCapability(AttachCapabilitiesEvent<Entity> event) {
 
+		if (canHaveAttributes(event.getObject())) {
+			EntityLivingBase ent = (EntityLivingBase) event.getObject();
+			
+			if (ent instanceof EntityPlayer || ent instanceof EntityPlayerMP) {
 				event.addCapability(LEVEL_CAP, new LevelProvider());
 				System.out.println("added level cap");
 				
@@ -49,5 +56,15 @@ public class Capabilities {
 				event.addCapability(QURIKNAME_CAP, new QNameProvider()); 
 				System.out.println("added Quirk caps");
 			}
+		}
+	}
+	
+
+
+	public static boolean canHaveAttributes(Entity e) {
+		if (e instanceof EntityLivingBase)
+			return true;
+		return false;
+	}
 
 }
