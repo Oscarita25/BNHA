@@ -8,7 +8,6 @@ import com.oscar.util.Reference;
 
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 
@@ -18,6 +17,7 @@ public class KeyInputHandler {
 	public static void onKeyInput(ClientTickEvent event) {
 	    KeyBinding[] keyBindings = Keybinds.keyBindings;
 		if(keyBindings[0].isPressed()){
+			System.out.println("hello you pressed me?");
 			BNHA.NETWORK.sendToServer(new MessageRequestActivate());
 		}
 	}
