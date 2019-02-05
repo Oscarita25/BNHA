@@ -21,12 +21,12 @@ public class Capabilities {
 	public static final ResourceLocation LEVEL_CAP = new ResourceLocation(Reference.MOD_ID, "level");
 	public static final ResourceLocation EXP_CAP = new ResourceLocation(Reference.MOD_ID, "expc");
 	public static final ResourceLocation NEXP_CAP = new ResourceLocation(Reference.MOD_ID, "expn");
-	public static final ResourceLocation QURIKNAME_CAP = new ResourceLocation(Reference.MOD_ID, "quirk"); 
-	public static final ResourceLocation QMaxAct_CAP = new ResourceLocation(Reference.MOD_ID, "quirk"); 
-	public static final ResourceLocation QACT_CAP = new ResourceLocation(Reference.MOD_ID, "quirk"); 
-	public static final ResourceLocation COOL_CAP = new ResourceLocation(Reference.MOD_ID, "quirk"); 
-	public static final ResourceLocation MAXCOOl_CAP = new ResourceLocation(Reference.MOD_ID, "quirk"); 
-	public static final ResourceLocation QUIRKID_CAP = new ResourceLocation(Reference.MOD_ID, "quirk"); 
+	public static final ResourceLocation QURIKNAME_CAP = new ResourceLocation(Reference.MOD_ID, "quirkname"); 
+	public static final ResourceLocation QMaxAct_CAP = new ResourceLocation(Reference.MOD_ID, "qmaxact"); 
+	public static final ResourceLocation QACT_CAP = new ResourceLocation(Reference.MOD_ID, "qact"); 
+	public static final ResourceLocation COOL_CAP = new ResourceLocation(Reference.MOD_ID, "qcooldown"); 
+	public static final ResourceLocation MAXCOOl_CAP = new ResourceLocation(Reference.MOD_ID, "qmaxcooldown"); 
+	public static final ResourceLocation QUIRKID_CAP = new ResourceLocation(Reference.MOD_ID, "quirkid"); 
 
 	
 	@SubscribeEvent
