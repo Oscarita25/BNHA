@@ -24,7 +24,7 @@ public class Capabilities {
 	public static final ResourceLocation LEVEL_CAP = new ResourceLocation(Reference.MOD_ID, "level");
 	public static final ResourceLocation EXP_CAP = new ResourceLocation(Reference.MOD_ID, "expc");
 	public static final ResourceLocation NEXP_CAP = new ResourceLocation(Reference.MOD_ID, "expn");
-	public static final ResourceLocation QURIKNAME_CAP = new ResourceLocation(Reference.MOD_ID, "quirkname"); 
+	public static final ResourceLocation QUIRKNAME_CAP = new ResourceLocation(Reference.MOD_ID, "quirkname"); 
 	public static final ResourceLocation QMaxAct_CAP = new ResourceLocation(Reference.MOD_ID, "qmaxact"); 
 	public static final ResourceLocation QACT_CAP = new ResourceLocation(Reference.MOD_ID, "qact"); 
 	public static final ResourceLocation COOL_CAP = new ResourceLocation(Reference.MOD_ID, "qcooldown"); 
@@ -53,7 +53,7 @@ public class Capabilities {
 				event.addCapability(COOL_CAP, new QCoolProvider()); 
 				event.addCapability(QACT_CAP, new QActProvider()); 
 				event.addCapability(QMaxAct_CAP, new QMaxActProvider()); 
-				event.addCapability(QURIKNAME_CAP, new QNameProvider()); 
+				event.addCapability(QUIRKNAME_CAP, new QNameProvider()); 
 				System.out.println("added Quirk caps");
 			}
 		}

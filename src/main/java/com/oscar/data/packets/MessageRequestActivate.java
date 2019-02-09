@@ -51,7 +51,26 @@ public class MessageRequestActivate implements IMessage {
 		    		}
 		    		if(Quirk.getQuirkID(sendingPlayer) == Reference.explosionquirk) {
 		    			//new MessageExplosion();
-		    			sendingPlayer.sendMessage(new TextComponentString("EXPLOSIOOON"));
+
+		    		}
+		    		if(Quirk.getQuirkID(sendingPlayer) == Reference.engine) {
+		    			//new MessageExplosion();
+
+		    		}
+		    		if(Quirk.getQuirkID(sendingPlayer) == Reference.hellfire) {
+		    			//new MessageExplosion();
+
+		    		}
+		    		if(Quirk.getQuirkID(sendingPlayer) == Reference.icequirk) {
+		    			//new MessageExplosion();
+
+		    		}
+		    		if(Quirk.getQuirkID(sendingPlayer) == Reference.electrification) {
+		    			//new MessageExplosion();
+
+		    		}
+		    		if(Quirk.getQuirkID(sendingPlayer) == Reference.tail) {
+		    			//new MessageExplosion();
 
 		    		}
 		    	}

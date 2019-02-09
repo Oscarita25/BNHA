@@ -41,10 +41,14 @@ public class ClothArmor extends ItemArmor implements IHasModel{
 				ModelBiped armorModel = null;
 				switch (type) {
 				case HEAD:
+					armorModel = (ModelBiped) BNHA.proxy.getModel(1);
+					break;
 				case LEGS:
 					armorModel = (ModelBiped) BNHA.proxy.getModel(0);
 					break;
 				case FEET:
+					armorModel = (ModelBiped) BNHA.proxy.getModel(0);
+					break;
 				case CHEST:
 					armorModel = (ModelBiped) BNHA.proxy.getModel(1);
 					break;

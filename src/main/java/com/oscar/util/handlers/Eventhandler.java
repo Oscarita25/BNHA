@@ -24,6 +24,7 @@ import com.oscar.data.types.quirk.maxact.QMaxActProvider;
 import com.oscar.data.types.quirk.maxcool.QMaxCoolProvider;
 import com.oscar.data.types.quirk.name.QNameProvider;
 import com.oscar.util.Reference;
+import com.oscar.util.render.QuirkPlayerRender;
 
 import net.minecraft.entity.monster.EntitySlime;
 import net.minecraft.entity.passive.EntityAmbientCreature;
@@ -33,8 +34,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
@@ -43,6 +46,12 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 public class Eventhandler {
 
 
+	@SubscribeEvent
+	public void RenderPlayerEvent(RenderPlayerEvent.Pre event) {
+		
+		RenderingRegistry.registerEntityRenderingHandler(EntityPlayer.class, new QuirkPlayerRender(event.getRenderer().getRenderManager()));
+	}
+	
 	
 	@SubscribeEvent
 	public void onPlayerLoggedIn(PlayerLoggedInEvent event) {
@@ -69,11 +78,18 @@ public class Eventhandler {
 				Reference.RandomQuirkChoose(player);
 			}
 			
-			if(iqID.getID() != Reference.none)
+			if(iqID.getID() != Reference.none) {
 				player.sendMessage(new TextComponentString("Your Quirk is: "+ iqname.getname()));
-			else
+				
+			}else {
+			
 				player.sendMessage(new TextComponentString("You are "+ iqname.getname()));
-
+				}
+			
+			if(iqID.getID() == Reference.engine || iqID.getID() == Reference.tail){
+				
+			}
+			
 			}
 			
 

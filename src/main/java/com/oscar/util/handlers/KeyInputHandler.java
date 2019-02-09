@@ -19,7 +19,6 @@ public class KeyInputHandler {
 		if(event.phase.equals(Phase.END)){
 	    KeyBinding[] keyBindings = Keybinds.keyBindings;
 		if(keyBindings[0].isPressed()){
-			System.out.println("hello you pressed me?");
 			BNHA.NETWORK.sendToServer(new MessageRequestActivate());
 		}
 		}
