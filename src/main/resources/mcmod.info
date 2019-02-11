@@ -1,14 +1,14 @@
 [
 {
-  "modid": "bokunoheroacademia",
+  "modid": "bnha",
   "name": "Boku no Hero Academia Mod",
   "description": "My Hero Academia mod for Minecraft",
   "version": "0.1",
   "mcversion": "1.12.2",
-  "url": "https://minecraft.curseforge.com/projects/quirks-mod",
+  "url": "",
   "updateUrl": "",
-  "authorList": ["Maki325"],
-  "credits": "All credit goes to Maki325 besides the idea which is from anime Boku No Hero Academia",
+  "authorList": ["Oscarita25"],
+  "credits": "Credits go to the author of the mod and the anime Boku No Hero Academia",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []

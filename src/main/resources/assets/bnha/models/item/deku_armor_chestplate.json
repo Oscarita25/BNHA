@@ -1,0 +1,6 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "bnha:items/deku_armor_chestplate"
+    }
+}

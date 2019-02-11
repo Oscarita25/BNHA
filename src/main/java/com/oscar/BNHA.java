@@ -56,6 +56,7 @@ import com.oscar.util.handlers.KeyInputHandler.Keybinds;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.config.Configuration;
@@ -103,7 +104,7 @@ public class BNHA
        File dir = event.getModConfigurationDirectory();
        config = new Configuration(new File(dir.getPath(), "bnha.cfg"));
        BNHAConfig.readCfg();
-       
+
        //Capabilities
        CapabilityManager.INSTANCE.register(ILevel.class, new LevelStorage(), new LevelFactory());
        CapabilityManager.INSTANCE.register(IExp.class, new ExpStorage(), new ExpFactory());

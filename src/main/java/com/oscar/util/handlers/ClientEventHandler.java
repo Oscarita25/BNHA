@@ -8,12 +8,16 @@ import com.oscar.util.render.SRRLModelCache;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.resources.IReloadableResourceManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.IRegistry;
+import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 
 @Mod.EventBusSubscriber(modid = Reference.MOD_ID)
 public class ClientEventHandler {
@@ -23,11 +27,25 @@ public class ClientEventHandler {
 	((IReloadableResourceManager) Minecraft.getMinecraft().getResourceManager()).registerReloadListener(SRRLModelCache.INSTANCE);
 	}
 	
-	@SuppressWarnings("unused")
+	@SubscribeEvent
+	public static void onModelBakeEvent(final ModelBakeEvent event) {
+		final IRegistry<ModelResourceLocation, IBakedModel> registry = event.getModelRegistry();
+
+		injectModels(registry);
+
+	}
+	
+	@SubscribeEvent
+	public static void TextureStiching(TextureStitchEvent.Pre event) {
+			TextureMap map = event.getMap();
+			map.registerSprite(new ResourceLocation(Reference.MOD_ID,"tail/tailskincolour"));
+			map.registerSprite(new ResourceLocation(Reference.MOD_ID,"tail/tailhaircolour"));
+	}
+	
 	private static void injectModels(final IRegistry<ModelResourceLocation, IBakedModel> registry) {
 		final HashSet<ResourceLocation> modelLocations = new HashSet<>();
 
-		modelLocations.add(new ResourceLocation(Reference.MOD_ID, "models/tail"));
+		modelLocations.add(new ResourceLocation(Reference.MOD_ID, "tail"));
 
 		for (final ResourceLocation modelLocation : modelLocations) {
 			try {
