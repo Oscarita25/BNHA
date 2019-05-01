@@ -1,6 +1,7 @@
 package com.oscar.data.packets;
 
 import com.oscar.data.types.quirk.Quirk;
+import com.oscar.quirk.CustomSpawnable;
 import com.oscar.util.Reference;
 
 import io.netty.buffer.ByteBuf;
@@ -51,14 +52,25 @@ public class MessageRequestActivate implements IMessage {
 		    		}
 		    		if(Quirk.getQuirkID(sendingPlayer) == Reference.explosionquirk) {
 		    			playerWorldServer.createExplosion(sendingPlayer, sendingPlayer.lastTickPosX + sendingPlayer.getLookVec().x , sendingPlayer.lastTickPosY + 1, sendingPlayer.lastTickPosZ + sendingPlayer.getLookVec().z , 1, false);
-			            
+
 		    		}
 		    		if(Quirk.getQuirkID(sendingPlayer) == Reference.engine) {
 		    			//new MessageExplosion();
 
 		    		}
 		    		if(Quirk.getQuirkID(sendingPlayer) == Reference.hellfire) {
-		    			//new MessageExplosion();
+		    			playerWorldServer.spawnEntity(
+		    					new CustomSpawnable(playerWorldServer,
+		    					sendingPlayer.lastTickPosX + sendingPlayer.getLookVec().x *5 ,
+		    					sendingPlayer.lastTickPosY,
+		    					sendingPlayer.lastTickPosZ + sendingPlayer.getLookVec().z *5,
+		    					sendingPlayer,
+		    					false,
+		    					0.02F,
+		    					(float)sendingPlayer.getLookVec().x,
+		    					(float)sendingPlayer.getLookVec().y,
+		    					(float)sendingPlayer.getLookVec().z));
+		    			System.out.println("hi");
 
 		    		}
 		    		if(Quirk.getQuirkID(sendingPlayer) == Reference.icequirk) {

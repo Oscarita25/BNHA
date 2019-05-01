@@ -1,8 +1,10 @@
 package com.oscar.proxy;
 
+import com.oscar.client.render.entity.CustomSpawnableRenderFactory;
 import com.oscar.client.render.gui.Lvlgui;
 import com.oscar.client.render.gui.Statsgui;
 import com.oscar.models.ClothModel;
+import com.oscar.quirk.CustomSpawnable;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
@@ -10,6 +12,7 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
 public class ClientProxy extends CommonProxy {
 
@@ -43,8 +46,8 @@ public class ClientProxy extends CommonProxy {
 	public void registerRenders() {
 		MinecraftForge.EVENT_BUS.register(new Lvlgui(Minecraft.getMinecraft()));
 		MinecraftForge.EVENT_BUS.register(new Statsgui(Minecraft.getMinecraft()));
-
-
+		RenderingRegistry.registerEntityRenderingHandler(CustomSpawnable.class,new CustomSpawnableRenderFactory());
+		
 	}
 	
 

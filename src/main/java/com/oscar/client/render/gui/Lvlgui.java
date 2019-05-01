@@ -55,15 +55,17 @@ public class Lvlgui extends GuiScreen{
 	        
 			if (event.getType() != ElementType.EXPERIENCE) return;
 			
-	        
+			int xp = exp.getexp();
+			int nxp = nexp.getnexp();
+			
 			ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
 			int yPos = ((sr.getScaledHeight() /2) + (sr.getScaledHeight() / 2)) - 30 , xPos = (sr.getScaledWidth() /2) + (sr.getScaledWidth() / 4);
 			
 			Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 
 			drawTexturedModalRect(xPos, yPos, 0, 0, 128, 11);
-			
-			drawTexturedModalRect(xPos, yPos + 2, 1, 12, exp.getexp() / nexp.getnexp() * 82, 11);
+			int x = ((xp*100 / nxp*100) * 82)/10000;
+			drawTexturedModalRect(xPos, yPos + 2, 1, 12, x , 11);
 			String y = "Level " + level.getlvl();
 			String s = exp.getexp() + "/" + nexp.getnexp();
 			yPos -= 10;

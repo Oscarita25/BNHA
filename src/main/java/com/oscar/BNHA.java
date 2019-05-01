@@ -46,6 +46,7 @@ import com.oscar.data.types.quirk.name.QNameFactory;
 import com.oscar.data.types.quirk.name.QNameStorage;
 import com.oscar.init.ModItems;
 import com.oscar.proxy.CommonProxy;
+import com.oscar.quirk.CustomSpawnable;
 import com.oscar.util.BNHAConfig;
 import com.oscar.util.LoggingUtil;
 import com.oscar.util.Reference;
@@ -54,7 +55,9 @@ import com.oscar.util.handlers.KeyInputHandler;
 import com.oscar.util.handlers.KeyInputHandler.Keybinds;
 
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.config.Configuration;
@@ -67,12 +70,14 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
 @Mod(modid = Reference.MOD_ID, name = Reference.NAME, version = Reference.VERSION, acceptedMinecraftVersions = Reference.ACCEPTED_VERSIONS, useMetadata = true )
 public class BNHA 
 {
     public static int ID = 0;
+    public static int nextEntityID = 1;
     public static final SimpleNetworkWrapper NETWORK = NetworkRegistry.INSTANCE.newSimpleChannel(Reference.MOD_ID);
 	public static Configuration config;
 
@@ -92,6 +97,11 @@ public class BNHA
 		}
 	};
     
+	
+	private void registerEntity(Class<? extends Entity> entity, String name) {
+		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, name), entity, name, nextEntityID++,this, 64, 20, true);
+	}	
+	
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
@@ -139,6 +149,7 @@ public class BNHA
     public void init(FMLInitializationEvent event)
     {
        LoggingUtil.info("BNHA Mod initialisation started!");
+       registerEntity(CustomSpawnable.class, "Explosion");
        MinecraftForge.EVENT_BUS.register(new Eventhandler()); 
        proxy.registerRenders();
     }

@@ -157,7 +157,7 @@ public class Eventhandler {
 			//checking for level ups
 			if(exp.getexp() >= nexp.getnexp()) {
 				level.setlvl(level.getlvl() + 1);
-				nexp.setnexp(nexp.getnexp()*(level.getlvl() ^ 1));
+				nexp.setnexp((nexp.getnexp() * 15)/10);
 		        exp.setexp(0);
 				player.sendMessage(new TextComponentString("You reached Level " + level.getlvl()));
 				}
