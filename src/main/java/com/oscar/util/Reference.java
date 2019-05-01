@@ -71,4 +71,23 @@ public class Reference {
 			}
 		
 	}
+	
+	public static String getQNamebyID(int quirkid) {
+		if(quirkid == 1)
+			return "Quirkless";
+		if(quirkid == 2)
+			return "Explosion";
+		if(quirkid == 3)
+			return "Engine";
+		if(quirkid == 4)
+			return "Hellfire";
+		if(quirkid == 5)
+			return "Ice";
+		if(quirkid == 6)
+			return "Electrification";
+		if(quirkid == 7)
+			return "Tail";
+		else
+			return "this should not be displayed";
+	}
 }

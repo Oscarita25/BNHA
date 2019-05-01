@@ -14,7 +14,7 @@ public class MessageNEXP implements IMessage{
 	public MessageNEXP() {}
 	
 	public MessageNEXP(int nexp){
-		
+		this.nexp = nexp;
 	}
 
 	@Override

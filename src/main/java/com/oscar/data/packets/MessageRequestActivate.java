@@ -50,8 +50,8 @@ public class MessageRequestActivate implements IMessage {
 		    			sendingPlayer.sendMessage(new TextComponentString("Youre Trying to do something ... nothing happens"));
 		    		}
 		    		if(Quirk.getQuirkID(sendingPlayer) == Reference.explosionquirk) {
-		    			//new MessageExplosion();
-
+		    			playerWorldServer.createExplosion(sendingPlayer, sendingPlayer.lastTickPosX + sendingPlayer.getLookVec().x , sendingPlayer.lastTickPosY + 1, sendingPlayer.lastTickPosZ + sendingPlayer.getLookVec().z , 1, false);
+			            
 		    		}
 		    		if(Quirk.getQuirkID(sendingPlayer) == Reference.engine) {
 		    			//new MessageExplosion();

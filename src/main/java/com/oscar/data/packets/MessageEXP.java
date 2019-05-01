@@ -14,7 +14,7 @@ public class MessageEXP implements IMessage{
 	public MessageEXP() {}
 	
 	public MessageEXP(int exp){
-		
+		this.exp = exp;
 	}
 
 	@Override

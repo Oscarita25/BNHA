@@ -1,6 +1,7 @@
 package com.oscar.util.handlers;
 
 import com.oscar.BNHA;
+import com.oscar.client.render.QuirkPlayerRender;
 import com.oscar.data.packets.MessageRequestEXP;
 import com.oscar.data.packets.MessageRequestLEVEL;
 import com.oscar.data.packets.MessageRequestNEXP;
@@ -24,7 +25,6 @@ import com.oscar.data.types.quirk.maxact.QMaxActProvider;
 import com.oscar.data.types.quirk.maxcool.QMaxCoolProvider;
 import com.oscar.data.types.quirk.name.QNameProvider;
 import com.oscar.util.Reference;
-import com.oscar.util.render.QuirkPlayerRender;
 
 import net.minecraft.entity.monster.EntitySlime;
 import net.minecraft.entity.passive.EntityAmbientCreature;
@@ -87,7 +87,7 @@ public class Eventhandler {
 				}
 			
 			if(iqID.getID() == Reference.engine || iqID.getID() == Reference.tail){
-				
+				QuirkPlayerRender.setModel(true);
 			}
 			
 			}

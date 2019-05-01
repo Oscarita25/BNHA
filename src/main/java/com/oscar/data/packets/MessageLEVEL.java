@@ -14,7 +14,7 @@ public class MessageLEVEL implements IMessage{
 	public MessageLEVEL() {}
 	
 	public MessageLEVEL(int lvl){
-		
+		this.lvl = lvl;
 	}
 
 	@Override

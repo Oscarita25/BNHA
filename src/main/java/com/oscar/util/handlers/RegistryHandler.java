@@ -12,6 +12,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 @EventBusSubscriber
 public class RegistryHandler {
 
+	public static int ID = 1;
+	
 	@SubscribeEvent
 	public static void onItemRegister(RegistryEvent.Register<Item> event) {
 		event.getRegistry().registerAll(ModItems.ITEMS.toArray(new Item[0]));
@@ -25,7 +27,7 @@ public class RegistryHandler {
 				((IHasModel)item).registerModels();
 			}
 		}
-
 	}
+	
 
 }

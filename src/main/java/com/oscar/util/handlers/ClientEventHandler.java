@@ -2,8 +2,8 @@ package com.oscar.util.handlers;
 
 import java.util.HashSet;
 
+import com.oscar.client.render.SRRLModelCache;
 import com.oscar.util.Reference;
-import com.oscar.util.render.SRRLModelCache;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.IBakedModel;
@@ -17,7 +17,6 @@ import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 
 @Mod.EventBusSubscriber(modid = Reference.MOD_ID)
 public class ClientEventHandler {

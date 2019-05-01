@@ -1,4 +1,4 @@
-package com.oscar.util.render;
+package com.oscar.client.render;
 
 import java.util.HashMap;
 import java.util.Map;

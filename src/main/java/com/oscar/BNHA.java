@@ -50,13 +50,11 @@ import com.oscar.util.BNHAConfig;
 import com.oscar.util.LoggingUtil;
 import com.oscar.util.Reference;
 import com.oscar.util.handlers.Eventhandler;
-import com.oscar.util.handlers.GuiHandler;
 import com.oscar.util.handlers.KeyInputHandler;
 import com.oscar.util.handlers.KeyInputHandler.Keybinds;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.config.Configuration;
@@ -142,7 +140,7 @@ public class BNHA
     {
        LoggingUtil.info("BNHA Mod initialisation started!");
        MinecraftForge.EVENT_BUS.register(new Eventhandler()); 
-       MinecraftForge.EVENT_BUS.register(new GuiHandler());       
+       proxy.registerRenders();
     }
     
     @EventHandler

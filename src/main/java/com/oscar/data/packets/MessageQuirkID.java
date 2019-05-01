@@ -14,7 +14,7 @@ public class MessageQuirkID implements IMessage{
 	public MessageQuirkID() {}
 	
 	public MessageQuirkID(int quirkID){
-		
+		this.quirkID = quirkID;
 	}
 
 	@Override

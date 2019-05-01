@@ -3,10 +3,13 @@ package com.oscar.util.handlers;
 import org.lwjgl.input.Keyboard;
 
 import com.oscar.BNHA;
+import com.oscar.client.render.gui.Statsgui;
 import com.oscar.data.packets.MessageRequestActivate;
 import com.oscar.util.Reference;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -21,6 +24,13 @@ public class KeyInputHandler {
 		if(keyBindings[0].isPressed()){
 			BNHA.NETWORK.sendToServer(new MessageRequestActivate());
 		}
+		if(keyBindings[1].isPressed()) {
+			Minecraft mc = Minecraft.getMinecraft();
+			
+			if(!FMLClientHandler.instance().isGUIOpen(Statsgui.class)) {
+				mc.displayGuiScreen(new Statsgui(mc));
+				}
+		}
 		}
 	}
 	
@@ -30,7 +40,7 @@ public class KeyInputHandler {
 		public static void initKeybindings() {
 			keyBindings = new KeyBinding[2]; 
 			keyBindings[0] = new KeyBinding("key.quirk", Keyboard.KEY_Y, "key.categories." + Reference.MOD_ID);
-			keyBindings[1] = new KeyBinding("key.test", Keyboard.KEY_X, "key.categories." + Reference.MOD_ID);
+			keyBindings[1] = new KeyBinding("key.stats", Keyboard.KEY_X, "key.categories." + Reference.MOD_ID);
 			
 			ClientRegistry.registerKeyBinding(keyBindings[0]);
 			ClientRegistry.registerKeyBinding(keyBindings[1]);

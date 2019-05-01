@@ -1,4 +1,4 @@
-package com.oscar.util.render;
+package com.oscar.client.render;
 
 import com.oscar.util.Reference;
 
@@ -13,6 +13,7 @@ import net.minecraft.util.ResourceLocation;
 public class QuirkPlayerRender extends RenderPlayer	 {
 
 	EntityPlayer player = Minecraft.getMinecraft().player;
+	static boolean model = false;
 	
 	public QuirkPlayerRender(RenderManager renderManager) {
         this(renderManager, false);
@@ -20,11 +21,13 @@ public class QuirkPlayerRender extends RenderPlayer	 {
 	
 	public QuirkPlayerRender(RenderManager renderManager, boolean useSmallArms) {
 		super(renderManager, useSmallArms);
+		if(getModel() == true) {
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(0, player.height - 1.25, 0);
 		GlStateManager.rotate(-player.renderYawOffset, 0, 1, 0);
 		RenderingUtil.renderModel(SRRLModelCache.INSTANCE.getBakedModel(new ResourceLocation(Reference.MOD_ID, "tail")));
 		GlStateManager.popMatrix();	
+		}
 	}
 	
 	
@@ -36,5 +39,13 @@ public class QuirkPlayerRender extends RenderPlayer	 {
 
     
 	}
+    
+    public static boolean getModel() {
+		return model;
+    }
+   
+    public static void setModel(boolean showmodel) {
+    	model = showmodel;
+    }
 
 }
