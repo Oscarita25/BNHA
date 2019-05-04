@@ -43,7 +43,6 @@ public class ClientProxy extends CommonProxy {
 	public void registerRenders() {
 		MinecraftForge.EVENT_BUS.register(new Lvlgui(Minecraft.getMinecraft()));
 		MinecraftForge.EVENT_BUS.register(new Statsgui(Minecraft.getMinecraft()));		
-	}
 	
-
+	}
 }

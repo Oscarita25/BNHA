@@ -2,6 +2,7 @@ package com.oscar.data.packets;
 
 import com.oscar.data.types.quirk.Quirk;
 import com.oscar.quirk.CustomSpawnable;
+import com.oscar.quirk.Icicle;
 import com.oscar.util.Reference;
 
 import io.netty.buffer.ByteBuf;
@@ -51,14 +52,15 @@ public class MessageRequestActivate implements IMessage {
 		    			sendingPlayer.sendMessage(new TextComponentString("Youre Trying to do something ... nothing happens"));
 		    		}
 		    		if(Quirk.getQuirkID(sendingPlayer) == Reference.explosionquirk) {
+		    			//WORK IN PROGRESS
 		    			playerWorldServer.createExplosion(sendingPlayer, sendingPlayer.lastTickPosX + sendingPlayer.getLookVec().x , sendingPlayer.lastTickPosY + 1, sendingPlayer.lastTickPosZ + sendingPlayer.getLookVec().z , 1, false);
 
 		    		}
 		    		if(Quirk.getQuirkID(sendingPlayer) == Reference.engine) {
-		    			//new MessageExplosion();
-
+		    			//WORK IN PROGRESS
 		    		}
 		    		if(Quirk.getQuirkID(sendingPlayer) == Reference.hellfire) {
+		    			//WORKING
 		    			playerWorldServer.spawnEntity(
 		    					new CustomSpawnable(playerWorldServer,
 		    					sendingPlayer.lastTickPosX + sendingPlayer.getLookVec().x *5 ,
@@ -70,19 +72,22 @@ public class MessageRequestActivate implements IMessage {
 		    					(float)sendingPlayer.getLookVec().x,
 		    					(float)sendingPlayer.getLookVec().y,
 		    					(float)sendingPlayer.getLookVec().z));
-		    			System.out.println("hi");
-
 		    		}
 		    		if(Quirk.getQuirkID(sendingPlayer) == Reference.icequirk) {
-		    			//new MessageExplosion();
-
+		    			//WORK IN PROGRESS
+		    			playerWorldServer.spawnEntity(
+		    					new Icicle(playerWorldServer,
+		    					sendingPlayer,
+		    					sendingPlayer.lastTickPosX + sendingPlayer.getLookVec().x *5 ,
+		    					sendingPlayer.lastTickPosY,
+		    					sendingPlayer.lastTickPosZ + sendingPlayer.getLookVec().z *5));
 		    		}
 		    		if(Quirk.getQuirkID(sendingPlayer) == Reference.electrification) {
-		    			//new MessageExplosion();
+		    			//WORK IN PROGRESS
 
 		    		}
 		    		if(Quirk.getQuirkID(sendingPlayer) == Reference.tail) {
-		    			//new MessageExplosion();
+		    			//WORK IN PROGRESS
 
 		    		}
 		    	}

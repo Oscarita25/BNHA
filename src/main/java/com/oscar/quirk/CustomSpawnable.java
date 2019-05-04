@@ -19,12 +19,10 @@ public class CustomSpawnable extends EntityThrowable{
 	
     public CustomSpawnable(World worldIn){
         super(worldIn);
-        setSize(0.1F,0.1F);
     }	
 	
     public CustomSpawnable(World worldIn, EntityLivingBase entitylivingbase){
         super(worldIn, entitylivingbase);
-        setSize(0.1F,0.1F);
     }
 
     @SideOnly(Side.CLIENT)
@@ -36,7 +34,8 @@ public class CustomSpawnable extends EntityThrowable{
         setQTp(qtp);
         setVelocity(velx, vely, velz);
         setincVel(incvel);
-    }
+        super.setFire(300);
+       }
 
 
     private void setSource(EntityPlayerMP source) {
@@ -65,7 +64,7 @@ public class CustomSpawnable extends EntityThrowable{
 
         if (result.entityHit != null)
         {
-        	result.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, entitylivingbase), 20.0F);
+        	result.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, entitylivingbase), 10.0F);
         }
 
         for (int i = 0; i < 32; ++i)

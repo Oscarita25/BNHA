@@ -47,6 +47,7 @@ import com.oscar.data.types.quirk.name.QNameStorage;
 import com.oscar.init.ModItems;
 import com.oscar.proxy.CommonProxy;
 import com.oscar.quirk.CustomSpawnable;
+import com.oscar.quirk.Icicle;
 import com.oscar.util.BNHAConfig;
 import com.oscar.util.LoggingUtil;
 import com.oscar.util.Reference;
@@ -149,7 +150,8 @@ public class BNHA
     public void init(FMLInitializationEvent event)
     {
        LoggingUtil.info("BNHA Mod initialisation started!");
-       registerEntity(CustomSpawnable.class, "Explosion");
+       registerEntity(CustomSpawnable.class, "Hellfire");
+       registerEntity(Icicle.class, "Iicle");
        MinecraftForge.EVENT_BUS.register(new Eventhandler()); 
        proxy.registerRenders();
     }

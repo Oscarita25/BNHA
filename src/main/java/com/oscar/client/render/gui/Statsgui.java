@@ -29,6 +29,7 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextFormatting;
 
 public class Statsgui extends GuiScreen {
 	
@@ -80,14 +81,14 @@ public class Statsgui extends GuiScreen {
         drawEntityOnScreen((k + 200) / 3, (l + 390) /3, 60, (float)(k - 180) - mouseX, (float)(l - 70) - mouseY, this.mc.player);
         GlStateManager.popMatrix();
         GlStateManager.scale(3F, 3F, 3F);
-        this.fontRenderer.drawString("Name: "+ mc.player.getName(), k2 + 400, l2 + 165, 2222);
-        this.fontRenderer.drawString("Quirk: §4"+ Reference.getQNamebyID(quirkid.getID()), k2 + 400, l2 + 200, 2222);
-        this.fontRenderer.drawString("Level: §4"+ level.getlvl(),k2 + 400, l2 + 225, 2222);
-        this.fontRenderer.drawString("Exp: §4"+ exp.getexp()+"/"+nexp.getnexp(), k2 + 400, l2 + 235, 2222);
-        this.fontRenderer.drawString("PlaceHolder: ", k2 + 400, l2 + 245, 2222);
+        this.fontRenderer.drawString("Name: "+ TextFormatting.DARK_RED+ mc.player.getName(), k2 + 400, l2 + 165, 2222);
+        this.fontRenderer.drawString("Quirk: "+ TextFormatting.DARK_RED+ Reference.getQNamebyID(quirkid.getID()), k2 + 400, l2 + 200, 2222);
+        this.fontRenderer.drawString("Level: "+ TextFormatting.DARK_RED+ level.getlvl(),k2 + 400, l2 + 225, 2222);
+        this.fontRenderer.drawString("Exp: "+ TextFormatting.DARK_RED+ exp.getexp()+"/"+nexp.getnexp(), k2 + 400, l2 + 235, 2222);
+/*        this.fontRenderer.drawString("PlaceHolder: ", k2 + 400, l2 + 245, 2222);
         this.fontRenderer.drawString("PlaceHolder: ", k2 + 400, l2 + 255, 2222);
         this.fontRenderer.drawString("PlaceHolder: ", k2 + 400, l2 + 265, 2222);
- 
+ */
         
         super.drawScreen(mouseX, mouseY, ticks);
     }
@@ -106,10 +107,10 @@ public class Statsgui extends GuiScreen {
         GlStateManager.rotate(135.0F, 0.0F, 180.0F, 0.0F);
         RenderHelper.enableStandardItemLighting();
         GlStateManager.rotate(-135.0F, 0.0F, 1.0F, 0.0F);
-        GlStateManager.rotate(-((float)Math.atan((double)(mouseY / 40.0F))) * 20.0F, 1.0F, 0.0F, 0.0F);
-        ent.renderYawOffset = (float)Math.atan((double)(mouseX / 40.0F)) * 20.0F;
-        ent.rotationYaw = (float)Math.atan((double)(mouseX / 40.0F)) * 40.0F;
-        ent.rotationPitch = -((float)Math.atan((double)(mouseY / 40.0F))) * 20.0F;
+        GlStateManager.rotate(-((float)Math.atan((double)(mouseY / 40.0F))) * 10.0F, 1.0F, 0.0F, 0.0F);
+        ent.renderYawOffset = (float)Math.atan((double)(mouseX / 20.0F)) * 10.0F;
+        ent.rotationYaw = (float)Math.atan((double)(mouseX / 100.0F)) * 10.0F;
+        ent.rotationPitch = -((float)Math.atan((double)(mouseY / 40.0F))) * 10.0F;
         ent.rotationYawHead = ent.rotationYaw;
         ent.prevRotationYawHead = ent.rotationYaw;
         GlStateManager.translate(0.0F, 0.0F, 0.0F);
