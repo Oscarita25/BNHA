@@ -69,6 +69,10 @@ public class Reference {
 				System.out.println(random + " Quirk Tail");
 				Quirk.setQuirkName(player,"Tail");
 			}
+			
+			if(Quirk.getQuirkID(player) == Reference.none) {
+				RandomQuirkChoose(player);
+			}
 		
 	}
 	
