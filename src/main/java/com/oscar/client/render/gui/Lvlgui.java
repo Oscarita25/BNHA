@@ -3,8 +3,8 @@ package com.oscar.client.render.gui;
 import com.oscar.BNHA;
 import com.oscar.data.packets.MessageRequestEXP;
 import com.oscar.data.packets.MessageRequestLEVEL;
+import com.oscar.data.packets.MessageRequestModel;
 import com.oscar.data.packets.MessageRequestNEXP;
-import com.oscar.data.packets.MessageRequestQuirkID;
 import com.oscar.data.types.exp.ExpProvider;
 import com.oscar.data.types.interfaces.IExp;
 import com.oscar.data.types.interfaces.ILevel;
@@ -17,7 +17,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
@@ -31,8 +30,6 @@ public class Lvlgui extends GuiScreen{
 		public Lvlgui(Minecraft mc) {
 			super();
 		}
-
-
 		
 		@SubscribeEvent(priority=EventPriority.NORMAL)
 		public void onRenderExperienceBar(RenderGameOverlayEvent.Post event) {
@@ -46,18 +43,18 @@ public class Lvlgui extends GuiScreen{
 	        INExp nexp = player.getCapability(NExpProvider.NEXP_CAP, null);
 	        ILevel level = player.getCapability(LevelProvider.LEVEL_CAP, null);
 			
-	        
-			BNHA.NETWORK.sendToServer(new MessageRequestLEVEL());
+
+			if (event.getType() != ElementType.EXPERIENCE) return;
+
+	        int xp = exp.getexp();
+	        int nxp = nexp.getnexp();
+	        int lvl = level.getlvl();
+
 			BNHA.NETWORK.sendToServer(new MessageRequestEXP());
 			BNHA.NETWORK.sendToServer(new MessageRequestNEXP());
-			BNHA.NETWORK.sendToServer(new MessageRequestQuirkID());
-
+			BNHA.NETWORK.sendToServer(new MessageRequestLEVEL());
+			BNHA.NETWORK.sendToServer(new MessageRequestModel());
 	        
-			if (event.getType() != ElementType.EXPERIENCE) return;
-			
-			int xp = exp.getexp();
-			int nxp = nexp.getnexp();
-			
 			ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
 			int yPos = ((sr.getScaledHeight() /2) + (sr.getScaledHeight() / 2)) - 30 , xPos = (sr.getScaledWidth() /2) + (sr.getScaledWidth() / 4);
 			
@@ -66,8 +63,8 @@ public class Lvlgui extends GuiScreen{
 			drawTexturedModalRect(xPos, yPos, 0, 0, 128, 11);
 			int x = ((xp*100 / nxp*100) * 82)/10000;
 			drawTexturedModalRect(xPos, yPos + 2, 1, 12, x , 11);
-			String y = "Level " + level.getlvl();
-			String s = exp.getexp() + "/" + nexp.getnexp();
+			String y = "Level " + lvl;
+			String s = xp + "/" + nxp;
 			yPos -= 10;
 			Minecraft.getMinecraft().fontRenderer.drawString(s, xPos + 20, yPos, 2550000, true);
 			Minecraft.getMinecraft().fontRenderer.drawString(y, xPos + 20, yPos + 11, 2550000, true);

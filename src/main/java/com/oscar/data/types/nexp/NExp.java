@@ -1,5 +1,7 @@
 package com.oscar.data.types.nexp;
 
+import com.oscar.BNHA;
+import com.oscar.data.packets.MessageRequestNEXP;
 import com.oscar.data.types.interfaces.INExp;
 
 public class NExp implements INExp {

@@ -8,12 +8,9 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class CustomSpawnable extends EntityThrowable{
 
-	float vel = 0.03F;
 	boolean qtp = false;
 	EnumParticleTypes type = EnumParticleTypes.LAVA;
 	
@@ -25,17 +22,15 @@ public class CustomSpawnable extends EntityThrowable{
         super(worldIn, entitylivingbase);
     }
 
-    @SideOnly(Side.CLIENT)
-    public CustomSpawnable(World worldIn, double x, double y, double z,EntityPlayerMP source,boolean qtp,float incvel, float velx, float vely, float velz)
+    public CustomSpawnable(World worldIn, double x, double y, double z,EntityPlayerMP source,boolean qtp,double velx,double vely,double velz)
     {
         super(worldIn, x, y, z);
         setSize(0.1F,0.1F);
         setSource(source);
         setQTp(qtp);
-        setVelocity(velx, vely, velz);
-        setincVel(incvel);
+        shoot(velx, vely, velz, 1, 1);
         super.setFire(300);
-       }
+     }
 
 
     private void setSource(EntityPlayerMP source) {
@@ -46,14 +41,11 @@ public class CustomSpawnable extends EntityThrowable{
 		this.qtp = qtp;
 	}
     
-    private void setincVel(float incvel) {
-    	this.vel = incvel;
-    }
-    
+
     @Override
     protected float getGravityVelocity()
     {
-        return vel;
+        return 0.02F;
     }
     
     
@@ -61,15 +53,19 @@ public class CustomSpawnable extends EntityThrowable{
     protected void onImpact(RayTraceResult result)
     {
         EntityLivingBase entitylivingbase = this.getThrower();
-
-        if (result.entityHit != null)
+        
+        if(result.entityHit == this.thrower) {
+        	return;
+        }
+        
+        if (result.entityHit != null )
         {
-        	result.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, entitylivingbase), 10.0F);
+        	result.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, entitylivingbase), 1.0F);
         }
 
         for (int i = 0; i < 32; ++i)
         {
-            this.world.spawnParticle(type, this.posX, this.posY + this.rand.nextDouble() * 2.0D, this.posZ, this.rand.nextGaussian(), 0.0D, this.rand.nextGaussian(), new int[0]);
+           this.world.spawnParticle(EnumParticleTypes.LAVA, this.posX, this.posY + this.rand.nextDouble() * 2.0D, this.posZ, this.rand.nextGaussian(), 0.0D, this.rand.nextGaussian(), new int[0]);
         }
 
         if (!this.world.isRemote)
@@ -91,7 +87,7 @@ public class CustomSpawnable extends EntityThrowable{
 
                     entitylivingbase.setPositionAndUpdate(event.getTargetX(), event.getTargetY(), event.getTargetZ());
                     entitylivingbase.fallDistance = 0.0F;
-                    entitylivingbase.attackEntityFrom(DamageSource.FALL, event.getAttackDamage());
+                    entitylivingbase.attackEntityFrom((new DamageSource("Hellfire")).setMagicDamage(), event.getAttackDamage());
                     }
                 }
             }
@@ -105,6 +101,7 @@ public class CustomSpawnable extends EntityThrowable{
      */
     public void onUpdate()
     {
+    	
         EntityLivingBase entitylivingbase = this.getThrower();
         
         

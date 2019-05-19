@@ -35,39 +35,31 @@ public class Reference {
 			Quirk.setQuirkID(player,random);
 			
 			if(Quirk.getQuirkID(player) == Reference.quirkless) {
-				System.out.println(random + " Quirk QUIRKLESS");
-				Quirk.setQuirkName(player,"Quirkless");
-				
+				System.out.println(random + " Quirk quirkless");				
 			}
 			if(Quirk.getQuirkID(player) == Reference.explosionquirk) {
 				
-				System.out.println(random + " Quirk EXPLOSION");
-				Quirk.setQuirkName(player,"Explosion");
+				System.out.println(random + " Quirk Explosion");
 			}
 			if(Quirk.getQuirkID(player) == Reference.engine) {
 				
-				System.out.println(random + " Quirk ENGINE");
-				Quirk.setQuirkName(player,"Engine");
+				System.out.println(random + " Quirk Engine");
 			}
 			if(Quirk.getQuirkID(player) == Reference.hellfire) {
 				
 				System.out.println(random + " Quirk HellFire");
-				Quirk.setQuirkName(player,"HellFire");
 			}
 			if(Quirk.getQuirkID(player) == Reference.icequirk) {
 				
-				System.out.println(random + " Quirk HellFire");
-				Quirk.setQuirkName(player,"HellFire");
+				System.out.println(random + " Quirk Icequirk");
 			}
 			if(Quirk.getQuirkID(player) == Reference.electrification) {
 				
 				System.out.println(random + " Quirk Electrification");
-				Quirk.setQuirkName(player,"Electrification");
 			}
 			if(Quirk.getQuirkID(player) == Reference.tail) {
 				
 				System.out.println(random + " Quirk Tail");
-				Quirk.setQuirkName(player,"Tail");
 			}
 			
 			if(Quirk.getQuirkID(player) == Reference.none) {

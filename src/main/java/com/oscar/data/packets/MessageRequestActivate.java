@@ -61,26 +61,27 @@ public class MessageRequestActivate implements IMessage {
 		    		}
 		    		if(Quirk.getQuirkID(sendingPlayer) == Reference.hellfire) {
 		    			//WORKING
-		    			playerWorldServer.spawnEntity(
-		    					new CustomSpawnable(playerWorldServer,
-		    					sendingPlayer.lastTickPosX + sendingPlayer.getLookVec().x *5 ,
-		    					sendingPlayer.lastTickPosY,
-		    					sendingPlayer.lastTickPosZ + sendingPlayer.getLookVec().z *5,
-		    					sendingPlayer,
-		    					false,
-		    					0.02F,
-		    					(float)sendingPlayer.getLookVec().x,
-		    					(float)sendingPlayer.getLookVec().y,
-		    					(float)sendingPlayer.getLookVec().z));
+			    			playerWorldServer.spawnEntity(
+			    					new CustomSpawnable(playerWorldServer,
+			    					sendingPlayer.lastTickPosX + sendingPlayer.getLookVec().x *5 ,
+			    					sendingPlayer.lastTickPosY,
+			    					sendingPlayer.lastTickPosZ + sendingPlayer.getLookVec().z *5,
+			    					sendingPlayer,
+			    					false,
+			    					sendingPlayer.getLookVec().x,
+			    					sendingPlayer.getLookVec().y,
+			    					sendingPlayer.getLookVec().z));
+		    			
+		    				
 		    		}
 		    		if(Quirk.getQuirkID(sendingPlayer) == Reference.icequirk) {
 		    			//WORK IN PROGRESS
 		    			playerWorldServer.spawnEntity(
 		    					new Icicle(playerWorldServer,
 		    					sendingPlayer,
-		    					sendingPlayer.lastTickPosX + sendingPlayer.getLookVec().x *5 ,
+		    					sendingPlayer.lastTickPosX + sendingPlayer.getLookVec().x *2 ,
 		    					sendingPlayer.lastTickPosY,
-		    					sendingPlayer.lastTickPosZ + sendingPlayer.getLookVec().z *5));
+		    					sendingPlayer.lastTickPosZ + sendingPlayer.getLookVec().z *2));
 		    		}
 		    		if(Quirk.getQuirkID(sendingPlayer) == Reference.electrification) {
 		    			//WORK IN PROGRESS

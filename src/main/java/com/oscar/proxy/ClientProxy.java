@@ -2,11 +2,16 @@ package com.oscar.proxy;
 
 import com.oscar.client.render.gui.Lvlgui;
 import com.oscar.client.render.gui.Statsgui;
+import com.oscar.client.render.layer.LayerEntityOnPlayerBack;
 import com.oscar.models.ClothModel;
+import com.oscar.util.handlers.ClientEventHandler;
+import com.oscar.util.handlers.KeyInputHandler;
+import com.oscar.util.handlers.KeyInputHandler.Keybinds;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
@@ -44,5 +49,26 @@ public class ClientProxy extends CommonProxy {
 		MinecraftForge.EVENT_BUS.register(new Lvlgui(Minecraft.getMinecraft()));
 		MinecraftForge.EVENT_BUS.register(new Statsgui(Minecraft.getMinecraft()));		
 	
+	}
+	
+	@Override
+	public void initKeybindings() {
+		Keybinds.initKeybindings();
+	    MinecraftForge.EVENT_BUS.register(new KeyInputHandler());
+	}
+	
+	@Override
+	public void registerClientHandler() {
+	    MinecraftForge.EVENT_BUS.register(new ClientEventHandler());
+	}
+	
+	@Override
+	public void registerRendersPost() {	
+		
+		LayerEntityOnPlayerBack layer = new LayerEntityOnPlayerBack(Minecraft.getMinecraft().getRenderManager());
+		for (RenderPlayer playerRender : Minecraft.getMinecraft().getRenderManager().getSkinMap().values()) {
+			
+			playerRender.addLayer(layer);
+		}
 	}
 }

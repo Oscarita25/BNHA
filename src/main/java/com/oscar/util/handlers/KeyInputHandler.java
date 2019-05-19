@@ -14,9 +14,12 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class KeyInputHandler {
 	
+	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public void onClientTickEvent(TickEvent.ClientTickEvent event) throws Exception {
 		if(event.phase.equals(Phase.END)){
@@ -36,6 +39,7 @@ public class KeyInputHandler {
 	
 	public static class Keybinds {
 		public static KeyBinding[] keyBindings;
+		
 		
 		public static void initKeybindings() {
 			keyBindings = new KeyBinding[2]; 

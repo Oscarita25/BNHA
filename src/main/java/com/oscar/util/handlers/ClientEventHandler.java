@@ -15,12 +15,13 @@ import net.minecraft.util.registry.IRegistry;
 import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
-@Mod.EventBusSubscriber(modid = Reference.MOD_ID)
-public class ClientEventHandler {
+public class ClientEventHandler {	
 
+	
 	@SubscribeEvent
 	public static void onRegisterModelsEvent(final ModelRegistryEvent event) {
 	((IReloadableResourceManager) Minecraft.getMinecraft().getResourceManager()).registerReloadListener(SRRLModelCache.INSTANCE);
@@ -34,11 +35,12 @@ public class ClientEventHandler {
 
 	}
 	
+	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public static void TextureStiching(TextureStitchEvent.Pre event) {
 			TextureMap map = event.getMap();
-			map.registerSprite(new ResourceLocation(Reference.MOD_ID,"tail/tailskincolour"));
-			map.registerSprite(new ResourceLocation(Reference.MOD_ID,"tail/tailhaircolour"));
+			map.registerSprite(new ResourceLocation(Reference.MOD_ID,"quirks/tail/tailskincolour"));
+			map.registerSprite(new ResourceLocation(Reference.MOD_ID,"quirks/tail/tailhaircolour"));
 	}
 	
 	private static void injectModels(final IRegistry<ModelResourceLocation, IBakedModel> registry) {

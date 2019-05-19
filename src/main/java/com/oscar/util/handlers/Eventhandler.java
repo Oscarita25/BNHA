@@ -1,29 +1,28 @@
 package com.oscar.util.handlers;
 
 import com.oscar.BNHA;
-import com.oscar.client.render.QuirkPlayerRender;
 import com.oscar.data.packets.MessageRequestEXP;
 import com.oscar.data.packets.MessageRequestLEVEL;
+import com.oscar.data.packets.MessageRequestModel;
 import com.oscar.data.packets.MessageRequestNEXP;
-import com.oscar.data.packets.MessageRequestQuirkID;
 import com.oscar.data.types.exp.ExpProvider;
 import com.oscar.data.types.interfaces.IExp;
 import com.oscar.data.types.interfaces.ILevel;
+import com.oscar.data.types.interfaces.IModelID;
 import com.oscar.data.types.interfaces.INExp;
 import com.oscar.data.types.interfaces.IQAct;
 import com.oscar.data.types.interfaces.IQCool;
 import com.oscar.data.types.interfaces.IQMaxAct;
 import com.oscar.data.types.interfaces.IQMaxCool;
-import com.oscar.data.types.interfaces.IQName;
 import com.oscar.data.types.interfaces.IQuirkID;
 import com.oscar.data.types.level.LevelProvider;
+import com.oscar.data.types.model.ModelProvider;
 import com.oscar.data.types.nexp.NExpProvider;
 import com.oscar.data.types.quirk.act.QActProvider;
 import com.oscar.data.types.quirk.cool.QCoolProvider;
 import com.oscar.data.types.quirk.id.QuirkIDProvider;
 import com.oscar.data.types.quirk.maxact.QMaxActProvider;
 import com.oscar.data.types.quirk.maxcool.QMaxCoolProvider;
-import com.oscar.data.types.quirk.name.QNameProvider;
 import com.oscar.util.Reference;
 
 import net.minecraft.entity.monster.EntitySlime;
@@ -34,10 +33,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraftforge.client.event.RenderPlayerEvent;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
@@ -45,49 +43,47 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 
 public class Eventhandler {
 
-
-	@SubscribeEvent
-	public void RenderPlayerEvent(RenderPlayerEvent.Pre event) {
-		
-		RenderingRegistry.registerEntityRenderingHandler(EntityPlayer.class, new QuirkPlayerRender(event.getRenderer().getRenderManager()));
-	}
-	
 	
 	@SubscribeEvent
 	public void onPlayerLoggedIn(PlayerLoggedInEvent event) {
 		EntityPlayer player = event.player;
+		
 		ILevel level = player.getCapability(LevelProvider.LEVEL_CAP, null);
 		IExp exp = player.getCapability(ExpProvider.EXP_CAP, null);
 		INExp nexp = player.getCapability(NExpProvider.NEXP_CAP, null);
-		IQName iqname = player.getCapability(QNameProvider.QURIKNAME_CAP, null);
 		IQuirkID iqID = player.getCapability(QuirkIDProvider.QUIRKID_CAP, null);
-		
-		BNHA.NETWORK.sendToServer(new MessageRequestLEVEL());
+		IModelID model = player.getCapability(ModelProvider.MODEL_CAP, null);
+
 		BNHA.NETWORK.sendToServer(new MessageRequestEXP());
 		BNHA.NETWORK.sendToServer(new MessageRequestNEXP());
-		BNHA.NETWORK.sendToServer(new MessageRequestQuirkID());
-
+		BNHA.NETWORK.sendToServer(new MessageRequestLEVEL());
+		BNHA.NETWORK.sendToServer(new MessageRequestModel());
+		
+		
 		player.sendMessage(new TextComponentString("Your level is: " + level.getlvl()));
 		player.sendMessage(new TextComponentString("Your exp is: " + exp.getexp()));
-		player.sendMessage(new TextComponentString("Exp needed for the next level: " + (nexp.getnexp() - exp.getexp())));
+		player.sendMessage(new TextComponentString("Exp needed for the next level: " + (nexp.getnexp() - exp.getexp())));	
+		player.sendMessage(new TextComponentString(TextFormatting.DARK_RED +"DEBUG MODEL: " + model.getModelID()));
 		
 		if(!player.world.isRemote) {
-
 			if(iqID.getID() == Reference.none) {
 				//Random quirk choose
 				Reference.RandomQuirkChoose(player);
 			}
 			
 			if(iqID.getID() != Reference.none) {
-				player.sendMessage(new TextComponentString("Your Quirk is: "+ iqname.getname()));
+				player.sendMessage(new TextComponentString("Your Quirk is: "+ Reference.getQNamebyID(iqID.getID())));
 				
 			}else {
 			
-				player.sendMessage(new TextComponentString("You are "+ iqname.getname()));
+				player.sendMessage(new TextComponentString("You are "+ Reference.getQNamebyID(iqID.getID())));
 				}
 			
-			if(iqID.getID() == Reference.engine || iqID.getID() == Reference.tail){
-				QuirkPlayerRender.setModel(true);
+			if(iqID.getID() == Reference.tail){
+				
+			}
+			
+			if(iqID.getID() == Reference.engine) {
 			}
 			
 			}
@@ -110,9 +106,6 @@ public class Eventhandler {
 		INExp nexp = player.getCapability(NExpProvider.NEXP_CAP, null);
 		INExp oldNExp = event.getOriginal().getCapability(NExpProvider.NEXP_CAP, null);
 		
-		IQName iqname = player.getCapability(QNameProvider.QURIKNAME_CAP, null);
-		IQName oldIQName = event.getOriginal().getCapability(QNameProvider.QURIKNAME_CAP, null);
-		
 		IQMaxAct iqmact = player.getCapability(QMaxActProvider.QMaxAct_CAP, null);
 		IQMaxAct oldiqmact =  event.getOriginal().getCapability(QMaxActProvider.QMaxAct_CAP, null);
 
@@ -131,7 +124,6 @@ public class Eventhandler {
 
 		
 		if(event.isWasDeath()) {
-		iqname.setname(oldIQName.getname());
 		iqmact.setmact(oldiqmact.getmact());
 		iqact.setact(oldiqact.getact());
 		iqcool.setcool(oldiqcool.getcool());

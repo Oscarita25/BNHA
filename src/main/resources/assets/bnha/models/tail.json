@@ -1,9 +1,9 @@
 {
 	"credit": "Made with Blockbench By MegaBee",
 	"textures": {
-		"0": "bnha:tail/tailhaircolour",
-		"1": "bnha:tail/tailskincolour",
-		"particle": "bnha:tail/tailskincolour"
+		"0": "bnha:quirks/tail/tailhaircolour",
+		"1": "bnha:quirks/tail/tailskincolour",
+		"particle": "bnha:quirks/tail/tailskincolour"
 	},
 	"elements": [{
 			"from": [0.21649, 19.04134, 16.78515],

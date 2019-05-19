@@ -58,14 +58,17 @@ public class Statsgui extends GuiScreen {
         INExp nexp = player.getCapability(NExpProvider.NEXP_CAP, null);
         ILevel level = player.getCapability(LevelProvider.LEVEL_CAP, null);
         IQuirkID quirkid = player.getCapability(QuirkIDProvider.QUIRKID_CAP, null);
-		    	
-    	
-    	
-		BNHA.NETWORK.sendToServer(new MessageRequestLEVEL());
+
+        int gxp = exp.getexp();
+        int gnexp = nexp.getnexp();
+        int glevel = level.getlvl();
+        int gquirkid = quirkid.getID();
+        
 		BNHA.NETWORK.sendToServer(new MessageRequestEXP());
 		BNHA.NETWORK.sendToServer(new MessageRequestNEXP());
+		BNHA.NETWORK.sendToServer(new MessageRequestLEVEL());
 		BNHA.NETWORK.sendToServer(new MessageRequestQuirkID());
-    	
+        
         this.drawDefaultBackground();
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.getTextureManager().bindTexture(BACKGROUND);
@@ -82,14 +85,13 @@ public class Statsgui extends GuiScreen {
         GlStateManager.popMatrix();
         GlStateManager.scale(3F, 3F, 3F);
         this.fontRenderer.drawString("Name: "+ TextFormatting.DARK_RED+ mc.player.getName(), k2 + 400, l2 + 165, 2222);
-        this.fontRenderer.drawString("Quirk: "+ TextFormatting.DARK_RED+ Reference.getQNamebyID(quirkid.getID()), k2 + 400, l2 + 200, 2222);
-        this.fontRenderer.drawString("Level: "+ TextFormatting.DARK_RED+ level.getlvl(),k2 + 400, l2 + 225, 2222);
-        this.fontRenderer.drawString("Exp: "+ TextFormatting.DARK_RED+ exp.getexp()+"/"+nexp.getnexp(), k2 + 400, l2 + 235, 2222);
-/*        this.fontRenderer.drawString("PlaceHolder: ", k2 + 400, l2 + 245, 2222);
-        this.fontRenderer.drawString("PlaceHolder: ", k2 + 400, l2 + 255, 2222);
-        this.fontRenderer.drawString("PlaceHolder: ", k2 + 400, l2 + 265, 2222);
- */
-        
+        this.fontRenderer.drawString("Quirk: "+ TextFormatting.DARK_RED+ Reference.getQNamebyID(gquirkid), k2 + 400, l2 + 200, 2222);
+        this.fontRenderer.drawString("Level: "+ TextFormatting.DARK_RED+ glevel,k2 + 400, l2 + 225, 2222);
+        this.fontRenderer.drawString("Exp: "+ TextFormatting.DARK_RED+ gxp +"/"+ gnexp, k2 + 400, l2 + 235, 2222);
+        this.fontRenderer.drawString("Health: "+ TextFormatting.DARK_RED, k2 + 400, l2 + 245, 2222);
+        this.fontRenderer.drawString("Damage: "+ TextFormatting.DARK_RED, k2 + 400, l2 + 255, 2222);
+        this.fontRenderer.drawString("Skill Points: "+ TextFormatting.DARK_RED, k2 + 400, l2 + 265, 2222);
+      
         super.drawScreen(mouseX, mouseY, ticks);
     }
 

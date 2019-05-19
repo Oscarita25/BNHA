@@ -15,11 +15,11 @@ import net.minecraftforge.common.util.EnumHelper;
 public class ModItems {
 	
 	/*                    ITEMS                         */
-	/*——————————————————————————————————————————————————*/
+	//////////////////////////////////////////////////////
 	public static final List<Item> ITEMS = new ArrayList<Item>();
-	/*——————————————————————————————————————————————————*/
+	//////////////////////////////////////////////////////
 	/*                    ARMOR MATERIALS               */
-	/*——————————————————————————————————————————————————*/
+	//////////////////////////////////////////////////////
 	public static final ItemArmor.ArmorMaterial UA_SPORTS_MAT =
 			EnumHelper.addArmorMaterial
 			(Reference.MOD_ID +":ua_sports",
@@ -50,9 +50,9 @@ public class ModItems {
 					SoundEvents.ITEM_ARMOR_EQUIP_LEATHER,
 					(float) 0);
 	
-	/*——————————————————————————————————————————————————*/
+	//////////////////////////////////////////////////////
 	/*                    ARMOR                         */
-	/*——————————————————————————————————————————————————*/
+	//////////////////////////////////////////////////////
 	public static final Item UA_SPORTS_CHESTPLATE = 
 			new ClothArmor("ua_sports_chestplate",
 					UA_SPORTS_MAT,
@@ -112,5 +112,4 @@ public class ModItems {
 					1,
 					EntityEquipmentSlot.FEET);
 
-	/*——————————————————————————————————————————————————*/
 }

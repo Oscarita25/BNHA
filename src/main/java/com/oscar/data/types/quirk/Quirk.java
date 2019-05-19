@@ -4,21 +4,18 @@ import com.oscar.data.types.interfaces.IQAct;
 import com.oscar.data.types.interfaces.IQCool;
 import com.oscar.data.types.interfaces.IQMaxAct;
 import com.oscar.data.types.interfaces.IQMaxCool;
-import com.oscar.data.types.interfaces.IQName;
 import com.oscar.data.types.interfaces.IQuirkID;
 import com.oscar.data.types.quirk.act.QActProvider;
 import com.oscar.data.types.quirk.cool.QCoolProvider;
 import com.oscar.data.types.quirk.id.QuirkIDProvider;
 import com.oscar.data.types.quirk.maxact.QMaxActProvider;
 import com.oscar.data.types.quirk.maxcool.QMaxCoolProvider;
-import com.oscar.data.types.quirk.name.QNameProvider;
 
 import net.minecraft.entity.player.EntityPlayer;
 
 public class Quirk {
 	
 	//Just some convinient methods
-	//TODO make this work...please
 	
 	public static int getQuirkact(EntityPlayer player) {
 		IQAct iqact = player.getCapability(QActProvider.QACT_CAP, null);
@@ -47,13 +44,6 @@ public class Quirk {
 	public static int getQuirkID(EntityPlayer player) {
 		IQuirkID iqid = player.getCapability(QuirkIDProvider.QUIRKID_CAP, null);
 		return iqid.getID();
-	}
-
-	
-	
-	public static String getQuirkName(EntityPlayer player) {
-		IQName iqname = player.getCapability(QNameProvider.QURIKNAME_CAP, null);
-		return iqname.getname();
 	}
 	
 	public static void setQuirkact(EntityPlayer player, int act) {
@@ -86,11 +76,6 @@ public class Quirk {
 	}
 
 	
-	
-	public static void setQuirkName(EntityPlayer player, String name) {
-		IQName iqname = player.getCapability(QNameProvider.QURIKNAME_CAP, null);
-		iqname.setname(name);
-	}
 	
 	
 	

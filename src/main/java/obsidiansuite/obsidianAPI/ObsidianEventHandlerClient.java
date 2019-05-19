@@ -14,7 +14,7 @@ public class ObsidianEventHandlerClient {
 	
 	public static void handleOnEntityJoin(EntityJoinWorldEvent e) {
 		Entity entity = e.getEntity();
-		if(entity.world.isRemote && ObsidianAPIUtil.isAnimatedEntity(entity) && entity.getDistanceToEntity(Minecraft.getMinecraft().player) < ANIMATION_RANGE)
+		if(entity.world.isRemote && ObsidianAPIUtil.isAnimatedEntity(entity) && entity.getDistance(Minecraft.getMinecraft().player) < ANIMATION_RANGE)
 			AnimationNetworkHandler.network.sendToServer(new MessageRequestEntityAnimation((EntityLivingBase) e.getEntity()));
 	}
 	
