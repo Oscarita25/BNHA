@@ -4,6 +4,7 @@ import com.oscar.BNHA;
 import com.oscar.data.packets.MessageRequestModel;
 import com.oscar.data.types.interfaces.IModelID;
 import com.oscar.data.types.model.ModelProvider;
+import com.oscar.util.Reference;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelParrot;
@@ -34,20 +35,19 @@ public class LayerEntityOnPlayerBack implements LayerRenderer<EntityLivingBase>{
     public void doRenderLayer(EntityLivingBase entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale)
     {
     	IModelID model = entitylivingbaseIn.getCapability(ModelProvider.MODEL_CAP, null);
+    	BNHA.NETWORK.sendToServer(new MessageRequestModel());
     	
-    	if(ageInTicks % 2000 == 0)
-		BNHA.NETWORK.sendToServer(new MessageRequestModel());
+    	
 
-    	
-    	//System.out.println("ID: " + model.getModelID());
-    	
-        if (model.getModelID() != 0 && model.getModelID() != 5)
+        /*
+         * Rendering tail model
+         */
+    	    	
+        if (model.getModelID() == Reference.tail)
         {
             GlStateManager.enableRescaleNormal();
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
-            if (model.getModelID() == 1)
-            {
             	if(Renderer == null) 
             	Renderer = new RenderParrot(this.renderManager);
             	
@@ -64,10 +64,42 @@ public class LayerEntityOnPlayerBack implements LayerRenderer<EntityLivingBase>{
                 Model.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, entitylivingbaseIn);
                 Model.render(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
                 GlStateManager.popMatrix();
-            }
+            
 
             GlStateManager.disableRescaleNormal();
         }
+        
+
+        /*
+         * Rendering engine model
+         */
+        
+        if (model.getModelID() == Reference.engine)
+        {
+            GlStateManager.enableRescaleNormal();
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+
+            	if(Renderer == null) 
+            	Renderer = new RenderParrot(this.renderManager);
+            	
+            	Renderer.bindTexture(Resource);
+            	
+            	
+                GlStateManager.pushMatrix();
+                float f = entitylivingbaseIn.isSneaking() ? -1.3F : -1.5F;
+                GlStateManager.translate(0.0F, f, 0.0F);
+                
+                ageInTicks = 0.0F;
+
+                Model.setLivingAnimations(entitylivingbaseIn, limbSwing, limbSwingAmount, partialTicks);
+                Model.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, entitylivingbaseIn);
+                Model.render(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
+                GlStateManager.popMatrix();
+            
+
+            GlStateManager.disableRescaleNormal();
+        }
+        
     }
 
     public boolean shouldCombineTextures()

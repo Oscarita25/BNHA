@@ -22,18 +22,28 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ClientEventHandler {	
 
 	
+	
+	
+	/*
+	 * JUST CUSTOM RENDERING CODE IN HERE PLEASE REPLACE WITH SOMETHING MORE USEFULL 
+	 * 
+	 * - LayerEntityOnPlayerBack should be replacing this with entity models -
+	 * 			(then we can use obsidian suite for animation too)
+	 * 
+	 * 		Rendering Util will be gone with that too
+	 */
+	
+	
 	@SubscribeEvent
 	public static void onRegisterModelsEvent(final ModelRegistryEvent event) {
-	((IReloadableResourceManager) Minecraft.getMinecraft().getResourceManager()).registerReloadListener(SRRLModelCache.INSTANCE);
-	}
+		((IReloadableResourceManager) Minecraft.getMinecraft().getResourceManager()).registerReloadListener(SRRLModelCache.INSTANCE);
+		}
 	
 	@SubscribeEvent
 	public static void onModelBakeEvent(final ModelBakeEvent event) {
 		final IRegistry<ModelResourceLocation, IBakedModel> registry = event.getModelRegistry();
-
 		injectModels(registry);
-
-	}
+		}
 	
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
@@ -62,4 +72,6 @@ public class ClientEventHandler {
 			}
 		}
 	}
+	
+
 }

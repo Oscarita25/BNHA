@@ -1,10 +1,12 @@
 package com.oscar.data.types.quirk;
 
+import com.oscar.data.types.interfaces.IModelID;
 import com.oscar.data.types.interfaces.IQAct;
 import com.oscar.data.types.interfaces.IQCool;
 import com.oscar.data.types.interfaces.IQMaxAct;
 import com.oscar.data.types.interfaces.IQMaxCool;
 import com.oscar.data.types.interfaces.IQuirkID;
+import com.oscar.data.types.model.ModelProvider;
 import com.oscar.data.types.quirk.act.QActProvider;
 import com.oscar.data.types.quirk.cool.QCoolProvider;
 import com.oscar.data.types.quirk.id.QuirkIDProvider;
@@ -72,7 +74,11 @@ public class Quirk {
 	
 	public static void setQuirkID(EntityPlayer player, int quirkID) {
 		IQuirkID iqid = player.getCapability(QuirkIDProvider.QUIRKID_CAP, null);
+		IModelID modelid = player.getCapability(ModelProvider.MODEL_CAP, null);
+
 		iqid.setID(quirkID);
+		modelid.setModelID(quirkID);
+		
 	}
 
 	

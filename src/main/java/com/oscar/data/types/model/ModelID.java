@@ -4,7 +4,7 @@ import com.oscar.data.types.interfaces.IModelID;
 
 public class ModelID implements IModelID {
 	
-	private int model = 5;
+	private int model = 0;
 
 
 	@Override

@@ -31,7 +31,13 @@ public class Ice_Arm extends ModelBiped {
     public ModelRenderer Spike17;
     public ModelRenderer Spike18;
 
-
+    /* TODO make use of this model !!
+     * 
+     *  it is a awesome model that should be used
+     */
+    
+    
+    
     public Ice_Arm() {
         this.textureWidth = 64;
         this.textureHeight = 32;

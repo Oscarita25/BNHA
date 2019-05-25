@@ -21,13 +21,31 @@ public class ClientProxy extends CommonProxy {
 	private static final ClothModel ClothModellayer2 = new ClothModel(0f);
 	private static final ClothModel ClothModellayer1 = new ClothModel(0.1f);
 	
-
+	//Attaches the new RenderLayer
 	@Override
-	public void registerItemRenderer(Item item, int meta, String id) {
-		ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(item.getRegistryName(), id));
+	public void registerRendersPost() {	
+		
+		LayerEntityOnPlayerBack layer = new LayerEntityOnPlayerBack(Minecraft.getMinecraft().getRenderManager());
+		for (RenderPlayer playerRender : Minecraft.getMinecraft().getRenderManager().getSkinMap().values()) {
+			
+			playerRender.addLayer(layer);
+		}
 	}
 	
-	//returns model
+	/*Registering Level Bar GUI
+	 *Registering Status GUI */
+	@Override
+	public void registerRenders() {
+		MinecraftForge.EVENT_BUS.register(new Lvlgui(Minecraft.getMinecraft()));
+		MinecraftForge.EVENT_BUS.register(new Statsgui(Minecraft.getMinecraft()));		
+	}
+	
+	@Override
+	public void registerClientHandler() {
+	    MinecraftForge.EVENT_BUS.register(new ClientEventHandler());
+	}
+	
+	//returns size of the model Layer (Legs and Upper Body)
 	@Override
 	public ModelBase getModel(int id) {
 		 
@@ -38,17 +56,6 @@ public class ClientProxy extends CommonProxy {
 			  return ClothModellayer1;  
 			}
 		 return null;
-		}
-	
-	public static void registerModel() {
-	}
-	
-	
-	@Override
-	public void registerRenders() {
-		MinecraftForge.EVENT_BUS.register(new Lvlgui(Minecraft.getMinecraft()));
-		MinecraftForge.EVENT_BUS.register(new Statsgui(Minecraft.getMinecraft()));		
-	
 	}
 	
 	@Override
@@ -56,19 +63,11 @@ public class ClientProxy extends CommonProxy {
 		Keybinds.initKeybindings();
 	    MinecraftForge.EVENT_BUS.register(new KeyInputHandler());
 	}
-	
+
 	@Override
-	public void registerClientHandler() {
-	    MinecraftForge.EVENT_BUS.register(new ClientEventHandler());
+	public void registerItemRenderer(Item item, int meta, String id) {
+		ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(item.getRegistryName(), id));
 	}
 	
-	@Override
-	public void registerRendersPost() {	
-		
-		LayerEntityOnPlayerBack layer = new LayerEntityOnPlayerBack(Minecraft.getMinecraft().getRenderManager());
-		for (RenderPlayer playerRender : Minecraft.getMinecraft().getRenderManager().getSkinMap().values()) {
-			
-			playerRender.addLayer(layer);
-		}
-	}
+	
 }

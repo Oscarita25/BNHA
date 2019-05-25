@@ -26,6 +26,7 @@ import net.minecraft.util.math.BlockPos;
 public class QuirkChange  extends CommandBase implements  ICommand{
 	
     private final List<String> aliases;
+    private final List<String> quirkList;
     
     protected String fullEntityName; 
   
@@ -35,6 +36,16 @@ public class QuirkChange  extends CommandBase implements  ICommand{
         aliases = new ArrayList<String>(); 
         aliases.add("changequirk"); 
         aliases.add("cq"); 
+        
+        //For Tab Completion
+        quirkList = new ArrayList<String>();
+        quirkList.add("quirkless");
+        quirkList.add("explosion");
+        quirkList.add("engine");
+        quirkList.add("hellfire");
+        quirkList.add("icequirk");
+        quirkList.add("electrification");
+        quirkList.add("tail");
     } 
 
     @Override
@@ -42,9 +53,13 @@ public class QuirkChange  extends CommandBase implements  ICommand{
     	return "changequirk";
     }
 
+    /*
+     * passing in the arguments for the Command
+     * 
+     */
     @Override
     public String getUsage(ICommandSender sender) {
-    	return "changequirk <name> <text>";
+    	return "changequirk <name> <quirk>";
     }
 
     
@@ -69,50 +84,50 @@ public class QuirkChange  extends CommandBase implements  ICommand{
             		            		
             		if(args[1].contentEquals("quirkless")) {
             		iqID.setID(Reference.quirkless);
-            		model.setModelID(0);
+            		model.setModelID(Reference.quirkless);
         			BNHA.NETWORK.sendToServer(new MessageRequestQuirkID());
         			BNHA.NETWORK.sendToServer(new MessageRequestModel());
             		}
             		
             		else if(args[1].contentEquals("explosion")) {
             		iqID.setID(Reference.explosionquirk);
-            		model.setModelID(0);
+            		model.setModelID(Reference.explosionquirk);
         			BNHA.NETWORK.sendToServer(new MessageRequestQuirkID());
         			BNHA.NETWORK.sendToServer(new MessageRequestModel());
             		}
             		
             		else if(args[1].contentEquals("engine")) {
             		iqID.setID(Reference.engine);
-            		model.setModelID(0);
+            		model.setModelID(Reference.engine);
         			BNHA.NETWORK.sendToServer(new MessageRequestQuirkID());
         			BNHA.NETWORK.sendToServer(new MessageRequestModel());
             		}
             		
             		else if(args[1].contentEquals("hellfire")) {
             		iqID.setID(Reference.hellfire);
-            		model.setModelID(0);
+            		model.setModelID(Reference.hellfire);
         			BNHA.NETWORK.sendToServer(new MessageRequestQuirkID());
         			BNHA.NETWORK.sendToServer(new MessageRequestModel());
             		}
             		
             		else if(args[1].contentEquals("icequirk")) {
             		iqID.setID(Reference.icequirk);
-            		model.setModelID(2);
+            		model.setModelID(Reference.icequirk);
         			BNHA.NETWORK.sendToServer(new MessageRequestQuirkID());
         			BNHA.NETWORK.sendToServer(new MessageRequestModel());
             		}
             		
             		else if(args[1].contentEquals("electrification")) {
             		iqID.setID(Reference.electrification);
-            		model.setModelID(0);
+            		model.setModelID(Reference.electrification);
         			BNHA.NETWORK.sendToServer(new MessageRequestQuirkID());
         			BNHA.NETWORK.sendToServer(new MessageRequestModel());
                 	}
             		
             		else if(args[1].contentEquals("tail")) {
             		iqID.setID(Reference.tail);
+            		model.setModelID(Reference.tail);
         			BNHA.NETWORK.sendToServer(new MessageRequestQuirkID());
-            		model.setModelID(1);
         			BNHA.NETWORK.sendToServer(new MessageRequestModel());
             		}
             		else {
@@ -156,8 +171,9 @@ public class QuirkChange  extends CommandBase implements  ICommand{
 			BlockPos targetPos) {
 		return args.length == 1 ? 
 				getListOfStringsMatchingLastWord(args, server.getOnlinePlayerNames()) :
-					Collections.emptyList();
-	}
+					args.length == 2 ? getListOfStringsMatchingLastWord(args, quirkList) :
+						Collections.emptyList();
+					}
 
 	@Override
 	public boolean isUsernameIndex(String[] args, int index) {

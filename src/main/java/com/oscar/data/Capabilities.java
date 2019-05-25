@@ -22,6 +22,11 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class Capabilities {
 	
+	/*
+	 * 		Attaching Capabilities on the Player
+	 * 
+	 */
+	
 	public static final ResourceLocation LEVEL_CAP = new ResourceLocation(Reference.MOD_ID, "level");
 	public static final ResourceLocation EXP_CAP = new ResourceLocation(Reference.MOD_ID, "expc");
 	public static final ResourceLocation NEXP_CAP = new ResourceLocation(Reference.MOD_ID, "expn");

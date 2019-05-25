@@ -1,5 +1,5 @@
 package com.oscar.client.render.gui;
-
+	
 import java.io.IOException;
 
 import org.lwjgl.opengl.GL11;
@@ -18,6 +18,7 @@ import com.oscar.data.types.level.LevelProvider;
 import com.oscar.data.types.nexp.NExpProvider;
 import com.oscar.data.types.quirk.id.QuirkIDProvider;
 import com.oscar.util.Reference;
+import com.oscar.util.Utilities;
 import com.oscar.util.handlers.KeyInputHandler;
 
 import net.minecraft.client.Minecraft;
@@ -41,6 +42,7 @@ public class Statsgui extends GuiScreen {
 	public Statsgui(Minecraft mc) {
 		super();
 		this.mc = mc;
+
 	}
     
     
@@ -54,23 +56,23 @@ public class Statsgui extends GuiScreen {
 			return;
 		}
 	    
+		//Capabilities and Packets
         IExp exp = player.getCapability(ExpProvider.EXP_CAP, null);
         INExp nexp = player.getCapability(NExpProvider.NEXP_CAP, null);
         ILevel level = player.getCapability(LevelProvider.LEVEL_CAP, null);
         IQuirkID quirkid = player.getCapability(QuirkIDProvider.QUIRKID_CAP, null);
 
-        int gxp = exp.getexp();
-        int gnexp = nexp.getnexp();
-        int glevel = level.getlvl();
-        int gquirkid = quirkid.getID();
+        BNHA.NETWORK.sendToServer(new MessageRequestEXP());
+        BNHA.NETWORK.sendToServer(new MessageRequestNEXP());
+        BNHA.NETWORK.sendToServer(new MessageRequestLEVEL());
+        BNHA.NETWORK.sendToServer(new MessageRequestQuirkID());
         
-		BNHA.NETWORK.sendToServer(new MessageRequestEXP());
-		BNHA.NETWORK.sendToServer(new MessageRequestNEXP());
-		BNHA.NETWORK.sendToServer(new MessageRequestLEVEL());
-		BNHA.NETWORK.sendToServer(new MessageRequestQuirkID());
         
+
         this.drawDefaultBackground();
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        
+        //binding the Background image into the Texture manager
         this.mc.getTextureManager().bindTexture(BACKGROUND);
         float scale = 0.5F;
         int k = (Math.round((width / 2) / scale) - Math.round(xSize / 2));
@@ -78,16 +80,24 @@ public class Statsgui extends GuiScreen {
         int k2 = (Math.round((width / 2) / 1.5F) - Math.round(xSize / 2));
         int l2 = (Math.round((height / 2) / 1.5F) - Math.round(ySize / 2));
         GlStateManager.scale(scale, scale, 1F);
+        
+        //Drawing the actual Background image
         Statsgui.drawModalRectWithCustomSizedTexture(k , l , 0, 0, this.xSize, this.ySize, this.xSize, this.ySize);
+        
         GlStateManager.pushMatrix();
         GlStateManager.scale(3F, 3F, 1F);
+        
+        //Drawing the Player on to the GUI
         drawEntityOnScreen((k + 200) / 3, (l + 390) /3, 60, (float)(k - 180) - mouseX, (float)(l - 70) - mouseY, this.mc.player);
+        
         GlStateManager.popMatrix();
         GlStateManager.scale(3F, 3F, 3F);
+        
+        // Drawing Text on to the GUI
         this.fontRenderer.drawString("Name: "+ TextFormatting.DARK_RED+ mc.player.getName(), k2 + 400, l2 + 165, 2222);
-        this.fontRenderer.drawString("Quirk: "+ TextFormatting.DARK_RED+ Reference.getQNamebyID(gquirkid), k2 + 400, l2 + 200, 2222);
-        this.fontRenderer.drawString("Level: "+ TextFormatting.DARK_RED+ glevel,k2 + 400, l2 + 225, 2222);
-        this.fontRenderer.drawString("Exp: "+ TextFormatting.DARK_RED+ gxp +"/"+ gnexp, k2 + 400, l2 + 235, 2222);
+        this.fontRenderer.drawString("Quirk: "+ TextFormatting.DARK_RED+ Utilities.getQNamebyID(quirkid.getID()), k2 + 400, l2 + 200, 2222);
+        this.fontRenderer.drawString("Level: "+ TextFormatting.DARK_RED+ level.getlvl(),k2 + 400, l2 + 225, 2222);
+        this.fontRenderer.drawString("Exp: "+ TextFormatting.DARK_RED+ exp.getexp() +"/"+ nexp.getnexp(), k2 + 400, l2 + 235, 2222);
         this.fontRenderer.drawString("Health: "+ TextFormatting.DARK_RED, k2 + 400, l2 + 245, 2222);
         this.fontRenderer.drawString("Damage: "+ TextFormatting.DARK_RED, k2 + 400, l2 + 255, 2222);
         this.fontRenderer.drawString("Skill Points: "+ TextFormatting.DARK_RED, k2 + 400, l2 + 265, 2222);
@@ -95,6 +105,11 @@ public class Statsgui extends GuiScreen {
         super.drawScreen(mouseX, mouseY, ticks);
     }
 
+    
+    
+    /*
+     * Drawing the Player in the Status GUI
+     */
     public static void drawEntityOnScreen(int posX, int posY, int scale, float mouseX, float mouseY, EntityLivingBase ent){
         GlStateManager.enableColorMaterial();
         GlStateManager.pushMatrix();
@@ -145,6 +160,9 @@ public class Statsgui extends GuiScreen {
         return false;
     }
 	
+	/*
+	 * just allows you to use the same key for opening for closing the GUI 
+	 */
 	@Override
 	protected void keyTyped(char c, int keyCode) {
 		try {
