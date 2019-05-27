@@ -9,6 +9,7 @@ import com.oscar.data.types.quirk.cool.QCoolProvider;
 import com.oscar.data.types.quirk.id.QuirkIDProvider;
 import com.oscar.data.types.quirk.maxact.QMaxActProvider;
 import com.oscar.data.types.quirk.maxcool.QMaxCoolProvider;
+import com.oscar.data.types.stamina.StaminaProvidor;
 import com.oscar.util.LoggingUtil;
 import com.oscar.util.Reference;
 
@@ -37,6 +38,7 @@ public class Capabilities {
 	public static final ResourceLocation MAXCOOl_CAP = new ResourceLocation(Reference.MOD_ID, "qmaxcooldown"); 
 	public static final ResourceLocation QUIRKID_CAP = new ResourceLocation(Reference.MOD_ID, "quirkid"); 
 	public static final ResourceLocation MODELID = new ResourceLocation(Reference.MOD_ID, "modelid");
+	public static final ResourceLocation STAMINA_CAP = new ResourceLocation(Reference.MOD_ID, "stamina");
 	
 	@SubscribeEvent
 	public void attachCapability(AttachCapabilitiesEvent<Entity> event) {
@@ -44,7 +46,7 @@ public class Capabilities {
 		if (canHaveAttributes(event.getObject())) {
 			EntityLivingBase ent = (EntityLivingBase) event.getObject();
 			
-			if (ent instanceof EntityPlayer || ent instanceof EntityPlayerMP) {
+			if (ent instanceof EntityPlayer) {
 				event.addCapability(LEVEL_CAP, new LevelProvider());				
 				event.addCapability(EXP_CAP, new ExpProvider());
 				event.addCapability(NEXP_CAP, new NExpProvider());
@@ -55,7 +57,8 @@ public class Capabilities {
 				event.addCapability(MAXCOOl_CAP, new QMaxCoolProvider()); 
 				event.addCapability(COOL_CAP, new QCoolProvider()); 
 				event.addCapability(QACT_CAP, new QActProvider()); 
-				event.addCapability(QMaxAct_CAP, new QMaxActProvider()); 
+				event.addCapability(QMaxAct_CAP, new QMaxActProvider());
+				event.addCapability(STAMINA_CAP, new StaminaProvidor());
 				
 				LoggingUtil.BNHALogger.info("added Quirk Capability's");
 				
