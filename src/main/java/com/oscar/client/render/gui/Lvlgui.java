@@ -1,9 +1,5 @@
 package com.oscar.client.render.gui;
 
-import com.oscar.BNHA;
-import com.oscar.data.packets.MessageRequestEXP;
-import com.oscar.data.packets.MessageRequestLEVEL;
-import com.oscar.data.packets.MessageRequestNEXP;
 import com.oscar.data.types.exp.ExpProvider;
 import com.oscar.data.types.interfaces.IExp;
 import com.oscar.data.types.interfaces.ILevel;
@@ -42,10 +38,6 @@ public class Lvlgui extends GuiScreen{
 	        IExp exp = player.getCapability(ExpProvider.EXP_CAP, null);
 	        INExp nexp = player.getCapability(NExpProvider.NEXP_CAP, null);
 	        ILevel level = player.getCapability(LevelProvider.LEVEL_CAP, null);
-
-			BNHA.NETWORK.sendToServer(new MessageRequestEXP());
-			BNHA.NETWORK.sendToServer(new MessageRequestNEXP());
-			BNHA.NETWORK.sendToServer(new MessageRequestLEVEL());
 
 			if (event.getType() != ElementType.EXPERIENCE) return;
 

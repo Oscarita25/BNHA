@@ -1,9 +1,9 @@
 package com.oscar.items;
 
 import com.oscar.BNHA;
-import com.oscar.init.ModItems;
-import com.oscar.util.IHasModel;
+import com.oscar.proxy.ClientProxy;
 import com.oscar.util.Reference;
+import com.oscar.util.Utilities;
 
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.EntityLivingBase;
@@ -13,7 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ClothArmor extends ItemArmor implements IHasModel{
+public class ClothArmor extends ItemArmor {
 	
 	String name;
 
@@ -23,7 +23,6 @@ public class ClothArmor extends ItemArmor implements IHasModel{
 		this.name = name;
         this.setCreativeTab(BNHA.BNHA);
         this.setUnlocalizedName(name);
-        ModItems.ITEMS.add(this);
 	}
 	
 	
@@ -39,18 +38,20 @@ public class ClothArmor extends ItemArmor implements IHasModel{
 
 				EntityEquipmentSlot type = ((ItemArmor) stack.getItem()).armorType;
 				ModelBiped armorModel = null;
+				ModelBiped armorUpper = (ModelBiped) ClientProxy.getModel(1);
+				ModelBiped armorLower = (ModelBiped) ClientProxy.getModel(0);
 				switch (type) {
 				case HEAD:
-					armorModel = (ModelBiped) BNHA.proxy.getModel(1);
+					armorModel = armorUpper;
 					break;
 				case LEGS:
-					armorModel = (ModelBiped) BNHA.proxy.getModel(0);
+					armorModel = armorLower;
 					break;
 				case FEET:
-					armorModel = (ModelBiped) BNHA.proxy.getModel(0);
+					armorModel = armorLower;
 					break;
 				case CHEST:
-					armorModel = (ModelBiped) BNHA.proxy.getModel(1);
+					armorModel = armorUpper;
 					break;
 				default:
 					break;
@@ -79,10 +80,6 @@ public class ClothArmor extends ItemArmor implements IHasModel{
 		return null;
 	}   		
 	
-	@Override
-	public void registerModels() {
-		BNHA.proxy.registerItemRenderer(this, 0, "inventory");
-	}
-	
+
 }
 

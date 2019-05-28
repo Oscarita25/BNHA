@@ -1,6 +1,10 @@
 package com.oscar.data.types.model;
 
+import com.oscar.BNHA;
+import com.oscar.data.packets.MessageModel;
 import com.oscar.data.types.interfaces.IModelID;
+
+import net.minecraft.entity.player.EntityPlayerMP;
 
 public class ModelID implements IModelID {
 	
@@ -8,8 +12,12 @@ public class ModelID implements IModelID {
 
 
 	@Override
-	public void setModelID(int model) {
+	public void setModelID(int model, EntityPlayerMP player) {
 		this.model = model;
+		if(player instanceof EntityPlayerMP) {
+		markDirty(player);
+		}
+		
 	}
 	
 	@Override
@@ -17,8 +25,9 @@ public class ModelID implements IModelID {
 		return this.model;
 	}
 
-
-
+	private void markDirty(EntityPlayerMP player) {
+		BNHA.NETWORK.sendTo(new MessageModel(), player);
+	}
 
 
 

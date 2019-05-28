@@ -4,11 +4,6 @@ import java.io.IOException;
 
 import org.lwjgl.opengl.GL11;
 
-import com.oscar.BNHA;
-import com.oscar.data.packets.MessageRequestEXP;
-import com.oscar.data.packets.MessageRequestLEVEL;
-import com.oscar.data.packets.MessageRequestNEXP;
-import com.oscar.data.packets.MessageRequestQuirkID;
 import com.oscar.data.types.exp.ExpProvider;
 import com.oscar.data.types.interfaces.IExp;
 import com.oscar.data.types.interfaces.ILevel;
@@ -61,13 +56,6 @@ public class Statsgui extends GuiScreen {
         INExp nexp = player.getCapability(NExpProvider.NEXP_CAP, null);
         ILevel level = player.getCapability(LevelProvider.LEVEL_CAP, null);
         IQuirkID quirkid = player.getCapability(QuirkIDProvider.QUIRKID_CAP, null);
-
-        BNHA.NETWORK.sendToServer(new MessageRequestEXP());
-        BNHA.NETWORK.sendToServer(new MessageRequestNEXP());
-        BNHA.NETWORK.sendToServer(new MessageRequestLEVEL());
-        BNHA.NETWORK.sendToServer(new MessageRequestQuirkID());
-        
-        
 
         this.drawDefaultBackground();
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);

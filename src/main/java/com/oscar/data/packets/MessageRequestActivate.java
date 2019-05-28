@@ -45,8 +45,7 @@ public class MessageRequestActivate implements IMessage {
 		    }
 		    
 		    final WorldServer playerWorldServer = sendingPlayer.getServerWorld();
-		    playerWorldServer.addScheduledTask(new Runnable() {
-		    	public void run() {
+		    playerWorldServer.addScheduledTask(() -> {
 
 		    		if(Quirk.getQuirkID(sendingPlayer) == Reference.quirkless) {
 		    			sendingPlayer.sendMessage(new TextComponentString("Youre Trying to do something ... nothing happens"));
@@ -91,7 +90,7 @@ public class MessageRequestActivate implements IMessage {
 		    			//WORK IN PROGRESS
 
 		    		}
-		    	}
+		    	
 		    });
 		    
 			return null;

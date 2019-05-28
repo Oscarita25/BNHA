@@ -21,7 +21,7 @@ public class ModelStorage implements IStorage<IModelID>{
 
 	@Override
 	public void readNBT(Capability<IModelID> capability, IModelID instance, EnumFacing side, NBTBase nbt) {
-		instance.setModelID(((NBTPrimitive) nbt).getInt());
+		instance.setModelID(((NBTPrimitive) nbt).getInt(), null);
 	}
 
 }

@@ -5,9 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 import com.mojang.authlib.GameProfile;
-import com.oscar.BNHA;
-import com.oscar.data.packets.MessageRequestModel;
-import com.oscar.data.packets.MessageRequestQuirkID;
 import com.oscar.data.types.interfaces.IModelID;
 import com.oscar.data.types.interfaces.IQuirkID;
 import com.oscar.data.types.model.ModelProvider;
@@ -84,51 +81,38 @@ public class QuirkChange  extends CommandBase implements  ICommand{
             		            		
             		if(args[1].contentEquals("quirkless")) {
             		iqID.setID(Reference.quirkless);
-            		model.setModelID(Reference.quirkless);
-        			BNHA.NETWORK.sendToServer(new MessageRequestQuirkID());
-        			BNHA.NETWORK.sendToServer(new MessageRequestModel());
+            		model.setModelID(Reference.quirkless, entityplayermp);
+
             		}
             		
             		else if(args[1].contentEquals("explosion")) {
             		iqID.setID(Reference.explosionquirk);
-            		model.setModelID(Reference.explosionquirk);
-        			BNHA.NETWORK.sendToServer(new MessageRequestQuirkID());
-        			BNHA.NETWORK.sendToServer(new MessageRequestModel());
+            		model.setModelID(Reference.explosionquirk, entityplayermp);
             		}
             		
             		else if(args[1].contentEquals("engine")) {
             		iqID.setID(Reference.engine);
-            		model.setModelID(Reference.engine);
-        			BNHA.NETWORK.sendToServer(new MessageRequestQuirkID());
-        			BNHA.NETWORK.sendToServer(new MessageRequestModel());
+            		model.setModelID(Reference.engine, entityplayermp);
             		}
             		
             		else if(args[1].contentEquals("hellfire")) {
             		iqID.setID(Reference.hellfire);
-            		model.setModelID(Reference.hellfire);
-        			BNHA.NETWORK.sendToServer(new MessageRequestQuirkID());
-        			BNHA.NETWORK.sendToServer(new MessageRequestModel());
+            		model.setModelID(Reference.hellfire, entityplayermp);
             		}
             		
             		else if(args[1].contentEquals("icequirk")) {
             		iqID.setID(Reference.icequirk);
-            		model.setModelID(Reference.icequirk);
-        			BNHA.NETWORK.sendToServer(new MessageRequestQuirkID());
-        			BNHA.NETWORK.sendToServer(new MessageRequestModel());
+            		model.setModelID(Reference.icequirk, entityplayermp);
             		}
             		
             		else if(args[1].contentEquals("electrification")) {
             		iqID.setID(Reference.electrification);
-            		model.setModelID(Reference.electrification);
-        			BNHA.NETWORK.sendToServer(new MessageRequestQuirkID());
-        			BNHA.NETWORK.sendToServer(new MessageRequestModel());
+            		model.setModelID(Reference.electrification, entityplayermp);
                 	}
             		
             		else if(args[1].contentEquals("tail")) {
             		iqID.setID(Reference.tail);
-            		model.setModelID(Reference.tail);
-        			BNHA.NETWORK.sendToServer(new MessageRequestQuirkID());
-        			BNHA.NETWORK.sendToServer(new MessageRequestModel());
+            		model.setModelID(Reference.tail, entityplayermp);
             		}
             		else {
                         throw new WrongUsageException("failed to change quirk", new Object[0]);

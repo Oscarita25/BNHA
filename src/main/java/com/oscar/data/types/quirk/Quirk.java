@@ -14,6 +14,7 @@ import com.oscar.data.types.quirk.maxact.QMaxActProvider;
 import com.oscar.data.types.quirk.maxcool.QMaxCoolProvider;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 
 public class Quirk {
 	
@@ -77,7 +78,7 @@ public class Quirk {
 		IModelID modelid = player.getCapability(ModelProvider.MODEL_CAP, null);
 
 		iqid.setID(quirkID);
-		modelid.setModelID(quirkID);
+		modelid.setModelID(quirkID, (EntityPlayerMP) player);
 		
 	}
 

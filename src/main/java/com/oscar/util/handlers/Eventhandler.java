@@ -1,11 +1,5 @@
 package com.oscar.util.handlers;
 
-import com.oscar.BNHA;
-import com.oscar.data.packets.MessageRequestEXP;
-import com.oscar.data.packets.MessageRequestLEVEL;
-import com.oscar.data.packets.MessageRequestModel;
-import com.oscar.data.packets.MessageRequestNEXP;
-import com.oscar.data.packets.MessageRequestQuirkID;
 import com.oscar.data.types.exp.ExpProvider;
 import com.oscar.data.types.interfaces.IExp;
 import com.oscar.data.types.interfaces.ILevel;
@@ -32,6 +26,7 @@ import net.minecraft.entity.passive.EntityAmbientCreature;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityWaterMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.util.text.TextComponentString;
@@ -49,6 +44,7 @@ public class Eventhandler {
 	@SubscribeEvent
 	public void onPlayerLoggedIn(PlayerLoggedInEvent event) {
 		EntityPlayer player = event.player;
+		EntityPlayerMP p = (EntityPlayerMP) event.player;
 		
 		//Capabilities and Packets
 		ILevel level = player.getCapability(LevelProvider.LEVEL_CAP, null);
@@ -57,18 +53,21 @@ public class Eventhandler {
 		IQuirkID iqID = player.getCapability(QuirkIDProvider.QUIRKID_CAP, null);
 		IModelID model = player.getCapability(ModelProvider.MODEL_CAP, null);
 
-		BNHA.NETWORK.sendToServer(new MessageRequestEXP());
-		BNHA.NETWORK.sendToServer(new MessageRequestNEXP());
-		BNHA.NETWORK.sendToServer(new MessageRequestLEVEL());
-		BNHA.NETWORK.sendToServer(new MessageRequestModel());
-		
-		//Join Message (Status Info)
-		player.sendMessage(new TextComponentString("Your level is: " + level.getlvl()));
-		player.sendMessage(new TextComponentString("Your exp is: " + exp.getexp()));
-		player.sendMessage(new TextComponentString("Exp needed for the next level: " + (nexp.getnexp() - exp.getexp())));	
-		player.sendMessage(new TextComponentString(TextFormatting.DARK_RED +"DEBUG MODEL: " + model.getModelID()));
 		
 		if(!player.world.isRemote) {
+			
+			level.setlvl(level.getlvl());
+			exp.setexp(exp.getexp());
+			nexp.setnexp(nexp.getnexp());
+			iqID.setID(iqID.getID());
+			model.setModelID(model.getModelID(), p);;
+
+			//Join Message (Status Info)
+			player.sendMessage(new TextComponentString("Your level is: " + level.getlvl()));
+			player.sendMessage(new TextComponentString("Your exp is: " + exp.getexp()));
+			player.sendMessage(new TextComponentString("Exp needed for the next level: " + (nexp.getnexp() - exp.getexp())));	
+			player.sendMessage(new TextComponentString(TextFormatting.DARK_RED +"DEBUG MODEL: " + model.getModelID()));
+			
 			//Choose Quirk if there is none
 			if(iqID.getID() == Reference.none) {Utilities.RandomQuirkChoose(player);}
 			
@@ -128,13 +127,8 @@ public class Eventhandler {
 		level.setlvl(oldLevel.getlvl());
 		exp.setexp(oldExp.getexp());
 		nexp.setnexp(oldNExp.getnexp());
-		modelid.setModelID(oldmodelid.getModelID());
+		modelid.setModelID(oldmodelid.getModelID(), (EntityPlayerMP) player);
 		
-		BNHA.NETWORK.sendToServer(new MessageRequestEXP());
-		BNHA.NETWORK.sendToServer(new MessageRequestNEXP());
-		BNHA.NETWORK.sendToServer(new MessageRequestLEVEL());
-		BNHA.NETWORK.sendToServer(new MessageRequestQuirkID());
-		BNHA.NETWORK.sendToServer(new MessageRequestModel());
 		
 		}
 	}
@@ -146,10 +140,6 @@ public class Eventhandler {
 		IExp exp = player.getCapability(ExpProvider.EXP_CAP, null);
 		INExp nexp = player.getCapability(NExpProvider.NEXP_CAP, null);
 		ILevel level = player.getCapability(LevelProvider.LEVEL_CAP, null);
-		
-		BNHA.NETWORK.sendToServer(new MessageRequestEXP());
-		BNHA.NETWORK.sendToServer(new MessageRequestNEXP());
-		BNHA.NETWORK.sendToServer(new MessageRequestLEVEL());
 		
 		if (!player.world.isRemote) {
 

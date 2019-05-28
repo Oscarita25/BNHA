@@ -1,7 +1,5 @@
 package com.oscar.client.render.layer;
 
-import com.oscar.BNHA;
-import com.oscar.data.packets.MessageRequestModel;
 import com.oscar.data.types.interfaces.IModelID;
 import com.oscar.data.types.model.ModelProvider;
 import com.oscar.util.Reference;
@@ -35,9 +33,6 @@ public class LayerEntityOnPlayerBack implements LayerRenderer<EntityLivingBase>{
     public void doRenderLayer(EntityLivingBase entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale)
     {
     	IModelID model = entitylivingbaseIn.getCapability(ModelProvider.MODEL_CAP, null);
-    	BNHA.NETWORK.sendToServer(new MessageRequestModel());
-    	
-    	
 
         /*
          * Rendering tail model

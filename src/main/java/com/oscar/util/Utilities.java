@@ -3,10 +3,16 @@ package com.oscar.util;
 import java.util.Random;
 
 import com.oscar.data.types.quirk.Quirk;
+import com.oscar.models.ClothModel;
 
+import net.minecraft.client.model.ModelBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class Utilities {
+	
+	
 	public static int RandomIntChoose(){
 		Random rand = new Random();
 
@@ -71,4 +77,5 @@ public class Utilities {
 		else
 			return "this should not be displayed";
 	}
+
 }
