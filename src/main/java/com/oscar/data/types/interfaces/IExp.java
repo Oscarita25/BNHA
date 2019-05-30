@@ -1,8 +1,10 @@
 package com.oscar.data.types.interfaces;
 
-public interface IExp {
+import com.oscar.data.types.api.ICapability;
+
+public interface IExp extends ICapability{
 	
-	public void setexp(int exp);
+	public boolean setexp(int exp);
 	public int getexp();
 	
 }

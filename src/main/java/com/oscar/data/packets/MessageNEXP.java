@@ -1,6 +1,6 @@
 package com.oscar.data.packets;
 
-import com.oscar.data.types.nexp.NExpProvider;
+import com.oscar.data.Capabilities;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
@@ -33,11 +33,12 @@ public class MessageNEXP implements IMessage{
 
 	    @Override
 	    public IMessage onMessage(MessageNEXP message, MessageContext ctx) {
-	        Minecraft.getMinecraft().addScheduledTask(() -> {
-	            Minecraft.getMinecraft().player.getCapability(NExpProvider.NEXP_CAP, null).setnexp(message.nexp);
-	            
-	        });
-	            
+			    Minecraft.getMinecraft().addScheduledTask(() -> {
+
+			    	Minecraft.getMinecraft().player.getCapability(Capabilities.nexp, null).setnexp(message.nexp);
+		            
+		        });
+
 	        return null;
 	    }
 

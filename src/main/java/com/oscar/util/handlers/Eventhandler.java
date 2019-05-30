@@ -1,6 +1,6 @@
 package com.oscar.util.handlers;
 
-import com.oscar.data.types.exp.ExpProvider;
+import com.oscar.data.Capabilities;
 import com.oscar.data.types.interfaces.IExp;
 import com.oscar.data.types.interfaces.ILevel;
 import com.oscar.data.types.interfaces.IModelID;
@@ -10,12 +10,8 @@ import com.oscar.data.types.interfaces.IQCool;
 import com.oscar.data.types.interfaces.IQMaxAct;
 import com.oscar.data.types.interfaces.IQMaxCool;
 import com.oscar.data.types.interfaces.IQuirkID;
-import com.oscar.data.types.level.LevelProvider;
-import com.oscar.data.types.model.ModelProvider;
-import com.oscar.data.types.nexp.NExpProvider;
 import com.oscar.data.types.quirk.act.QActProvider;
 import com.oscar.data.types.quirk.cool.QCoolProvider;
-import com.oscar.data.types.quirk.id.QuirkIDProvider;
 import com.oscar.data.types.quirk.maxact.QMaxActProvider;
 import com.oscar.data.types.quirk.maxcool.QMaxCoolProvider;
 import com.oscar.util.Reference;
@@ -35,6 +31,7 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 
 
@@ -44,24 +41,22 @@ public class Eventhandler {
 	@SubscribeEvent
 	public void onPlayerLoggedIn(PlayerLoggedInEvent event) {
 		EntityPlayer player = event.player;
-		EntityPlayerMP p = (EntityPlayerMP) event.player;
 		
 		//Capabilities and Packets
-		ILevel level = player.getCapability(LevelProvider.LEVEL_CAP, null);
-		IExp exp = player.getCapability(ExpProvider.EXP_CAP, null);
-		INExp nexp = player.getCapability(NExpProvider.NEXP_CAP, null);
-		IQuirkID iqID = player.getCapability(QuirkIDProvider.QUIRKID_CAP, null);
-		IModelID model = player.getCapability(ModelProvider.MODEL_CAP, null);
+		ILevel level = player.getCapability(Capabilities.level, null);
+		IExp exp = player.getCapability(Capabilities.exp, null);
+		INExp nexp = player.getCapability(Capabilities.nexp, null);
+		IQuirkID iqID = player.getCapability(Capabilities.quirkid, null);
+		IModelID model = player.getCapability(Capabilities.modelid, null);
 
+		level.synchronize();
+		exp.synchronize();
+		nexp.synchronize();
+		iqID.synchronize();
+		model.synchronize();
+		
 		
 		if(!player.world.isRemote) {
-			
-			level.setlvl(level.getlvl());
-			exp.setexp(exp.getexp());
-			nexp.setnexp(nexp.getnexp());
-			iqID.setID(iqID.getID());
-			model.setModelID(model.getModelID(), p);;
-
 			//Join Message (Status Info)
 			player.sendMessage(new TextComponentString("Your level is: " + level.getlvl()));
 			player.sendMessage(new TextComponentString("Your exp is: " + exp.getexp()));
@@ -69,15 +64,15 @@ public class Eventhandler {
 			player.sendMessage(new TextComponentString(TextFormatting.DARK_RED +"DEBUG MODEL: " + model.getModelID()));
 			
 			//Choose Quirk if there is none
-			if(iqID.getID() == Reference.none) {Utilities.RandomQuirkChoose(player);}
+			if(iqID.getQID() == Reference.none) {Utilities.RandomQuirkChoose(player);}
 			
 			//Join Message which Quirk you have (Status Info)
-			if(iqID.getID() != Reference.none) {
-				player.sendMessage(new TextComponentString("Your Quirk is: "+ TextFormatting.BOLD + Utilities.getQNamebyID(iqID.getID())));
+			if(iqID.getQID() != Reference.none) {
+				player.sendMessage(new TextComponentString("Your Quirk is: "+ TextFormatting.BOLD + Utilities.getQNamebyID(iqID.getQID())));
 				
 			}else {
 			
-				player.sendMessage(new TextComponentString("You are "+ TextFormatting.BOLD + Utilities.getQNamebyID(iqID.getID())));
+				player.sendMessage(new TextComponentString("You are "+ TextFormatting.BOLD + Utilities.getQNamebyID(iqID.getQID())));
 			}
 		}
 		
@@ -90,14 +85,15 @@ public class Eventhandler {
 	public void onPlayerClone(PlayerEvent.Clone event) {
 		//copy's capabilities
 		EntityPlayer player = event.getEntityPlayer();
-		ILevel level = player.getCapability(LevelProvider.LEVEL_CAP, null);
-		ILevel oldLevel = event.getOriginal().getCapability(LevelProvider.LEVEL_CAP, null);
 		
-		IExp exp = player.getCapability(ExpProvider.EXP_CAP, null);
-		IExp oldExp = event.getOriginal().getCapability(ExpProvider.EXP_CAP, null);
+		ILevel level = player.getCapability(Capabilities.level, null);
+		ILevel oldLevel = event.getOriginal().getCapability(Capabilities.level, null);
 		
-		INExp nexp = player.getCapability(NExpProvider.NEXP_CAP, null);
-		INExp oldNExp = event.getOriginal().getCapability(NExpProvider.NEXP_CAP, null);
+		IExp exp = player.getCapability(Capabilities.exp, null);
+		IExp oldExp = event.getOriginal().getCapability(Capabilities.exp, null);
+		
+		INExp nexp = player.getCapability(Capabilities.nexp, null);
+		INExp oldNExp = event.getOriginal().getCapability(Capabilities.nexp, null);
 		
 		IQMaxAct iqmact = player.getCapability(QMaxActProvider.QMaxAct_CAP, null);
 		IQMaxAct oldiqmact =  event.getOriginal().getCapability(QMaxActProvider.QMaxAct_CAP, null);
@@ -111,11 +107,11 @@ public class Eventhandler {
 		IQMaxCool iqmcool = player.getCapability(QMaxCoolProvider.MAXCOOl_CAP, null);
 		IQMaxCool oldiqmcool =  event.getOriginal().getCapability(QMaxCoolProvider.MAXCOOl_CAP, null);
 
-		IQuirkID iqid = player.getCapability(QuirkIDProvider.QUIRKID_CAP, null);
-		IQuirkID oldiqid =  event.getOriginal().getCapability(QuirkIDProvider.QUIRKID_CAP, null);
+		IQuirkID iqid = player.getCapability(Capabilities.quirkid, null);
+		IQuirkID oldiqid =  event.getOriginal().getCapability(Capabilities.quirkid, null);
 		
-		IModelID modelid = player.getCapability(ModelProvider.MODEL_CAP, null);
-		IModelID oldmodelid =  event.getOriginal().getCapability(ModelProvider.MODEL_CAP, null);
+		IModelID modelid = player.getCapability(Capabilities.modelid, null);
+		IModelID oldmodelid =  event.getOriginal().getCapability(Capabilities.modelid, null);
 		
 		
 		if(event.isWasDeath()) {
@@ -123,12 +119,17 @@ public class Eventhandler {
 		iqact.setact(oldiqact.getact());
 		iqcool.setcool(oldiqcool.getcool());
 		iqmcool.setmcool(oldiqmcool.getmcool());
-		iqid.setID(oldiqid.getID());
+		iqid.setQID(oldiqid.getQID());
 		level.setlvl(oldLevel.getlvl());
 		exp.setexp(oldExp.getexp());
 		nexp.setnexp(oldNExp.getnexp());
-		modelid.setModelID(oldmodelid.getModelID(), (EntityPlayerMP) player);
+		modelid.setModelID(oldmodelid.getModelID());
 		
+		level.synchronize();
+		exp.synchronize();
+		nexp.synchronize();
+		iqid.synchronize();
+		modelid.synchronize();
 		
 		}
 	}
@@ -136,23 +137,26 @@ public class Eventhandler {
 	
 	@SubscribeEvent
 	public void onPlayerTick(PlayerTickEvent event) {
-		EntityPlayer player = event.player;
-		IExp exp = player.getCapability(ExpProvider.EXP_CAP, null);
-		INExp nexp = player.getCapability(NExpProvider.NEXP_CAP, null);
-		ILevel level = player.getCapability(LevelProvider.LEVEL_CAP, null);
+		if(event.phase == Phase.END){
+			EntityPlayer player = event.player;
+			IExp exp = player.getCapability(Capabilities.exp, null);
+			INExp nexp = player.getCapability(Capabilities.nexp, null);
+			ILevel level = player.getCapability(Capabilities.level, null);
 		
-		if (!player.world.isRemote) {
+			if (!player.world.isRemote) {
+				EntityPlayerMP p = (EntityPlayerMP)event.player;
 
-			//checking for level ups
-			if(exp.getexp() >= nexp.getnexp()) {
-				level.setlvl(level.getlvl() + 1);
-				nexp.setnexp((nexp.getnexp() * 15)/10);
-		        exp.setexp(0);
-				player.sendMessage(new TextComponentString("You reached Level " + level.getlvl()));
+				if(p instanceof EntityPlayerMP) {
+					//checking for level ups
+					if(exp.getexp() >= nexp.getnexp()) {
+						level.setlvl(level.getlvl() + 1);
+						nexp.setnexp((nexp.getnexp() * 15)/10);
+						exp.setexp(0);
+						player.sendMessage(new TextComponentString("You reached Level " + level.getlvl()));
+					}
 				}
-			
 			}else return;
-		
+		}
 	}
 	
 
@@ -167,8 +171,8 @@ public class Eventhandler {
 	      if (((event.getSource().getTrueSource() instanceof EntityPlayer)))
 	      {
 	        EntityPlayer player = (EntityPlayer)event.getSource().getTrueSource();
-	        IExp exp = player.getCapability(ExpProvider.EXP_CAP, null);
-
+	        IExp exp = player.getCapability(Capabilities.exp, null);
+	        
 	        //No experience from friendlies :D
 	          if (((event.getEntity() instanceof EntityAnimal)) || ((event.getEntity() instanceof EntityWaterMob)) || ((event.getEntity() instanceof EntityAmbientCreature))) {
 	            return;
@@ -205,7 +209,7 @@ public class Eventhandler {
 	      else if (((event.getSource().getImmediateSource() instanceof EntityThrowable)) && ((event.getSource().getTrueSource() instanceof EntityPlayer))){
 	    	  
 	        EntityPlayer player = (EntityPlayer)event.getSource().getTrueSource();
-	        IExp exp = player.getCapability(ExpProvider.EXP_CAP, null);
+	        IExp exp = player.getCapability(Capabilities.exp, null);
 	        
 	        //No experience from friendlies :D
 	          if (((event.getEntity() instanceof EntityAnimal)) || ((event.getEntity() instanceof EntityWaterMob)) || ((event.getEntity() instanceof EntityAmbientCreature))) {
@@ -243,7 +247,7 @@ public class Eventhandler {
 	      else if (((event.getSource().getImmediateSource() instanceof EntityArrow)) && ((event.getSource().getTrueSource() instanceof EntityPlayer)))
 	      {
 	        EntityPlayer player = (EntityPlayer)event.getSource().getTrueSource();
-	        IExp exp = player.getCapability(ExpProvider.EXP_CAP, null);
+	        IExp exp = player.getCapability(Capabilities.exp, null);
 
 	        //No experience from friendlies :D
 	          if (((event.getEntity() instanceof EntityAnimal)) || ((event.getEntity() instanceof EntityWaterMob)) || ((event.getEntity() instanceof EntityAmbientCreature))) {

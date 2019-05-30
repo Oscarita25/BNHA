@@ -1,9 +1,11 @@
 package com.oscar.data.types.interfaces;
 
-public interface IQuirkID {
+import com.oscar.data.types.api.ICapability;
 
-	public void setID(int ID);
+public interface IQuirkID extends ICapability {
+
+	public boolean setQID(int ID);
 	
-	public int getID();
+	public int getQID();
 	
 }

@@ -3,7 +3,6 @@ package com.oscar.items;
 import com.oscar.BNHA;
 import com.oscar.proxy.ClientProxy;
 import com.oscar.util.Reference;
-import com.oscar.util.Utilities;
 
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.EntityLivingBase;

@@ -4,14 +4,11 @@ import java.io.IOException;
 
 import org.lwjgl.opengl.GL11;
 
-import com.oscar.data.types.exp.ExpProvider;
+import com.oscar.data.Capabilities;
 import com.oscar.data.types.interfaces.IExp;
 import com.oscar.data.types.interfaces.ILevel;
 import com.oscar.data.types.interfaces.INExp;
 import com.oscar.data.types.interfaces.IQuirkID;
-import com.oscar.data.types.level.LevelProvider;
-import com.oscar.data.types.nexp.NExpProvider;
-import com.oscar.data.types.quirk.id.QuirkIDProvider;
 import com.oscar.util.Reference;
 import com.oscar.util.Utilities;
 import com.oscar.util.handlers.KeyInputHandler;
@@ -52,14 +49,14 @@ public class Statsgui extends GuiScreen {
 		}
 	    
 		//Capabilities and Packets
-        IExp exp = player.getCapability(ExpProvider.EXP_CAP, null);
-        INExp nexp = player.getCapability(NExpProvider.NEXP_CAP, null);
-        ILevel level = player.getCapability(LevelProvider.LEVEL_CAP, null);
-        IQuirkID quirkid = player.getCapability(QuirkIDProvider.QUIRKID_CAP, null);
+        IExp exp = player.getCapability(Capabilities.exp, null);
+        INExp nexp = player.getCapability(Capabilities.nexp, null);
+        ILevel level = player.getCapability(Capabilities.level, null);
+        IQuirkID quirkid = player.getCapability(Capabilities.quirkid, null);
 
         this.drawDefaultBackground();
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        
+                
         //binding the Background image into the Texture manager
         this.mc.getTextureManager().bindTexture(BACKGROUND);
         float scale = 0.5F;
@@ -83,7 +80,7 @@ public class Statsgui extends GuiScreen {
         
         // Drawing Text on to the GUI
         this.fontRenderer.drawString("Name: "+ TextFormatting.DARK_RED+ mc.player.getName(), k2 + 400, l2 + 165, 2222);
-        this.fontRenderer.drawString("Quirk: "+ TextFormatting.DARK_RED+ Utilities.getQNamebyID(quirkid.getID()), k2 + 400, l2 + 200, 2222);
+        this.fontRenderer.drawString("Quirk: "+ TextFormatting.DARK_RED+ Utilities.getQNamebyID(quirkid.getQID()), k2 + 400, l2 + 200, 2222);
         this.fontRenderer.drawString("Level: "+ TextFormatting.DARK_RED+ level.getlvl(),k2 + 400, l2 + 225, 2222);
         this.fontRenderer.drawString("Exp: "+ TextFormatting.DARK_RED+ exp.getexp() +"/"+ nexp.getnexp(), k2 + 400, l2 + 235, 2222);
         this.fontRenderer.drawString("Health: "+ TextFormatting.DARK_RED, k2 + 400, l2 + 245, 2222);

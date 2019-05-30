@@ -1,8 +1,10 @@
 package com.oscar.data.types.interfaces;
 
-public interface ILevel {
-	
-	public void setlvl(int level);
+import com.oscar.data.types.api.ICapability;
+
+public interface ILevel extends ICapability {
+
+	boolean setlvl(int level);
 	public int getlvl();
 	
 

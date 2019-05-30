@@ -1,6 +1,6 @@
 package com.oscar.data.packets;
 
-import com.oscar.data.types.exp.ExpProvider;
+import com.oscar.data.Capabilities;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
@@ -33,11 +33,11 @@ public class MessageEXP implements IMessage{
 
 	    @Override
 	    public IMessage onMessage(MessageEXP message, MessageContext ctx) {
-	        Minecraft.getMinecraft().addScheduledTask(() -> {
-	            Minecraft.getMinecraft().player.getCapability(ExpProvider.EXP_CAP, null).setexp(message.exp);
-	            
-	        });
-	            
+				Minecraft.getMinecraft().addScheduledTask(() -> {
+					Minecraft.getMinecraft().player.getCapability(Capabilities.exp, null).setexp(message.exp);
+		            
+		        });
+
 	        return null;
 	    }
 

@@ -1,6 +1,6 @@
 package com.oscar.data.packets;
 
-import com.oscar.data.types.level.LevelProvider;
+import com.oscar.data.Capabilities;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
@@ -33,11 +33,13 @@ public class MessageLEVEL implements IMessage{
 
 	    @Override
 	    public IMessage onMessage(MessageLEVEL message, MessageContext ctx) {
-	        Minecraft.getMinecraft().addScheduledTask(() -> {
-	            Minecraft.getMinecraft().player.getCapability(LevelProvider.LEVEL_CAP, null).setlvl(message.lvl);
-	            
-	        });
-	            
+			    Minecraft.getMinecraft().addScheduledTask(() -> {
+			    	
+			    	Minecraft.getMinecraft().player.getCapability(Capabilities.level, null).setlvl(message.lvl);;
+		            
+		        });
+			
+
 	        return null;
 	    }
 

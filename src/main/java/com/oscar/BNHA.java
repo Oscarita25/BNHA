@@ -11,8 +11,12 @@ import com.oscar.data.packets.MessageNEXP;
 import com.oscar.data.packets.MessageQuirkID;
 import com.oscar.data.packets.MessageRequestActivate;
 import com.oscar.data.packets.MessageRequestActivate.HandleRequestActivate;
-import com.oscar.data.types.exp.ExpFactory;
-import com.oscar.data.types.exp.ExpStorage;
+import com.oscar.data.types.api.CapabilityStorage;
+import com.oscar.data.types.factories.ExpFactory;
+import com.oscar.data.types.factories.LevelFactory;
+import com.oscar.data.types.factories.ModelIDFactory;
+import com.oscar.data.types.factories.NExpFactory;
+import com.oscar.data.types.factories.QuirkIDFactory;
 import com.oscar.data.types.interfaces.IExp;
 import com.oscar.data.types.interfaces.ILevel;
 import com.oscar.data.types.interfaces.IModelID;
@@ -22,22 +26,17 @@ import com.oscar.data.types.interfaces.IQCool;
 import com.oscar.data.types.interfaces.IQMaxAct;
 import com.oscar.data.types.interfaces.IQMaxCool;
 import com.oscar.data.types.interfaces.IQuirkID;
-import com.oscar.data.types.level.LevelFactory;
-import com.oscar.data.types.level.LevelStorage;
-import com.oscar.data.types.model.ModelFactory;
-import com.oscar.data.types.model.ModelStorage;
-import com.oscar.data.types.nexp.NExpFactory;
-import com.oscar.data.types.nexp.NExpStorage;
+import com.oscar.data.types.interfaces.IStamina;
 import com.oscar.data.types.quirk.act.QActFactory;
 import com.oscar.data.types.quirk.act.QActStorage;
 import com.oscar.data.types.quirk.cool.QCoolFactory;
 import com.oscar.data.types.quirk.cool.QCoolStorage;
-import com.oscar.data.types.quirk.id.QuirkIDFactory;
-import com.oscar.data.types.quirk.id.QuirkIDStorage;
 import com.oscar.data.types.quirk.maxact.QMaxActFactory;
 import com.oscar.data.types.quirk.maxact.QMaxActStorage;
 import com.oscar.data.types.quirk.maxcool.QMaxCoolFactory;
 import com.oscar.data.types.quirk.maxcool.QMaxCoolStorage;
+import com.oscar.data.types.stamina.StaminaFactory;
+import com.oscar.data.types.stamina.StaminaStorage;
 import com.oscar.init.ItemHolder;
 import com.oscar.proxy.IProxy;
 import com.oscar.quirk.CustomSpawnable;
@@ -132,26 +131,29 @@ public class BNHA {
     
  
 	public void registerCapabilites() {
-	       CapabilityManager.INSTANCE.register(ILevel.class, new LevelStorage(), new LevelFactory());
-	       CapabilityManager.INSTANCE.register(IExp.class, new ExpStorage(), new ExpFactory());
-	       CapabilityManager.INSTANCE.register(INExp.class, new NExpStorage(), new NExpFactory());
-	       CapabilityManager.INSTANCE.register(IQuirkID.class, new QuirkIDStorage(), new QuirkIDFactory());
+	       CapabilityManager.INSTANCE.register(ILevel.class, new CapabilityStorage<ILevel>(),new LevelFactory());
+	       CapabilityManager.INSTANCE.register(IExp.class, new CapabilityStorage<IExp>(),new ExpFactory());
+	       CapabilityManager.INSTANCE.register(INExp.class, new CapabilityStorage<INExp>(),new NExpFactory());
+	       CapabilityManager.INSTANCE.register(IQuirkID.class, new CapabilityStorage<IQuirkID>(),new QuirkIDFactory());
 	       CapabilityManager.INSTANCE.register(IQMaxCool.class, new QMaxCoolStorage(), new QMaxCoolFactory());
 	       CapabilityManager.INSTANCE.register(IQCool.class, new QCoolStorage(), new QCoolFactory());
 	       CapabilityManager.INSTANCE.register(IQAct.class, new QActStorage(), new QActFactory());
 	       CapabilityManager.INSTANCE.register(IQMaxAct.class, new QMaxActStorage(), new QMaxActFactory());
-	       CapabilityManager.INSTANCE.register(IModelID.class, new ModelStorage(), new ModelFactory());		
+	       CapabilityManager.INSTANCE.register(IModelID.class, new CapabilityStorage<IModelID>(), new ModelIDFactory());		
+	       CapabilityManager.INSTANCE.register(IStamina.class, new StaminaStorage(), new StaminaFactory());		
+
 	       
 	       MinecraftForge.EVENT_BUS.register(new Capabilities());
 	}
 
 	public void registerPackets() {
 	       com.oscar.BNHA.NETWORK.registerMessage(HandleRequestActivate.class, MessageRequestActivate.class, com.oscar.BNHA.ID++, Side.SERVER);
-	       com.oscar.BNHA.NETWORK.registerMessage(MessageEXP.HandleMessageEXP.class, MessageEXP.class, com.oscar.BNHA.ID++, Side.SERVER);
-	       com.oscar.BNHA.NETWORK.registerMessage(MessageLEVEL.HandleMessageLEVEL.class, MessageLEVEL.class, com.oscar.BNHA.ID++, Side.SERVER);
-	       com.oscar.BNHA.NETWORK.registerMessage(MessageNEXP.HandleMessageNEXP.class, MessageNEXP.class, com.oscar.BNHA.ID++, Side.SERVER);
-	       com.oscar.BNHA.NETWORK.registerMessage(MessageQuirkID.HandleMessageQuirkID.class, MessageQuirkID.class, com.oscar.BNHA.ID++, Side.SERVER);
-	       com.oscar.BNHA.NETWORK.registerMessage(MessageModel.HandleMessageModel.class, MessageModel.class,com.oscar.BNHA.ID++, Side.SERVER);		
+	       
+	       com.oscar.BNHA.NETWORK.registerMessage(MessageQuirkID.HandleMessageQuirkID.class, MessageQuirkID.class, com.oscar.BNHA.ID++, Side.CLIENT);
+	       com.oscar.BNHA.NETWORK.registerMessage(MessageModel.HandleMessageModel.class, MessageModel.class,com.oscar.BNHA.ID++, Side.CLIENT);
+	       com.oscar.BNHA.NETWORK.registerMessage(MessageEXP.HandleMessageEXP.class, MessageEXP.class, com.oscar.BNHA.ID++, Side.CLIENT);
+	       com.oscar.BNHA.NETWORK.registerMessage(MessageLEVEL.HandleMessageLEVEL.class, MessageLEVEL.class, com.oscar.BNHA.ID++, Side.CLIENT);
+	       com.oscar.BNHA.NETWORK.registerMessage(MessageNEXP.HandleMessageNEXP.class, MessageNEXP.class, com.oscar.BNHA.ID++, Side.CLIENT);
 	}
 	
 	public void registerAnimations() {AnimationRegistry.init();}

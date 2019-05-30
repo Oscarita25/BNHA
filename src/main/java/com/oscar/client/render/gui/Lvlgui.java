@@ -1,11 +1,9 @@
 package com.oscar.client.render.gui;
 
-import com.oscar.data.types.exp.ExpProvider;
+import com.oscar.data.Capabilities;
 import com.oscar.data.types.interfaces.IExp;
 import com.oscar.data.types.interfaces.ILevel;
 import com.oscar.data.types.interfaces.INExp;
-import com.oscar.data.types.level.LevelProvider;
-import com.oscar.data.types.nexp.NExpProvider;
 import com.oscar.util.Reference;
 
 import net.minecraft.client.Minecraft;
@@ -29,18 +27,19 @@ public class Lvlgui extends GuiScreen{
 		@SubscribeEvent(priority=EventPriority.NORMAL)
 		public void onRenderExperienceBar(RenderGameOverlayEvent.Post event) {
 			
+			
 			EntityPlayer player = Minecraft.getMinecraft().player;
 			if (player == null) {
 				return;
 			}
 		    
 			//Capabilities and Packets
-	        IExp exp = player.getCapability(ExpProvider.EXP_CAP, null);
-	        INExp nexp = player.getCapability(NExpProvider.NEXP_CAP, null);
-	        ILevel level = player.getCapability(LevelProvider.LEVEL_CAP, null);
+	        IExp exp = player.getCapability(Capabilities.exp, null);
+	        INExp nexp = player.getCapability(Capabilities.nexp, null);
+	        ILevel level = player.getCapability(Capabilities.level, null);
 
 			if (event.getType() != ElementType.EXPERIENCE) return;
-
+						
 			//just so the bar sticks on the right lower corner even if resolution is changed
 			ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
 			int yPos = ((sr.getScaledHeight() /2) + (sr.getScaledHeight() / 2)) - 30 , xPos = (sr.getScaledWidth() /2) + (sr.getScaledWidth() / 4);

@@ -1,13 +1,10 @@
 package com.oscar.data.packets;
 
 
-import com.oscar.data.types.model.ModelProvider;
+import com.oscar.data.Capabilities;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.world.WorldServer;
+import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -37,26 +34,9 @@ public class MessageModel implements IMessage {
 
 	    @Override
 	    public IMessage onMessage(MessageModel message, MessageContext ctx) {
-		    final EntityPlayerMP sendingPlayer = ctx.getServerHandler().player;
-		    final WorldServer playerWorldServer = sendingPlayer.getServerWorld();
-		    playerWorldServer.addScheduledTask(() -> {
-
-		    	sendingPlayer.getCapability(ModelProvider.MODEL_CAP, null).setModelID(message.model, sendingPlayer);
-	        	
-		    	System.out.println("HAIII");
-		    	System.out.println("HAIII");
-		    	System.out.println("HAIII");
-		    	System.out.println("HAIII");
-		    	System.out.println("HAIII");
-		    	System.out.println("HAIII");
-		    	System.out.println("HAIII");
-		    	System.out.println("HAIII");
-		    	System.out.println("HAIII");
-		    	System.out.println("HAIII");
-		    	System.out.println("HAIII");
-		    	System.out.println("HAIII");
-		    	
-		    	sendingPlayer.sendMessage(new TextComponentString(TextFormatting.BOLD+"HAI DU MISSIT"));
+		    Minecraft.getMinecraft().addScheduledTask(() -> {
+		    
+		    	Minecraft.getMinecraft().player.getCapability(Capabilities.modelid, null).setModelID(message.model);
 	        	
 	        });
 	            

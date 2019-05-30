@@ -1,6 +1,8 @@
 package com.oscar.data.types.interfaces;
 
-public interface INExp {
-	public void setnexp(int nexp);
+import com.oscar.data.types.api.ICapability;
+
+public interface INExp extends ICapability{
+	public boolean setnexp(int nexp);
 	public int getnexp();
 }

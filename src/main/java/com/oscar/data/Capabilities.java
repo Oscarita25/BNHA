@@ -1,43 +1,58 @@
 package com.oscar.data;
 
-import com.oscar.data.types.exp.ExpProvider;
-import com.oscar.data.types.level.LevelProvider;
-import com.oscar.data.types.model.ModelProvider;
-import com.oscar.data.types.nexp.NExpProvider;
+import com.oscar.data.types.Exp;
+import com.oscar.data.types.Level;
+import com.oscar.data.types.ModelID;
+import com.oscar.data.types.NExp;
+import com.oscar.data.types.api.CapabilityProvider;
+import com.oscar.data.types.interfaces.IExp;
+import com.oscar.data.types.interfaces.ILevel;
+import com.oscar.data.types.interfaces.IModelID;
+import com.oscar.data.types.interfaces.INExp;
+import com.oscar.data.types.interfaces.IQuirkID;
+import com.oscar.data.types.quirk.QuirkID;
 import com.oscar.data.types.quirk.act.QActProvider;
 import com.oscar.data.types.quirk.cool.QCoolProvider;
-import com.oscar.data.types.quirk.id.QuirkIDProvider;
 import com.oscar.data.types.quirk.maxact.QMaxActProvider;
 import com.oscar.data.types.quirk.maxcool.QMaxCoolProvider;
-import com.oscar.data.types.stamina.StaminaProvidor;
+import com.oscar.data.types.stamina.StaminaProvider;
 import com.oscar.util.LoggingUtil;
 import com.oscar.util.Reference;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class Capabilities {
 	
+	@CapabilityInject(IExp.class)
+	public static Capability<IExp> exp;
+	
+	@CapabilityInject(INExp.class)
+	public static Capability<INExp> nexp;
+	
+	@CapabilityInject(ILevel.class)
+	public static Capability<ILevel> level;
+	
+	@CapabilityInject(IQuirkID.class)
+	public static Capability<IQuirkID> quirkid;
+	
+	@CapabilityInject(IModelID.class)
+	public static Capability<IModelID> modelid;
+	
 	/*
 	 * 		Attaching Capabilities on the Player
 	 * 
-	 */
-	
-	public static final ResourceLocation LEVEL_CAP = new ResourceLocation(Reference.MOD_ID, "level");
-	public static final ResourceLocation EXP_CAP = new ResourceLocation(Reference.MOD_ID, "expc");
-	public static final ResourceLocation NEXP_CAP = new ResourceLocation(Reference.MOD_ID, "expn");
-	public static final ResourceLocation QUIRKNAME_CAP = new ResourceLocation(Reference.MOD_ID, "quirkname"); 
+	 */	
 	public static final ResourceLocation QMaxAct_CAP = new ResourceLocation(Reference.MOD_ID, "qmaxact"); 
 	public static final ResourceLocation QACT_CAP = new ResourceLocation(Reference.MOD_ID, "qact"); 
 	public static final ResourceLocation COOL_CAP = new ResourceLocation(Reference.MOD_ID, "qcooldown"); 
 	public static final ResourceLocation MAXCOOl_CAP = new ResourceLocation(Reference.MOD_ID, "qmaxcooldown"); 
-	public static final ResourceLocation QUIRKID_CAP = new ResourceLocation(Reference.MOD_ID, "quirkid"); 
-	public static final ResourceLocation MODELID = new ResourceLocation(Reference.MOD_ID, "modelid");
 	public static final ResourceLocation STAMINA_CAP = new ResourceLocation(Reference.MOD_ID, "stamina");
 	
 	@SubscribeEvent
@@ -47,22 +62,29 @@ public class Capabilities {
 			EntityLivingBase ent = (EntityLivingBase) event.getObject();
 			
 			if (ent instanceof EntityPlayer) {
-				event.addCapability(LEVEL_CAP, new LevelProvider());				
-				event.addCapability(EXP_CAP, new ExpProvider());
-				event.addCapability(NEXP_CAP, new NExpProvider());
+				
+				Level capabilityLevel = new Level((EntityPlayer)ent);				
+				Exp capabilityExp = new Exp((EntityPlayer)ent);
+				NExp capabilityNExp = new NExp((EntityPlayer)ent);
+				QuirkID capabilityQuirkID = new QuirkID((EntityPlayer)ent);
+				ModelID capabilityModel = new ModelID((EntityPlayer)ent);
+				
+				event.addCapability(capabilityNExp.getID(), new CapabilityProvider(Capabilities.nexp,capabilityNExp ,null));
+				event.addCapability(capabilityLevel.getID(), new CapabilityProvider(Capabilities.level,capabilityLevel ,null));					
+				event.addCapability(capabilityExp.getID(), new CapabilityProvider(Capabilities.exp,capabilityExp ,null));
 				
 				LoggingUtil.BNHALogger.info("added Level System Capability's");
 
-				event.addCapability(QUIRKID_CAP, new QuirkIDProvider());
+				event.addCapability(capabilityQuirkID.getID(), new CapabilityProvider(Capabilities.quirkid,capabilityQuirkID ,null));
 				event.addCapability(MAXCOOl_CAP, new QMaxCoolProvider()); 
 				event.addCapability(COOL_CAP, new QCoolProvider()); 
 				event.addCapability(QACT_CAP, new QActProvider()); 
 				event.addCapability(QMaxAct_CAP, new QMaxActProvider());
-				event.addCapability(STAMINA_CAP, new StaminaProvidor());
+				event.addCapability(STAMINA_CAP, new StaminaProvider());
 				
 				LoggingUtil.BNHALogger.info("added Quirk Capability's");
 				
-				event.addCapability(MODELID, new ModelProvider()); 
+				event.addCapability(capabilityModel.getID(), new CapabilityProvider(Capabilities.modelid,capabilityModel,null)); 
 				
 				LoggingUtil.BNHALogger.info("added Model Capability");
 

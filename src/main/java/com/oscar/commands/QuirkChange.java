@@ -5,10 +5,9 @@ import java.util.Collections;
 import java.util.List;
 
 import com.mojang.authlib.GameProfile;
+import com.oscar.data.Capabilities;
 import com.oscar.data.types.interfaces.IModelID;
 import com.oscar.data.types.interfaces.IQuirkID;
-import com.oscar.data.types.model.ModelProvider;
-import com.oscar.data.types.quirk.id.QuirkIDProvider;
 import com.oscar.util.Reference;
 
 import net.minecraft.command.CommandBase;
@@ -76,43 +75,43 @@ public class QuirkChange  extends CommandBase implements  ICommand{
 
                 if (entityplayermp != null)
                 {
-            		IQuirkID iqID = entityplayermp.getCapability(QuirkIDProvider.QUIRKID_CAP, null);
-            		IModelID model = entityplayermp.getCapability(ModelProvider.MODEL_CAP, null);
+            		IQuirkID iqID = entityplayermp.getCapability(Capabilities.quirkid, null);
+            		IModelID model = entityplayermp.getCapability(Capabilities.modelid, null);
             		            		
             		if(args[1].contentEquals("quirkless")) {
-            		iqID.setID(Reference.quirkless);
-            		model.setModelID(Reference.quirkless, entityplayermp);
+            		iqID.setQID(Reference.quirkless);
+            		model.setModelID(Reference.quirkless);
 
             		}
             		
             		else if(args[1].contentEquals("explosion")) {
-            		iqID.setID(Reference.explosionquirk);
-            		model.setModelID(Reference.explosionquirk, entityplayermp);
+            		iqID.setQID(Reference.explosionquirk);
+            		model.setModelID(Reference.explosionquirk);
             		}
             		
             		else if(args[1].contentEquals("engine")) {
-            		iqID.setID(Reference.engine);
-            		model.setModelID(Reference.engine, entityplayermp);
+            		iqID.setQID(Reference.engine);
+            		model.setModelID(Reference.engine);
             		}
             		
             		else if(args[1].contentEquals("hellfire")) {
-            		iqID.setID(Reference.hellfire);
-            		model.setModelID(Reference.hellfire, entityplayermp);
+            		iqID.setQID(Reference.hellfire);
+            		model.setModelID(Reference.hellfire);
             		}
             		
             		else if(args[1].contentEquals("icequirk")) {
-            		iqID.setID(Reference.icequirk);
-            		model.setModelID(Reference.icequirk, entityplayermp);
+            		iqID.setQID(Reference.icequirk);
+            		model.setModelID(Reference.icequirk);
             		}
             		
             		else if(args[1].contentEquals("electrification")) {
-            		iqID.setID(Reference.electrification);
-            		model.setModelID(Reference.electrification, entityplayermp);
+            		iqID.setQID(Reference.electrification);
+            		model.setModelID(Reference.electrification);
                 	}
             		
             		else if(args[1].contentEquals("tail")) {
-            		iqID.setID(Reference.tail);
-            		model.setModelID(Reference.tail, entityplayermp);
+            		iqID.setQID(Reference.tail);
+            		model.setModelID(Reference.tail);
             		}
             		else {
                         throw new WrongUsageException("failed to change quirk", new Object[0]);

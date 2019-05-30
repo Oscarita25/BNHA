@@ -1,6 +1,6 @@
 package com.oscar.data.packets;
 
-import com.oscar.data.types.quirk.id.QuirkIDProvider;
+import com.oscar.data.Capabilities;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
@@ -33,8 +33,9 @@ public class MessageQuirkID implements IMessage{
 
 	    @Override
 	    public IMessage onMessage(MessageQuirkID message, MessageContext ctx) {
-	        Minecraft.getMinecraft().addScheduledTask(() -> {
-	            Minecraft.getMinecraft().player.getCapability(QuirkIDProvider.QUIRKID_CAP, null).setID(message.quirkID);
+		    Minecraft.getMinecraft().addScheduledTask(() -> {
+		    	
+	            Minecraft.getMinecraft().player.getCapability(Capabilities.quirkid, null).setQID(message.quirkID);
 	            
 	        });
 	            

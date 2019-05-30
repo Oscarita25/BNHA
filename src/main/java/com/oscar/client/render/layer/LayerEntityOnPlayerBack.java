@@ -1,7 +1,7 @@
 package com.oscar.client.render.layer;
 
+import com.oscar.data.Capabilities;
 import com.oscar.data.types.interfaces.IModelID;
-import com.oscar.data.types.model.ModelProvider;
 import com.oscar.util.Reference;
 
 import net.minecraft.client.model.ModelBase;
@@ -32,7 +32,7 @@ public class LayerEntityOnPlayerBack implements LayerRenderer<EntityLivingBase>{
 
     public void doRenderLayer(EntityLivingBase entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale)
     {
-    	IModelID model = entitylivingbaseIn.getCapability(ModelProvider.MODEL_CAP, null);
+    	IModelID model = entitylivingbaseIn.getCapability(Capabilities.modelid, null);
 
         /*
          * Rendering tail model

@@ -1,11 +1,11 @@
 package com.oscar.data.types.interfaces;
 
-import net.minecraft.entity.player.EntityPlayerMP;
+import com.oscar.data.types.api.ICapability;
 
-public interface IModelID {
+public interface IModelID extends ICapability {
 
 	public int getModelID();
-	void setModelID(int model, EntityPlayerMP player);
+	boolean setModelID(int model);
 
 
 
