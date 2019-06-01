@@ -32,8 +32,7 @@ public class LayerEntityOnPlayerBack implements LayerRenderer<EntityLivingBase>{
 
     public void doRenderLayer(EntityLivingBase entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale)
     {
-    	IModelID model = entitylivingbaseIn.getCapability(Capabilities.modelid, null);
-
+    	IModelID model = entitylivingbaseIn.getCapability(Capabilities.modelid, null);    	
         /*
          * Rendering tail model
          */

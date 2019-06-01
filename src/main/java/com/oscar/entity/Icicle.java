@@ -1,4 +1,4 @@
-package com.oscar.quirk;
+package com.oscar.entity;
 
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;

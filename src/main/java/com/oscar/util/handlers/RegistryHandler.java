@@ -1,25 +1,47 @@
 package com.oscar.util.handlers;
 
+import java.util.Set;
+
+import com.google.common.collect.ImmutableSet;
+import com.oscar.entity.Fireball;
+import com.oscar.entity.Icicle;
 import com.oscar.items.ClothArmor;
 import com.oscar.util.LoggingUtil;
 import com.oscar.util.Reference;
 
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
-import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.client.model.ModelLoader;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import net.minecraftforge.fml.common.registry.EntityEntry;
+import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
+import net.minecraftforge.registries.IForgeRegistry;
 
 @Mod.EventBusSubscriber(modid = Reference.MOD_ID)
 public class RegistryHandler {
 	
+    public static final Set<EntityEntry> SET_ENTITIES = ImmutableSet.of(
+            EntityEntryBuilder.create()
+            .entity(Fireball.class)
+            .id(new ResourceLocation(Reference.MOD_ID, "fireball"), 0)
+            .name("fireball")
+            .tracker(64, 3, false)
+            .build(),
+            
+            EntityEntryBuilder.create()
+            .entity(Icicle.class)
+            .id(new ResourceLocation(Reference.MOD_ID, "Icicle"), 0)
+            .name("Icicle")
+            .tracker(64, 3, false)
+            .build()
+            
+            );
+    	
 	public static final ItemArmor.ArmorMaterial UA_SPORTS_MAT = 
 			EnumHelper.addArmorMaterial
          (Reference.MOD_ID +":ua_sports",Reference.MOD_ID +":ua_sports",15,
@@ -34,7 +56,6 @@ public class RegistryHandler {
 			EnumHelper.addArmorMaterial
 		 (Reference.MOD_ID +":deku_armor",Reference.MOD_ID +":deku_armor",15,
 		 new int[]{1, 4, 5, 2},12,SoundEvents.ITEM_ARMOR_EQUIP_LEATHER,(float) 0);
-	
 	
 	@SubscribeEvent
 	public static void onItemRegister(RegistryEvent.Register<Item> event) {
@@ -52,19 +73,17 @@ public class RegistryHandler {
 		LoggingUtil.BNHALogger.info("Registered Items");
 	}
 	
-	
+
 	@SubscribeEvent
-	public static void registerModels(ModelRegistryEvent event)
-	{
+	public static void registerEntities(RegistryEvent.Register<EntityEntry> event) {
+        final IForgeRegistry<EntityEntry> registry = event.getRegistry();
+
 		
+        for (final EntityEntry entityEntry : SET_ENTITIES)
+        {
 
-		ForgeRegistries.ITEMS.getValuesCollection().stream().filter(i -> i.getRegistryName().getResourceDomain().equals(Reference.MOD_ID)).forEach(
-				i -> ModelLoader.setCustomModelResourceLocation(i, 0, new ModelResourceLocation(i.getRegistryName(), "inventory")));
-		
-		LoggingUtil.BNHALogger.info("Registered models");
-	}
-
-
-
+            registry.register(entityEntry);
+        }
+    }
 	
 }

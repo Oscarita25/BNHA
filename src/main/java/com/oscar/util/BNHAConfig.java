@@ -1,32 +1,50 @@
 package com.oscar.util;
 
-import org.apache.logging.log4j.Level;
+import net.minecraftforge.common.config.Config;
+import net.minecraftforge.common.config.ConfigManager;
+import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.fml.common.Mod;
 
-import com.oscar.BNHA;
+@Config(modid = Reference.MOD_ID)
+public class BNHAConfig{
 
-import net.minecraftforge.common.config.Configuration;
 
-public class BNHAConfig
-{
-   private static final String CATEGORY_GENERAL = "general";
+		@Config.Name("Entity summon Settings")
+	    @Config.Comment("if the entities should be spawned when using /summon")
+	    public static final EntitySettings QuirkEntities = new EntitySettings();
 
-   public static void readCfg()
-   {
-      Configuration cfg = BNHA.config;
-      try {
-         cfg.load();
-         initGeneralConfig(cfg);
-      } catch (Exception e) {
-         LoggingUtil.BNHALogger.log(Level.ERROR, "Problem loading BNHA Mod config file!", e);
-      } finally {
-         if (cfg.hasChanged()) {
-            cfg.save();
-         }
-      }
+	    @Config.Name("Quirks")
+	    @Config.Comment("Enable/Disable Quirks when rolled new")
+	    public static final Quirks Quirks = new Quirks();
+
+   
+   public static class EntitySettings{
+	   
+       public boolean disable_Fireball = true;
+       public boolean disable_Icicle = true;
+   }
+   
+   public static class Quirks{
+	   
+       public boolean Quirkless = true;
+       public boolean Explosion = true;
+       public boolean Engine = true;
+       public boolean Hellfire = true;
+       public boolean Ice = true;
+       public boolean Electrification = true;
+       public boolean Tail = true;
    }
 
-   private static void initGeneralConfig(Configuration config)
-   {
-      config.addCustomCategoryComment(CATEGORY_GENERAL, "BNHA Mod - General Configuration");
-   }
+
+	@Mod.EventBusSubscriber(modid = Reference.MOD_ID) 
+	public static class Handler{
+		
+	    public static void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event){
+			if (event.getModID().equals(Reference.MOD_ID)) {
+				ConfigManager.sync(Reference.MOD_ID, Config.Type.INSTANCE);
+			}
+	    }
+	}
+	
 }
+

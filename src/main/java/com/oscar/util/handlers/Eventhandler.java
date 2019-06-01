@@ -14,6 +14,7 @@ import com.oscar.data.types.quirk.act.QActProvider;
 import com.oscar.data.types.quirk.cool.QCoolProvider;
 import com.oscar.data.types.quirk.maxact.QMaxActProvider;
 import com.oscar.data.types.quirk.maxcool.QMaxCoolProvider;
+import com.oscar.util.BNHAConfig;
 import com.oscar.util.Reference;
 import com.oscar.util.Utilities;
 
@@ -25,8 +26,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityThrowable;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.event.CommandEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -78,8 +81,23 @@ public class Eventhandler {
 		
 		
 	}
-
 	
+
+	@SubscribeEvent
+	public void onCommandUse(CommandEvent event) {
+		if(event.getCommand() != null && event.getCommand().getName() == "summon") { 
+				if(event.getParameters() != null) {
+					String[] s = event.getParameters();
+					if(Reference.FIREBALL.equals(new ResourceLocation(s[0])) && BNHAConfig.QuirkEntities.disable_Fireball) {
+						event.getSender().sendMessage(new TextComponentString("this entity is disabled in the bnha config: "+ TextFormatting.DARK_RED + Reference.FIREBALL));
+						event.setCanceled(true);	
+					}else if(Reference.ICICLE.equals(new ResourceLocation(s[0])) && BNHAConfig.QuirkEntities.disable_Icicle) {
+						event.getSender().sendMessage(new TextComponentString("this entity is disabled in the bnha config: "+ TextFormatting.DARK_RED + Reference.ICICLE));
+						event.setCanceled(true);	
+					}
+				}
+		}
+	}
 	
 	@SubscribeEvent
 	public void onPlayerClone(PlayerEvent.Clone event) {

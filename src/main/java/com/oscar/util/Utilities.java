@@ -7,7 +7,7 @@ import com.oscar.data.types.quirk.Quirk;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class Utilities {
-	
+
 	
 	public static int RandomIntChoose(){
 		Random rand = new Random();
@@ -22,31 +22,54 @@ public class Utilities {
 		Quirk.setQuirkID(player,random);
 		
 		if(Quirk.getQuirkID(player) == Reference.quirkless) {
-			System.out.println(random + " Quirk quirkless");				
+			System.out.println(random + " Quirk quirkless");
+			if(BNHAConfig.Quirks.Quirkless == false) {
+				System.out.println("Quirk disabled choosing new");
+				RandomQuirkChoose(player);
+			}
+				
 		}
 		if(Quirk.getQuirkID(player) == Reference.explosionquirk) {
-			
 			System.out.println(random + " Quirk Explosion");
+			if(BNHAConfig.Quirks.Explosion == false) {
+				System.out.println("Quirk disabled choosing new");
+				RandomQuirkChoose(player);
+			}
 		}
 		if(Quirk.getQuirkID(player) == Reference.engine) {
-			
 			System.out.println(random + " Quirk Engine");
+			if(BNHAConfig.Quirks.Engine == false) {
+				System.out.println("Quirk disabled choosing new");
+				RandomQuirkChoose(player);
+			}
 		}
 		if(Quirk.getQuirkID(player) == Reference.hellfire) {
-			
 			System.out.println(random + " Quirk HellFire");
+			if(BNHAConfig.Quirks.Hellfire == false) {
+				System.out.println("Quirk disabled choosing new");
+				RandomQuirkChoose(player);
+			}
 		}
 		if(Quirk.getQuirkID(player) == Reference.icequirk) {
-			
 			System.out.println(random + " Quirk Icequirk");
+			if(BNHAConfig.Quirks.Ice == false) {
+				System.out.println("Quirk disabled choosing new");
+				RandomQuirkChoose(player);
+			}
 		}
 		if(Quirk.getQuirkID(player) == Reference.electrification) {
-			
 			System.out.println(random + " Quirk Electrification");
+			if(BNHAConfig.Quirks.Electrification == false) {
+				System.out.println("Quirk disabled choosing new");
+				RandomQuirkChoose(player);
+			}
 		}
 		if(Quirk.getQuirkID(player) == Reference.tail) {
-			
 			System.out.println(random + " Quirk Tail");
+			if(BNHAConfig.Quirks.Tail == false) {
+				System.out.println("Quirk disabled choosing new");
+				RandomQuirkChoose(player);
+			}
 		}
 		
 		if(Quirk.getQuirkID(player) == Reference.none) {
@@ -74,4 +97,7 @@ public class Utilities {
 			return "this should not be displayed";
 	}
 
+	
 }
+
+	

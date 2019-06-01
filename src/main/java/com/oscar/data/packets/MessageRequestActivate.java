@@ -1,8 +1,8 @@
 package com.oscar.data.packets;
 
 import com.oscar.data.types.quirk.Quirk;
-import com.oscar.quirk.CustomSpawnable;
-import com.oscar.quirk.Icicle;
+import com.oscar.entity.Fireball;
+import com.oscar.entity.Icicle;
 import com.oscar.util.Reference;
 
 import io.netty.buffer.ByteBuf;
@@ -61,7 +61,7 @@ public class MessageRequestActivate implements IMessage {
 		    		if(Quirk.getQuirkID(sendingPlayer) == Reference.hellfire) {
 		    			//WORKING
 			    			playerWorldServer.spawnEntity(
-			    					new CustomSpawnable(playerWorldServer,
+			    					new Fireball(playerWorldServer,
 			    					sendingPlayer.lastTickPosX + sendingPlayer.getLookVec().x *5 ,
 			    					sendingPlayer.lastTickPosY,
 			    					sendingPlayer.lastTickPosZ + sendingPlayer.getLookVec().z *5,

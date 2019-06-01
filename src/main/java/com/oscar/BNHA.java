@@ -3,6 +3,7 @@ package com.oscar;
 import java.io.File;
 
 import com.oscar.commands.QuirkChange;
+import com.oscar.commands.QuirkRoll;
 import com.oscar.data.Capabilities;
 import com.oscar.data.packets.MessageEXP;
 import com.oscar.data.packets.MessageLEVEL;
@@ -11,12 +12,11 @@ import com.oscar.data.packets.MessageNEXP;
 import com.oscar.data.packets.MessageQuirkID;
 import com.oscar.data.packets.MessageRequestActivate;
 import com.oscar.data.packets.MessageRequestActivate.HandleRequestActivate;
+import com.oscar.data.types.Exp;
+import com.oscar.data.types.Level;
+import com.oscar.data.types.ModelID;
+import com.oscar.data.types.NExp;
 import com.oscar.data.types.api.CapabilityStorage;
-import com.oscar.data.types.factories.ExpFactory;
-import com.oscar.data.types.factories.LevelFactory;
-import com.oscar.data.types.factories.ModelIDFactory;
-import com.oscar.data.types.factories.NExpFactory;
-import com.oscar.data.types.factories.QuirkIDFactory;
 import com.oscar.data.types.interfaces.IExp;
 import com.oscar.data.types.interfaces.ILevel;
 import com.oscar.data.types.interfaces.IModelID;
@@ -27,6 +27,7 @@ import com.oscar.data.types.interfaces.IQMaxAct;
 import com.oscar.data.types.interfaces.IQMaxCool;
 import com.oscar.data.types.interfaces.IQuirkID;
 import com.oscar.data.types.interfaces.IStamina;
+import com.oscar.data.types.quirk.QuirkID;
 import com.oscar.data.types.quirk.act.QActFactory;
 import com.oscar.data.types.quirk.act.QActStorage;
 import com.oscar.data.types.quirk.cool.QCoolFactory;
@@ -39,17 +40,12 @@ import com.oscar.data.types.stamina.StaminaFactory;
 import com.oscar.data.types.stamina.StaminaStorage;
 import com.oscar.init.ItemHolder;
 import com.oscar.proxy.IProxy;
-import com.oscar.quirk.CustomSpawnable;
-import com.oscar.quirk.Icicle;
-import com.oscar.util.BNHAConfig;
 import com.oscar.util.LoggingUtil;
 import com.oscar.util.Reference;
 import com.oscar.util.handlers.Eventhandler;
 
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.config.Configuration;
@@ -61,13 +57,16 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import obsidiansuite.obsidianAPI.ObsidianEventHandler;
 import obsidiansuite.obsidianAPI.network.AnimationNetworkHandler;
 import obsidiansuite.obsidianAPI.registry.AnimationRegistry;
 
-@Mod(modid = Reference.MOD_ID, name = Reference.NAME, version = Reference.VERSION, acceptedMinecraftVersions = Reference.ACCEPTED_VERSIONS, useMetadata = true )
+@Mod(modid = Reference.MOD_ID,
+	name = Reference.NAME,
+	version = Reference.VERSION,
+	acceptedMinecraftVersions = Reference.ACCEPTED_VERSIONS,
+	useMetadata = true)
 public class BNHA {
 	
     public static int ID = 0;
@@ -83,27 +82,23 @@ public class BNHA {
     {@Override public ItemStack getTabIconItem() {return new ItemStack(ItemHolder.UA_SPORTS_CHESTPLATE);}};
     
 	public static Configuration config;
+	public static File dir;
     public static final SimpleNetworkWrapper NETWORK = NetworkRegistry.INSTANCE.newSimpleChannel(Reference.MOD_ID);
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
        LoggingUtil.BNHALogger = event.getModLog();
-       LoggingUtil.info("BNHA Mod pre initialisation started!");
-      
-       File dir = event.getModConfigurationDirectory();
+       dir = event.getModConfigurationDirectory();
        config = new Configuration(new File(dir.getPath(), "bnha.cfg"));
-       BNHAConfig.readCfg();
        proxy.preInit(event);
     }
     
     @Mod.EventHandler
     public void init(FMLInitializationEvent event){
-       LoggingUtil.info("BNHA Mod initialisation started!");
        AnimationNetworkHandler.init();
 		registerCapabilites();
 		registerPackets();
-		registerEntities();
 		registerAnimations();
 	       		LoggingUtil.info("Loading - Handlers");
 	       MinecraftForge.EVENT_BUS.register(new Eventhandler()); 
@@ -114,32 +109,27 @@ public class BNHA {
 	@Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
-       LoggingUtil.info("BNHA Mod post initialisation started!");
-		if (config.hasChanged()) {
-			config.save();
-		}		
-		
 		proxy.postInit(event);
     }
 
 	@Mod.EventHandler
 	public void serverStarting(FMLServerStartingEvent event) {
-        LoggingUtil.info("Loading - Commands");
         event.registerServerCommand(new QuirkChange());
+        event.registerServerCommand(new QuirkRoll());
 		proxy.serverStarting(event);
 	}
     
  
 	public void registerCapabilites() {
-	       CapabilityManager.INSTANCE.register(ILevel.class, new CapabilityStorage<ILevel>(),new LevelFactory());
-	       CapabilityManager.INSTANCE.register(IExp.class, new CapabilityStorage<IExp>(),new ExpFactory());
-	       CapabilityManager.INSTANCE.register(INExp.class, new CapabilityStorage<INExp>(),new NExpFactory());
-	       CapabilityManager.INSTANCE.register(IQuirkID.class, new CapabilityStorage<IQuirkID>(),new QuirkIDFactory());
+	       CapabilityManager.INSTANCE.register(ILevel.class, new CapabilityStorage<ILevel>(), Level::new);
+	       CapabilityManager.INSTANCE.register(IExp.class, new CapabilityStorage<IExp>(), Exp::new);
+	       CapabilityManager.INSTANCE.register(INExp.class, new CapabilityStorage<INExp>(), NExp::new);
+	       CapabilityManager.INSTANCE.register(IQuirkID.class, new CapabilityStorage<IQuirkID>(), QuirkID::new);
 	       CapabilityManager.INSTANCE.register(IQMaxCool.class, new QMaxCoolStorage(), new QMaxCoolFactory());
 	       CapabilityManager.INSTANCE.register(IQCool.class, new QCoolStorage(), new QCoolFactory());
 	       CapabilityManager.INSTANCE.register(IQAct.class, new QActStorage(), new QActFactory());
 	       CapabilityManager.INSTANCE.register(IQMaxAct.class, new QMaxActStorage(), new QMaxActFactory());
-	       CapabilityManager.INSTANCE.register(IModelID.class, new CapabilityStorage<IModelID>(), new ModelIDFactory());		
+	       CapabilityManager.INSTANCE.register(IModelID.class, new CapabilityStorage<IModelID>(), ModelID::new);		
 	       CapabilityManager.INSTANCE.register(IStamina.class, new StaminaStorage(), new StaminaFactory());		
 
 	       
@@ -158,15 +148,6 @@ public class BNHA {
 	
 	public void registerAnimations() {AnimationRegistry.init();}
 	
-
-	public void registerEntities() {
-        registerEntity(CustomSpawnable.class, "Hellfire");
-        registerEntity(Icicle.class, "Icicle");				
-	}
-	
-	private void registerEntity(Class<? extends Entity> entity, String name) {
-		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, name), entity, name, nextEntityID++,this, 64, 20, true);
-	}
 	
 }
 

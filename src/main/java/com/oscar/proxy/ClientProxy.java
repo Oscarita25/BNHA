@@ -12,10 +12,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.entity.RenderPlayer;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -55,8 +57,21 @@ public class ClientProxy implements IProxy {
 
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
+		registerAllEntityRenders();
 		initKeybindings();		
 	}
+
+	private void registerAllEntityRenders() {
+		//registerEntityRenders(class,renderFactory);
+	}
+
+
+
+	private <T extends Entity>void registerEntityRenders(Class<T> entityClass,IRenderFactory<? super T> renderFactory ) {
+		//RenderingRegistry.registerEntityRenderingHandler(entityClass,renderFactory);
+	}
+
+
 
 	@Override
 	public void init(FMLInitializationEvent event) {

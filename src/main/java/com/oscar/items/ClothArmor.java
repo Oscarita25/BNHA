@@ -14,14 +14,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ClothArmor extends ItemArmor {
 	
-	String name;
-
 	public ClothArmor(String name,ArmorMaterial material,int renderindex, EntityEquipmentSlot slot) {
 		super(material, renderindex, slot);
 		this.setRegistryName(Reference.MOD_ID, name);
-		this.name = name;
         this.setCreativeTab(BNHA.BNHA);
-        this.setUnlocalizedName(name);
+        this.setUnlocalizedName(Reference.MOD_ID+":"+name);
 	}
 	
 	
