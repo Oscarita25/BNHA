@@ -1,58 +1,126 @@
 package com.oscar.entity;
 
+import com.oscar.init.ModHolder;
+
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 
 public class Icicle extends EntityLiving{
 	
-	private EntityPlayerMP source = null;
+	private EntityPlayerMP source;
+	private float damage = 0.5F;
+    private double i = 0;
+	private double zlook;
+	private double xlook;
 
     public Icicle(World worldIn){
         super(worldIn);
-        setAIMoveSpeed(1);
+        setSize(1F, 2F);
     }	
 	
-    public Icicle(World worldIn, EntityPlayerMP source,double x,double y,double z){
+    public Icicle(World worldIn, EntityPlayerMP src,double x,double y,double z,float damage){
         super(worldIn);
-        this.posX = x;
-        this.posY = y;
-        this.posZ = z;
-        setSource(source);
-        setAIMoveSpeed(1);
+        this.setLocationAndAngles(x, y, z, src.rotationYaw, src.rotationPitch);
+        this.setSize(1F, 3F);
+        this.setDamage(damage);
+        this.setSource(src);
+        this.setXLook(src.getLookVec().x);
+        this.setZLook(src.getLookVec().z);
     }
 
 
-    private void setSource(EntityPlayerMP source) {
-		this.source = source;
-	} 
+    private void setZLook(double z) {
+    	this.zlook = z;
+	}
+
+	private void setXLook(double x) {
+		this.xlook = x;		
+	}
+
+	private double getZLook() {
+		return this.zlook;
+	}
+	
+	private double getXLook() {
+		return this.xlook;
+	}
+	
+	private void setDamage(float damage) {
+    	this.damage = damage;
+	}
+
+    @Override
+    public boolean canBePushed() {
+    	return false;
+    }
     
+    @Override
+    public boolean getIsInvulnerable() {
+    	return true;
+    }
+    
+    private float getDamage() {
+    	return this.damage;
+    }
+    
+	private void setSource(EntityPlayerMP src) {
+		this.source = src;
+	} 
+	
+
     /**
      * Called to update the entity's position/logic.
      */
     @Override
-    public void onUpdate()
-    {
+    public void onUpdate(){
         super.onUpdate();
-
         EntityLivingBase entitylivingbase = this.source;
         AxisAlignedBB box = this.getEntityBoundingBox();
-/*
+
+
         for (Entity entity : this.world.getEntitiesWithinAABBExcludingEntity(this, box))
         {
-            if (entity instanceof EntityLiving && entity != this.source)
+            if (entity instanceof EntityLiving && !(entity instanceof Icicle) || entity instanceof EntityPlayer && entity != this.source)
             {
-/*            	if(ticksExisted % 20 == 0) {
-            		entity.attackEntityFrom((new DamageSource("Ice")).setMagicDamage(), 0.2F);    
-            		entity.performHurtAnimation();
-            	}
+            		entity.attackEntityFrom(DamageSource.MAGIC, getDamage());
+                    ((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.getPotionById(Potion.getIdFromPotion(ModHolder.FROZEN))));
+            	
             }
-        }*/
+        }
         
-        if(ticksExisted == 10) {
+        /*if(ticksExisted % 20 == 0) {
+        	if(entitylivingbase instanceof EntityPlayerMP) {
+        		if(ticksExisted == 20)
+        			entitylivingbase.sendMessage(new TextComponentString("existed 1 second"));
+        		if(ticksExisted == 40)
+        			entitylivingbase.sendMessage(new TextComponentString("existed 2 seconds"));
+        		if(ticksExisted == 60)
+        			entitylivingbase.sendMessage(new TextComponentString("existed 3 seconds"));
+
+        	}
+        }
+        		unneeded debugging stuff for now
+        */
+
+        if(ticksExisted % 1 == 0) {
+        	if(entitylivingbase instanceof EntityPlayerMP) {
+        	this.setPositionAndUpdate((this.posX + (getXLook() * i)), this.posY, (this.posZ + (getZLook() * i)));
+      	  	this.world.spawnParticle(EnumParticleTypes.WATER_SPLASH, this.posX, this.posY , this.posZ, this.rand.nextGaussian(), 0.2D, this.rand.nextGaussian(), new int[0]);
+        	i += 0.009D;
+        	}
+        }
+        
+        
+        if(ticksExisted == 60) {
         	this.setDead();
         }
         

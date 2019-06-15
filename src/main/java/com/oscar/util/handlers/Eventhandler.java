@@ -30,10 +30,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.event.CommandEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 
@@ -42,8 +42,9 @@ public class Eventhandler {
 
 	
 	@SubscribeEvent
-	public void onPlayerLoggedIn(PlayerLoggedInEvent event) {
-		EntityPlayer player = event.player;
+	public void onPlayerLoggedIn(EntityJoinWorldEvent event) {
+		if(event.getEntity() instanceof EntityPlayer) {
+		EntityPlayer player = (EntityPlayer) event.getEntity();
 		
 		//Capabilities and Packets
 		ILevel level = player.getCapability(Capabilities.level, null);
@@ -63,23 +64,22 @@ public class Eventhandler {
 			//Join Message (Status Info)
 			player.sendMessage(new TextComponentString("Your level is: " + level.getlvl()));
 			player.sendMessage(new TextComponentString("Your exp is: " + exp.getexp()));
-			player.sendMessage(new TextComponentString("Exp needed for the next level: " + (nexp.getnexp() - exp.getexp())));	
-			player.sendMessage(new TextComponentString(TextFormatting.DARK_RED +"DEBUG MODEL: " + model.getModelID()));
-			
+			player.sendMessage(new TextComponentString("Exp needed for the next level: " + (nexp.getnexp() - exp.getexp())));				
 			//Choose Quirk if there is none
 			if(iqID.getQID() == Reference.none) {Utilities.RandomQuirkChoose(player);}
 			
 			//Join Message which Quirk you have (Status Info)
-			if(iqID.getQID() != Reference.none) {
+			if(iqID.getQID() != Reference.none && iqID.getQID() != Reference.quirkless) {
 				player.sendMessage(new TextComponentString("Your Quirk is: "+ TextFormatting.BOLD + Utilities.getQNamebyID(iqID.getQID())));
 				
 			}else {
-			
 				player.sendMessage(new TextComponentString("You are "+ TextFormatting.BOLD + Utilities.getQNamebyID(iqID.getQID())));
 			}
+			player.sendMessage(new TextComponentString(TextFormatting.DARK_RED +"DEBUG MODEL: " + model.getModelID()));
+
 		}
 		
-		
+		}
 	}
 	
 

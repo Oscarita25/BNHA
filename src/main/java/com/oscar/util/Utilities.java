@@ -8,93 +8,112 @@ import net.minecraft.entity.player.EntityPlayer;
 
 public class Utilities {
 
-	
-	public static int RandomIntChoose(){
-		Random rand = new Random();
-
-		return rand.nextInt(Reference.TotalQuirks);
-	}
+	protected static int RandomIntChoose(){return new Random().nextInt(Reference.TotalQuirks);}
 
 	
 	public static void RandomQuirkChoose(EntityPlayer player) {
-		int random = Utilities.RandomIntChoose();
+		int random = RandomIntChoose();
 		System.out.println(random + " Quirk NONE");
-		Quirk.setQuirkID(player,random);
 		
-		if(Quirk.getQuirkID(player) == Reference.quirkless) {
-			System.out.println(random + " Quirk quirkless");
-			if(BNHAConfig.Quirks.Quirkless == false) {
-				System.out.println("Quirk disabled choosing new");
-				RandomQuirkChoose(player);
-			}
+		switch (random) {
+			case Reference.quirkless:
+				System.out.println(random + " Quirk quirkless");
+					if(BNHAConfig.Quirks.Quirkless == false) 
+						RandomQuirkChoose(player);	
+					else
+						Quirk.setQuirkID(player,random);
+				break;
+			case Reference.explosionquirk:
+				System.out.println(random + " Quirk Explosion");
+					if(BNHAConfig.Quirks.Explosion == false) 
+						RandomQuirkChoose(player);
+					else
+						Quirk.setQuirkID(player,random);
+				break;
+			case Reference.engine:
+				System.out.println(random + " Quirk Engine");
+					if(BNHAConfig.Quirks.Engine == false) 
+						RandomQuirkChoose(player);
+					else
+						Quirk.setQuirkID(player,random);
+				break;
+			case Reference.hellfire:
+				System.out.println(random + " Quirk HellFire");
+					if(BNHAConfig.Quirks.Hellfire == false) 					
+						RandomQuirkChoose(player);
+					else
+						Quirk.setQuirkID(player,random);
+				break;
+			case Reference.icequirk:
+					System.out.println(random + " Quirk Icequirk");
+						if(BNHAConfig.Quirks.Ice == false) 
+							RandomQuirkChoose(player);
+						else
+							Quirk.setQuirkID(player,random);
+				break;
+			case Reference.electrification:
+				System.out.println(random + " Quirk Electrification");
+					if(BNHAConfig.Quirks.Electrification == false) 
+						RandomQuirkChoose(player);
+					else
+						Quirk.setQuirkID(player,random);
+				break;
+			case Reference.tail:
+				System.out.println(random + " Quirk Tail");
+					if(BNHAConfig.Quirks.Tail == false) 
+						RandomQuirkChoose(player);
+					else
+						Quirk.setQuirkID(player,random);
+				break;
+			case Reference.steel:
+				System.out.println(random + " Quirk Steel");
+				if(BNHAConfig.Quirks.Steel == false) 
+					RandomQuirkChoose(player);
+				else
+					Quirk.setQuirkID(player,random);
+				break;
+			case Reference.hardening:
+				System.out.println(random + " Quirk Hardening");
+				if(BNHAConfig.Quirks.Hardening == false) 
+					RandomQuirkChoose(player);
+				else
+					Quirk.setQuirkID(player,random);
+				break;
+
+            default:
+					RandomQuirkChoose(player);
+				break;
 				
 		}
-		if(Quirk.getQuirkID(player) == Reference.explosionquirk) {
-			System.out.println(random + " Quirk Explosion");
-			if(BNHAConfig.Quirks.Explosion == false) {
-				System.out.println("Quirk disabled choosing new");
-				RandomQuirkChoose(player);
-			}
-		}
-		if(Quirk.getQuirkID(player) == Reference.engine) {
-			System.out.println(random + " Quirk Engine");
-			if(BNHAConfig.Quirks.Engine == false) {
-				System.out.println("Quirk disabled choosing new");
-				RandomQuirkChoose(player);
-			}
-		}
-		if(Quirk.getQuirkID(player) == Reference.hellfire) {
-			System.out.println(random + " Quirk HellFire");
-			if(BNHAConfig.Quirks.Hellfire == false) {
-				System.out.println("Quirk disabled choosing new");
-				RandomQuirkChoose(player);
-			}
-		}
-		if(Quirk.getQuirkID(player) == Reference.icequirk) {
-			System.out.println(random + " Quirk Icequirk");
-			if(BNHAConfig.Quirks.Ice == false) {
-				System.out.println("Quirk disabled choosing new");
-				RandomQuirkChoose(player);
-			}
-		}
-		if(Quirk.getQuirkID(player) == Reference.electrification) {
-			System.out.println(random + " Quirk Electrification");
-			if(BNHAConfig.Quirks.Electrification == false) {
-				System.out.println("Quirk disabled choosing new");
-				RandomQuirkChoose(player);
-			}
-		}
-		if(Quirk.getQuirkID(player) == Reference.tail) {
-			System.out.println(random + " Quirk Tail");
-			if(BNHAConfig.Quirks.Tail == false) {
-				System.out.println("Quirk disabled choosing new");
-				RandomQuirkChoose(player);
-			}
-		}
+
+
 		
-		if(Quirk.getQuirkID(player) == Reference.none) {
-			RandomQuirkChoose(player);
-		}
 	}
 	
 
 	public static String getQNamebyID(int quirkid) {
-		if(quirkid == 1)
+		switch (quirkid) {
+		case 1:
 			return "Quirkless";
-		if(quirkid == 2)
+		case 2:
 			return "Explosion";
-		if(quirkid == 3)
+		case 3:
 			return "Engine";
-		if(quirkid == 4)
+		case 4:
 			return "Hellfire";
-		if(quirkid == 5)
+		case 5:
 			return "Ice";
-		if(quirkid == 6)
+		case 6:
 			return "Electrification";
-		if(quirkid == 7)
+		case 7:
 			return "Tail";
-		else
+		case 8:
+			return "Steel";
+		case 9:
+			return "Hardening";
+		default:
 			return "this should not be displayed";
+		}
 	}
 
 	

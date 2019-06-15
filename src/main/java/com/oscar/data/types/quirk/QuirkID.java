@@ -1,7 +1,7 @@
 package com.oscar.data.types.quirk;
 
 import com.oscar.BNHA;
-import com.oscar.data.packets.MessageQuirkID;
+import com.oscar.data.packets.MQID;
 import com.oscar.data.types.interfaces.IQuirkID;
 import com.oscar.util.Reference;
 
@@ -15,7 +15,7 @@ import net.minecraft.util.ResourceLocation;
 public class QuirkID implements IQuirkID {
 	
 	protected EntityPlayer player;
-	private int QID = 1;
+	private int QID = 0;
 	private static final String keyQID = "bnhaqid";
 	private static final ResourceLocation id = new ResourceLocation(Reference.MOD_ID ,"qid");
 
@@ -64,7 +64,7 @@ public class QuirkID implements IQuirkID {
 	@Override
 	public void synchronize() {
 		if(this.player instanceof EntityPlayerMP){
-		BNHA.NETWORK.sendTo(new MessageQuirkID(this.QID), (EntityPlayerMP) this.player);
+		BNHA.NETWORK.sendTo(new MQID(this.QID), (EntityPlayerMP) this.player);
 		}				
 	}
 

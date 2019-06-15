@@ -11,8 +11,8 @@ import net.minecraft.world.World;
 
 public class Fireball extends EntityThrowable{
 
-	boolean qtp = false;
 	EnumParticleTypes type = EnumParticleTypes.LAVA;
+	private float damage;
 	
     public Fireball(World worldIn){
         super(worldIn);
@@ -22,30 +22,33 @@ public class Fireball extends EntityThrowable{
         super(worldIn, entitylivingbase);
     }
 
-    public Fireball(World worldIn, double x, double y, double z,EntityPlayerMP source,boolean qtp,double velx,double vely,double velz)
+    public Fireball(World worldIn, double x, double y, double z,EntityPlayerMP source,double velx,double vely,double velz,float strengh)
     {
         super(worldIn, x, y, z);
         setSize(0.1F,0.1F);
         setSource(source);
-        setQTp(qtp);
         shoot(velx, vely, velz, 1, 1);
+        setDamage(strengh);
         super.setFire(300);
      }
 
 
-    private void setSource(EntityPlayerMP source) {
+    private void setDamage(float strengh) {
+    	this.damage = strengh;
+	}
+
+	private void setSource(EntityPlayerMP source) {
 		this.thrower = source;
 	}
     
-    private void setQTp(boolean qtp) {
-		this.qtp = qtp;
+	private float getDamage() {
+		return this.damage;
 	}
-    
 
     @Override
     protected float getGravityVelocity()
     {
-        return 0.02F;
+        return 0.001F;
     }
     
     
@@ -60,17 +63,17 @@ public class Fireball extends EntityThrowable{
         
         if (result.entityHit != null )
         {
-        	result.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, entitylivingbase), 1.0F);
+        	result.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, entitylivingbase), getDamage());
         }
 
         for (int i = 0; i < 32; ++i)
         {
-           this.world.spawnParticle(EnumParticleTypes.LAVA, this.posX, this.posY + this.rand.nextDouble() * 2.0D, this.posZ, this.rand.nextGaussian(), 0.0D, this.rand.nextGaussian(), new int[0]);
+        	  this.world.spawnParticle(EnumParticleTypes.LAVA, this.posX, this.posY + this.rand.nextDouble() * 2.0D, this.posZ, this.rand.nextGaussian(), 0.0D, this.rand.nextGaussian(), new int[0]);
         }
 
         if (!this.world.isRemote)
         {
-            if (entitylivingbase instanceof EntityPlayerMP && qtp == true)
+            if (entitylivingbase instanceof EntityPlayerMP && 1 != 1)
             {
                 EntityPlayerMP entityplayermp = (EntityPlayerMP)entitylivingbase;
 
@@ -103,6 +106,12 @@ public class Fireball extends EntityThrowable{
     {
     	
         EntityLivingBase entitylivingbase = this.getThrower();
+        
+        
+        
+        if (this.ticksExisted >= 150){
+        	setDead();
+        	}
         
         
         if (entitylivingbase != null && entitylivingbase instanceof EntityPlayer && !entitylivingbase.isEntityAlive())

@@ -11,7 +11,7 @@ public class Reference {
 	public static final String SERVER_PROXY_CLASS = "com.oscar.proxy.ServerProxy";
 	
 	//Quirk ID's
-	public static final int TotalQuirks = 7;
+	public static final int TotalQuirks = 10;
 	public static final int none = 0;
 	public static final int quirkless = 1;
 	public static final int explosionquirk = 2;
@@ -20,6 +20,8 @@ public class Reference {
 	public static final int icequirk = 5;
 	public static final int electrification = 6;
 	public static final int tail = 7;
+	public static final int steel = 8;
+	public static final int hardening = 9;
 	
 	//Entity ResourceLocations:
     public static final ResourceLocation FIREBALL = new ResourceLocation(Reference.MOD_ID, "Fireball");

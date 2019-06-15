@@ -9,11 +9,13 @@ import com.oscar.data.types.interfaces.IExp;
 import com.oscar.data.types.interfaces.ILevel;
 import com.oscar.data.types.interfaces.INExp;
 import com.oscar.data.types.interfaces.IQuirkID;
+import com.oscar.data.types.quirk.Quirk;
 import com.oscar.util.Reference;
 import com.oscar.util.Utilities;
 import com.oscar.util.handlers.KeyInputHandler;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -36,6 +38,13 @@ public class Statsgui extends GuiScreen {
 		this.mc = mc;
 
 	}
+	
+	@Override
+	public void initGui() {
+		 this.buttonList.add(new GuiButton( 1, 250, 200, 50, 20, "Hello"));
+
+
+	}
     
     
     @Override
@@ -47,7 +56,8 @@ public class Statsgui extends GuiScreen {
 		if (player == null) {
 			return;
 		}
-	    
+
+		
 		//Capabilities and Packets
         IExp exp = player.getCapability(Capabilities.exp, null);
         INExp nexp = player.getCapability(Capabilities.nexp, null);
@@ -75,16 +85,20 @@ public class Statsgui extends GuiScreen {
         //Drawing the Player on to the GUI
         drawEntityOnScreen((k + 200) / 3, (l + 390) /3, 60, (float)(k - 180) - mouseX, (float)(l - 70) - mouseY, this.mc.player);
         
+        
+        
         GlStateManager.popMatrix();
         GlStateManager.scale(3F, 3F, 3F);
+        
+        
         
         // Drawing Text on to the GUI
         this.fontRenderer.drawString("Name: "+ TextFormatting.DARK_RED+ mc.player.getName(), k2 + 400, l2 + 165, 2222);
         this.fontRenderer.drawString("Quirk: "+ TextFormatting.DARK_RED+ Utilities.getQNamebyID(quirkid.getQID()), k2 + 400, l2 + 200, 2222);
         this.fontRenderer.drawString("Level: "+ TextFormatting.DARK_RED+ level.getlvl(),k2 + 400, l2 + 225, 2222);
         this.fontRenderer.drawString("Exp: "+ TextFormatting.DARK_RED+ exp.getexp() +"/"+ nexp.getnexp(), k2 + 400, l2 + 235, 2222);
-        this.fontRenderer.drawString("Health: "+ TextFormatting.DARK_RED, k2 + 400, l2 + 245, 2222);
-        this.fontRenderer.drawString("Damage: "+ TextFormatting.DARK_RED, k2 + 400, l2 + 255, 2222);
+        this.fontRenderer.drawString("Max Health: "+ TextFormatting.DARK_RED+ player.getMaxHealth(), k2 + 400, l2 + 245, 2222);
+        this.fontRenderer.drawString("Quirk Damage: "+ TextFormatting.DARK_RED+ Quirk.getQuirkStrengh(player), k2 + 400, l2 + 255, 2222);
         this.fontRenderer.drawString("Skill Points: "+ TextFormatting.DARK_RED, k2 + 400, l2 + 265, 2222);
       
         super.drawScreen(mouseX, mouseY, ticks);
@@ -92,6 +106,40 @@ public class Statsgui extends GuiScreen {
 
     
     
+    
+    @Override
+    protected void actionPerformed(GuiButton button) throws IOException {
+    	if(button.id == 1)
+    	 {
+    	 }
+    }
+    
+	@Override
+    public void updateScreen() {
+        super.updateScreen();
+	}
+	
+	@Override
+	  public boolean doesGuiPauseGame()
+    {
+        return false;
+    }
+	
+	/*
+	 * just allows you to use the same key for opening for closing the GUI 
+	 */
+	@Override
+	protected void keyTyped(char c, int keyCode) {
+		try {
+			super.keyTyped(c, keyCode);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		if (keyCode == KeyInputHandler.Keybinds.keyBindings[1].getKeyCode()) {
+			mc.player.closeScreen();
+		}
+	}
+	
     /*
      * Drawing the Player in the Status GUI
      */
@@ -133,31 +181,6 @@ public class Statsgui extends GuiScreen {
         GlStateManager.disableTexture2D();
         GlStateManager.setActiveTexture(OpenGlHelper.defaultTexUnit);
     }
-    
-	@Override
-    public void updateScreen() {
-        super.updateScreen();
-	}
 	
-	@Override
-	  public boolean doesGuiPauseGame()
-    {
-        return false;
-    }
-	
-	/*
-	 * just allows you to use the same key for opening for closing the GUI 
-	 */
-	@Override
-	protected void keyTyped(char c, int keyCode) {
-		try {
-			super.keyTyped(c, keyCode);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		if (keyCode == KeyInputHandler.Keybinds.keyBindings[1].getKeyCode()) {
-			mc.player.closeScreen();
-		}
-	}
 }
 

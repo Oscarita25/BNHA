@@ -5,13 +5,6 @@ import java.io.File;
 import com.oscar.commands.QuirkChange;
 import com.oscar.commands.QuirkRoll;
 import com.oscar.data.Capabilities;
-import com.oscar.data.packets.MessageEXP;
-import com.oscar.data.packets.MessageLEVEL;
-import com.oscar.data.packets.MessageModel;
-import com.oscar.data.packets.MessageNEXP;
-import com.oscar.data.packets.MessageQuirkID;
-import com.oscar.data.packets.MessageRequestActivate;
-import com.oscar.data.packets.MessageRequestActivate.HandleRequestActivate;
 import com.oscar.data.types.Exp;
 import com.oscar.data.types.Level;
 import com.oscar.data.types.ModelID;
@@ -38,7 +31,7 @@ import com.oscar.data.types.quirk.maxcool.QMaxCoolFactory;
 import com.oscar.data.types.quirk.maxcool.QMaxCoolStorage;
 import com.oscar.data.types.stamina.StaminaFactory;
 import com.oscar.data.types.stamina.StaminaStorage;
-import com.oscar.init.ItemHolder;
+import com.oscar.init.ModHolder;
 import com.oscar.proxy.IProxy;
 import com.oscar.util.LoggingUtil;
 import com.oscar.util.Reference;
@@ -57,10 +50,6 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import net.minecraftforge.fml.relauncher.Side;
-import obsidiansuite.obsidianAPI.ObsidianEventHandler;
-import obsidiansuite.obsidianAPI.network.AnimationNetworkHandler;
-import obsidiansuite.obsidianAPI.registry.AnimationRegistry;
 
 @Mod(modid = Reference.MOD_ID,
 	name = Reference.NAME,
@@ -70,7 +59,6 @@ import obsidiansuite.obsidianAPI.registry.AnimationRegistry;
 public class BNHA {
 	
     public static int ID = 0;
-    public static int nextEntityID = 1;
 
     @Mod.Instance
     public static BNHA instance;
@@ -79,7 +67,7 @@ public class BNHA {
     public static IProxy proxy;
 	
     public static CreativeTabs BNHA = new CreativeTabs("bnha")
-    {@Override public ItemStack getTabIconItem() {return new ItemStack(ItemHolder.UA_SPORTS_CHESTPLATE);}};
+    {@Override public ItemStack getTabIconItem() {return new ItemStack(ModHolder.UA_SPORTS_CHESTPLATE);}};
     
 	public static Configuration config;
 	public static File dir;
@@ -96,13 +84,9 @@ public class BNHA {
     
     @Mod.EventHandler
     public void init(FMLInitializationEvent event){
-       AnimationNetworkHandler.init();
 		registerCapabilites();
-		registerPackets();
-		registerAnimations();
 	       		LoggingUtil.info("Loading - Handlers");
 	       MinecraftForge.EVENT_BUS.register(new Eventhandler()); 
-	       MinecraftForge.EVENT_BUS.register(new ObsidianEventHandler());
        proxy.init(event);
     }
     
@@ -114,7 +98,7 @@ public class BNHA {
 
 	@Mod.EventHandler
 	public void serverStarting(FMLServerStartingEvent event) {
-        event.registerServerCommand(new QuirkChange());
+		event.registerServerCommand(new QuirkChange());
         event.registerServerCommand(new QuirkRoll());
 		proxy.serverStarting(event);
 	}
@@ -136,18 +120,10 @@ public class BNHA {
 	       MinecraftForge.EVENT_BUS.register(new Capabilities());
 	}
 
-	public void registerPackets() {
-	       com.oscar.BNHA.NETWORK.registerMessage(HandleRequestActivate.class, MessageRequestActivate.class, com.oscar.BNHA.ID++, Side.SERVER);
-	       
-	       com.oscar.BNHA.NETWORK.registerMessage(MessageQuirkID.HandleMessageQuirkID.class, MessageQuirkID.class, com.oscar.BNHA.ID++, Side.CLIENT);
-	       com.oscar.BNHA.NETWORK.registerMessage(MessageModel.HandleMessageModel.class, MessageModel.class,com.oscar.BNHA.ID++, Side.CLIENT);
-	       com.oscar.BNHA.NETWORK.registerMessage(MessageEXP.HandleMessageEXP.class, MessageEXP.class, com.oscar.BNHA.ID++, Side.CLIENT);
-	       com.oscar.BNHA.NETWORK.registerMessage(MessageLEVEL.HandleMessageLEVEL.class, MessageLEVEL.class, com.oscar.BNHA.ID++, Side.CLIENT);
-	       com.oscar.BNHA.NETWORK.registerMessage(MessageNEXP.HandleMessageNEXP.class, MessageNEXP.class, com.oscar.BNHA.ID++, Side.CLIENT);
-	}
-	
-	public void registerAnimations() {AnimationRegistry.init();}
+
 	
 	
+	
+
 }
 

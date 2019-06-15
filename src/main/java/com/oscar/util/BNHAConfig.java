@@ -4,6 +4,7 @@ import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 @Config(modid = Reference.MOD_ID)
 public class BNHAConfig{
@@ -20,27 +21,51 @@ public class BNHAConfig{
    
    public static class EntitySettings{
 	   
-       public boolean disable_Fireball = true;
-       public boolean disable_Icicle = true;
+       public boolean disable_Fireball;
+       public boolean disable_Icicle;
+       
+       private EntitySettings(){
+
+           this.disable_Fireball = true;
+           this.disable_Icicle = true;
+       }
    }
    
    public static class Quirks{
 	   
-       public boolean Quirkless = true;
-       public boolean Explosion = true;
-       public boolean Engine = true;
-       public boolean Hellfire = true;
-       public boolean Ice = true;
-       public boolean Electrification = true;
-       public boolean Tail = true;
+       public boolean Quirkless;
+       public boolean Explosion;
+       public boolean Engine;
+       public boolean Hellfire;
+       public boolean Ice;
+       public boolean Electrification;
+       public boolean Tail;
+       public boolean Steel;
+       public boolean Hardening;
+
+       
+       private Quirks() {
+           this.Quirkless = true;
+           this.Explosion = true;
+           this.Engine = true;
+           this.Hellfire = true;
+           this.Ice = true;
+           this.Electrification = true;
+           this.Tail = true;
+           this.Steel = true;
+           this.Hardening = true; 
+       }
    }
 
 
 	@Mod.EventBusSubscriber(modid = Reference.MOD_ID) 
 	public static class Handler{
 		
+		@SubscribeEvent
 	    public static void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event){
 			if (event.getModID().equals(Reference.MOD_ID)) {
+				
+				System.out.println("THIS IS BEING FIRED YEHAWW");
 				ConfigManager.sync(Reference.MOD_ID, Config.Type.INSTANCE);
 			}
 	    }

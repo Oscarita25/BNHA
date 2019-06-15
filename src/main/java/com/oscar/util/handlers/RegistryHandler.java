@@ -5,6 +5,7 @@ import java.util.Set;
 import com.google.common.collect.ImmutableSet;
 import com.oscar.entity.Fireball;
 import com.oscar.entity.Icicle;
+import com.oscar.init.CustPotion;
 import com.oscar.items.ClothArmor;
 import com.oscar.util.LoggingUtil;
 import com.oscar.util.Reference;
@@ -13,6 +14,7 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
+import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.event.RegistryEvent;
@@ -25,22 +27,28 @@ import net.minecraftforge.registries.IForgeRegistry;
 @Mod.EventBusSubscriber(modid = Reference.MOD_ID)
 public class RegistryHandler {
 	
+    public static int nextEntityID = 1;
+    public static int PotionID = 40;
+	
     public static final Set<EntityEntry> SET_ENTITIES = ImmutableSet.of(
             EntityEntryBuilder.create()
-            .entity(Fireball.class)
-            .id(new ResourceLocation(Reference.MOD_ID, "fireball"), 0)
-            .name("fireball")
+            .entity(Icicle.class)
+            .id(new ResourceLocation(Reference.MOD_ID, "Icicle"), nextEntityID++)
+            .name("Icicle")
             .tracker(64, 3, false)
             .build(),
             
             EntityEntryBuilder.create()
-            .entity(Icicle.class)
-            .id(new ResourceLocation(Reference.MOD_ID, "Icicle"), 0)
-            .name("Icicle")
-            .tracker(64, 3, false)
-            .build()
-            
-            );
+            .entity(Fireball.class)
+            .id(new ResourceLocation(Reference.MOD_ID, "Fireball"), nextEntityID++)
+            .name("Fireball")
+            .tracker(64, 3, true)
+            .build());
+    
+    
+    		
+    		
+
     	
 	public static final ItemArmor.ArmorMaterial UA_SPORTS_MAT = 
 			EnumHelper.addArmorMaterial
@@ -74,6 +82,8 @@ public class RegistryHandler {
 	}
 	
 
+	
+	
 	@SubscribeEvent
 	public static void registerEntities(RegistryEvent.Register<EntityEntry> event) {
         final IForgeRegistry<EntityEntry> registry = event.getRegistry();
@@ -85,5 +95,18 @@ public class RegistryHandler {
             registry.register(entityEntry);
         }
     }
+	
+	
+	@SubscribeEvent
+	public static void registerPotions(RegistryEvent.Register<Potion> event) {
+        final IForgeRegistry<Potion> registry = event.getRegistry();
+
+		
+        registry.register(new CustPotion(true,232323,"frozen"));
+		
+	}
+	
+
+
 	
 }

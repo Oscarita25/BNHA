@@ -4,7 +4,7 @@ import org.lwjgl.input.Keyboard;
 
 import com.oscar.BNHA;
 import com.oscar.client.render.gui.Statsgui;
-import com.oscar.data.packets.MessageRequestActivate;
+import com.oscar.data.packets.MRA;
 import com.oscar.util.Reference;
 
 import net.minecraft.client.Minecraft;
@@ -25,7 +25,7 @@ public class KeyInputHandler {
 		if(event.phase.equals(Phase.END)){
 	    KeyBinding[] keyBindings = Keybinds.keyBindings;
 		if(keyBindings[0].isPressed()){
-			BNHA.NETWORK.sendToServer(new MessageRequestActivate());
+			BNHA.NETWORK.sendToServer(new MRA());
 		}
 		if(keyBindings[1].isPressed()) {
 			Minecraft mc = Minecraft.getMinecraft();

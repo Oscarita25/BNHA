@@ -1,7 +1,7 @@
 package com.oscar.data.types;
 
 import com.oscar.BNHA;
-import com.oscar.data.packets.MessageLEVEL;
+import com.oscar.data.packets.ML;
 import com.oscar.data.types.interfaces.ILevel;
 import com.oscar.util.Reference;
 
@@ -64,7 +64,7 @@ public class Level implements ILevel {
 	@Override
 	public void synchronize() {
 		if(this.player instanceof EntityPlayerMP){
-		BNHA.NETWORK.sendTo(new MessageLEVEL(this.level), (EntityPlayerMP) this.player);
+		BNHA.NETWORK.sendTo(new ML(this.level), (EntityPlayerMP) this.player);
 		}				
 	}
 

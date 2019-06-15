@@ -9,6 +9,9 @@ import com.oscar.util.Reference;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -19,7 +22,9 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class Lvlgui extends GuiScreen{
 		
 		private static final ResourceLocation texture = new ResourceLocation(Reference.MOD_ID, "textures/gui/expbar.png");
-		
+		public int nx = 0;
+		public float ux = 0;
+
 		public Lvlgui(Minecraft mc) {
 			super();
 		}
@@ -50,21 +55,59 @@ public class Lvlgui extends GuiScreen{
 			//Background of the Bar
 			drawTexturedModalRect(xPos, yPos, 0, 0, 128, 11);
 			
-			//just some math to get the percentage of the exp drawn as actual Bar 
+			//just some math to get the percentage of the exp drawn as actual Bar
+
 			int x = ((exp.getexp()*100 / nexp.getnexp()*100) * 82)/10000;
+
 			
+			if(player.ticksExisted % 1 == 0) {
+				if(this.ux <= 1F)
+				this.ux += 0.1F;
+				
+				
+			}
+			
+			if(player.ticksExisted % 20 == 0) {
+				if(this.nx != x) {
+					this.nx = x;
+					this.ux = 0F;
+					}
+			}
+
+
 			//here drawing the Bar
-			drawTexturedModalRect(xPos, yPos + 2, 1, 12, x , 11);
+			drawsomeshitidunno(xPos, yPos + 2, 1, 12, nx , 11, ux);
 			
 			// Text for the Level Bar
 			String y = "Level " + level.getlvl();
 			String s = exp.getexp() + "/" + nexp.getnexp();
+			//String d = "x: " + x +"; nx: " +nx + "; ux: " + ux;
 			yPos -= 10;
 			Minecraft.getMinecraft().fontRenderer.drawString(s, xPos + 20, yPos, 2550000, true);
 			Minecraft.getMinecraft().fontRenderer.drawString(y, xPos + 20, yPos + 11, 2550000, true);
-
+			//Minecraft.getMinecraft().fontRenderer.drawString(d, xPos - 30, yPos - 20, 2550000, true);
 			}
 
+		
+		
+	    /**
+	     * Draws a textured rectangle at the current z-value.
+	     */
+	    public void drawsomeshitidunno(int x, int y, int textureX, int textureY, int width, int height, float progress)
+	    {
+	        
+	        Tessellator tessellator = Tessellator.getInstance();
+	        BufferBuilder bufferbuilder = tessellator.getBuffer();
+	        bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
+	        bufferbuilder.pos((double)(x + 0), (double)(y + height), (double)this.zLevel).tex((double)((float)(textureX + 0) * 0.00390625F), (double)((float)(textureY + height) * 0.00390625F)).endVertex();
+	        bufferbuilder.pos((double)(x + width + progress ), (double)(y + height), (double)this.zLevel).tex((double)((float)(textureX + width + progress) * 0.00390625F), (double)((float)(textureY + height) * 0.00390625F)).endVertex();
+	        bufferbuilder.pos((double)(x + width + progress ), (double)(y + 0), (double)this.zLevel).tex((double)((float)(textureX + width + progress) * 0.00390625F), (double)((float)(textureY + 0) * 0.00390625F)).endVertex();
+	        bufferbuilder.pos((double)(x + 0), (double)(y + 0), (double)this.zLevel).tex((double)((float)(textureX + 0) * 0.00390625F), (double)((float)(textureY + 0) * 0.00390625F)).endVertex();
+	        
+	        
+	        tessellator.draw();
+	    }
+		
 		
 		
 	}

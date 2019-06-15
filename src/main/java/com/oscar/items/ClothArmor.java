@@ -1,6 +1,7 @@
 package com.oscar.items;
 
 import com.oscar.BNHA;
+import com.oscar.init.ModHolder;
 import com.oscar.proxy.ClientProxy;
 import com.oscar.util.Reference;
 
@@ -18,10 +19,26 @@ public class ClothArmor extends ItemArmor {
 		super(material, renderindex, slot);
 		this.setRegistryName(Reference.MOD_ID, name);
         this.setCreativeTab(BNHA.BNHA);
-        this.setUnlocalizedName(Reference.MOD_ID+":"+name);
+        this.setUnlocalizedName(Reference.MOD_ID +":" +name);
+        ModHolder.ITEMS.add(this);
 	}
 	
-	
+	/*@Override
+    public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack){
+		if(player.ticksExisted % 20 == 0) {
+        	player.sendMessage(
+        			new TextComponentString(String.format("%s %n %s %n %s %n %s %n %s ",
+        					TextFormatting.YELLOW +
+        					"[Debug Notes]: ",
+        					"creator mod id:                  " + this.getCreatorModId(itemStack),
+        					"unlocalized name:                " + this.getUnlocalizedName(),
+        					"i-unlocalized name:    " + this.getUnlocalizedNameInefficiently(itemStack),
+        					"Equipment slot in:                 " + this.getEquipmentSlot())
+        			));
+        	
+        }
+	}*/
+
 	
 	@Override
 	@SideOnly(Side.CLIENT)

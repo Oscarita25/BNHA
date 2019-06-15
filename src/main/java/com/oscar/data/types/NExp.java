@@ -1,7 +1,7 @@
 package com.oscar.data.types;
 
 import com.oscar.BNHA;
-import com.oscar.data.packets.MessageNEXP;
+import com.oscar.data.packets.MNE;
 import com.oscar.data.types.interfaces.INExp;
 import com.oscar.util.Reference;
 
@@ -70,7 +70,7 @@ public class NExp implements INExp {
 	public void synchronize() {
 		if(this.player instanceof EntityPlayerMP)
 		{
-		BNHA.NETWORK.sendTo(new MessageNEXP(this.nexp), (EntityPlayerMP) this.player);
+		BNHA.NETWORK.sendTo(new MNE(this.nexp), (EntityPlayerMP) this.player);
 		}		
 	}
 

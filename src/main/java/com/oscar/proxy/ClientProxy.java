@@ -1,10 +1,15 @@
 package com.oscar.proxy;
 
+import com.oscar.BNHA;
 import com.oscar.client.render.gui.Lvlgui;
 import com.oscar.client.render.gui.Statsgui;
 import com.oscar.client.render.layer.LayerEntityOnPlayerBack;
+import com.oscar.data.packets.ME;
+import com.oscar.data.packets.ML;
+import com.oscar.data.packets.MM;
+import com.oscar.data.packets.MNE;
+import com.oscar.data.packets.MQID;
 import com.oscar.models.ClothModel;
-import com.oscar.util.handlers.ClientEventHandler;
 import com.oscar.util.handlers.KeyInputHandler;
 import com.oscar.util.handlers.KeyInputHandler.Keybinds;
 
@@ -18,6 +23,7 @@ import net.minecraft.item.Item;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
+import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -33,9 +39,8 @@ public class ClientProxy implements IProxy {
 	
 	public void registerRenders() {	
 		
-		LayerEntityOnPlayerBack layer = new LayerEntityOnPlayerBack(Minecraft.getMinecraft().getRenderManager());
 		for (RenderPlayer playerRender : Minecraft.getMinecraft().getRenderManager().getSkinMap().values()) {
-			
+			LayerEntityOnPlayerBack layer = new LayerEntityOnPlayerBack(playerRender.getRenderManager());	
 			playerRender.addLayer(layer);
 		}
 		
@@ -58,7 +63,8 @@ public class ClientProxy implements IProxy {
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		registerAllEntityRenders();
-		initKeybindings();		
+		registerPackets();
+		initKeybindings();
 	}
 
 	private void registerAllEntityRenders() {
@@ -67,6 +73,7 @@ public class ClientProxy implements IProxy {
 
 
 
+	@SuppressWarnings("unused")
 	private <T extends Entity>void registerEntityRenders(Class<T> entityClass,IRenderFactory<? super T> renderFactory ) {
 		//RenderingRegistry.registerEntityRenderingHandler(entityClass,renderFactory);
 	}
@@ -76,7 +83,6 @@ public class ClientProxy implements IProxy {
 	@Override
 	public void init(FMLInitializationEvent event) {
 		registerRenders();
-	    MinecraftForge.EVENT_BUS.register(new ClientEventHandler());
 
 	}
 
@@ -104,6 +110,15 @@ public class ClientProxy implements IProxy {
 			  return ClothModellayer1;  
 			}
 		 return null;
+	}
+
+
+	public void registerPackets() {	      
+	       BNHA.NETWORK.registerMessage(MQID.HMQID.class, MQID.class, 2, Side.CLIENT);
+	       BNHA.NETWORK.registerMessage(MM.HMM.class, MM.class, 3, Side.CLIENT);
+	       BNHA.NETWORK.registerMessage(ME.HME.class, ME.class, 4, Side.CLIENT);
+	       BNHA.NETWORK.registerMessage(ML.HML.class, ML.class, 5, Side.CLIENT);
+	       BNHA.NETWORK.registerMessage(MNE.HMNE.class, MNE.class, 6, Side.CLIENT);	
 	}
 	
 }
