@@ -1,6 +1,7 @@
 package com.oscar.proxy;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.IThreadListener;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -21,6 +22,9 @@ public interface IProxy
     void serverStarting(FMLServerStartingEvent event);
 
     EntityPlayer getPlayerEntityFromContext(MessageContext parContext);
+
+
+	IThreadListener getThreadFromContext(MessageContext ctx);
 
 
 

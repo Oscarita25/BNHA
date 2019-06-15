@@ -1,7 +1,7 @@
 package com.oscar.data.types;
 
-import com.oscar.BNHA;
 import com.oscar.data.packets.ME;
+import com.oscar.data.packets.PacketDispatcher;
 import com.oscar.data.types.interfaces.IExp;
 import com.oscar.util.Reference;
 
@@ -16,7 +16,7 @@ public class Exp implements IExp {
 	
 	protected EntityPlayer player;
 	private int exp = 0;
-	private static final String keyExp = "bnhaexp´´";
+	private static final String keyExp = "bnhaexp";
 	private static final ResourceLocation id = new ResourceLocation(Reference.MOD_ID ,"exp");
 	
 	/*
@@ -66,7 +66,7 @@ public class Exp implements IExp {
 	public void synchronize() {
 		if(this.player instanceof EntityPlayerMP)
 		{
-		BNHA.NETWORK.sendTo(new ME(this.exp), (EntityPlayerMP) this.player);
+			PacketDispatcher.sendTo(new ME(this.exp), (EntityPlayerMP) this.player);
 		}		
 	}
 

@@ -1,19 +1,20 @@
 package com.oscar.data.packets;
 
-import com.oscar.data.Capabilities;
+import java.io.IOException;
 
-import io.netty.buffer.ByteBuf;
-import net.minecraft.client.Minecraft;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import com.oscar.data.Capabilities;
+import com.oscar.data.packets.AbstractMessage.AbstractClientMessage;
+
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.network.PacketBuffer;
+import net.minecraftforge.fml.relauncher.Side;
 
 
 /**
  * MessageLevel for Synchronizing the Level Capability
  *  to the {@link  net.minecraft.client.entity.EntityPlayerSP Player}
  */
-public class ML implements IMessage{
+public class ML extends AbstractClientMessage<ML>{
 	int lvl;
 	
 	public ML() {}
@@ -22,38 +23,24 @@ public class ML implements IMessage{
 		this.lvl = lvl;
 	}
 
+
+
 	@Override
-	public void fromBytes(ByteBuf buf) {
+	protected void read(PacketBuffer buf) throws IOException {
 		lvl = buf.readInt();
 		
 	}
 
 	@Override
-	public void toBytes(ByteBuf buf) {
+	protected void write(PacketBuffer buf) throws IOException {
         buf.writeInt(lvl);
 		
 	}
-	
-	
-	/**
-	 *HandleMessageLevel for Handling {@link  com.oscar.data.packets.ML MessageLevel}
-	 */
-	public static class HML implements IMessageHandler<ML, IMessage> {
 
-	    @Override
-	    public IMessage onMessage(ML message, MessageContext ctx) {
-			    Minecraft.getMinecraft().addScheduledTask(() -> {
-			    	
-			    	Minecraft.getMinecraft().player.getCapability(Capabilities.level, null).setlvl(message.lvl);;
-		            
-		        });
-			
-
-	        return null;
-	    }
-
-
-
+	@Override
+	public void process(EntityPlayer player, Side side) {
+		player.getCapability(Capabilities.level, null).setlvl(this.lvl);
+		
 	} 
 	
 }

@@ -43,6 +43,9 @@ public class Lvlgui extends GuiScreen{
 	        INExp nexp = player.getCapability(Capabilities.nexp, null);
 	        ILevel level = player.getCapability(Capabilities.level, null);
 
+	        if(exp == null || nexp == null || level == null) return;
+	        
+	        
 			if (event.getType() != ElementType.EXPERIENCE) return;
 						
 			//just so the bar sticks on the right lower corner even if resolution is changed

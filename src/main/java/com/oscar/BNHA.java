@@ -5,6 +5,7 @@ import java.io.File;
 import com.oscar.commands.QuirkChange;
 import com.oscar.commands.QuirkRoll;
 import com.oscar.data.Capabilities;
+import com.oscar.data.packets.PacketDispatcher;
 import com.oscar.data.types.Exp;
 import com.oscar.data.types.Level;
 import com.oscar.data.types.ModelID;
@@ -85,6 +86,7 @@ public class BNHA {
     @Mod.EventHandler
     public void init(FMLInitializationEvent event){
 		registerCapabilites();
+		PacketDispatcher.registerPackets();
 	       		LoggingUtil.info("Loading - Handlers");
 	       MinecraftForge.EVENT_BUS.register(new Eventhandler()); 
        proxy.init(event);
@@ -121,7 +123,6 @@ public class BNHA {
 	}
 
 
-	
 	
 	
 

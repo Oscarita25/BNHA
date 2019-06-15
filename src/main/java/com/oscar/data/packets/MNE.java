@@ -1,12 +1,13 @@
 package com.oscar.data.packets;
 
-import com.oscar.data.Capabilities;
+import java.io.IOException;
 
-import io.netty.buffer.ByteBuf;
-import net.minecraft.client.Minecraft;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import com.oscar.data.Capabilities;
+import com.oscar.data.packets.AbstractMessage.AbstractClientMessage;
+
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.network.PacketBuffer;
+import net.minecraftforge.fml.relauncher.Side;
 
 
 /**
@@ -14,7 +15,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
  *  to the {@link  net.minecraft.client.entity.EntityPlayerSP Player}
  */
  
-public class MNE implements IMessage{
+public class MNE extends AbstractClientMessage<MNE>{
 	int nexp;
 	
 	public MNE() {}
@@ -23,36 +24,23 @@ public class MNE implements IMessage{
 		this.nexp = nexp;
 	}
 
+
 	@Override
-	public void fromBytes(ByteBuf buf) {
+	protected void read(PacketBuffer buf) throws IOException {
 		nexp = buf.readInt();
 		
 	}
 
 	@Override
-	public void toBytes(ByteBuf buf) {
+	protected void write(PacketBuffer buf) throws IOException {
         buf.writeInt(nexp);
 		
 	}
-	
-	/**
-	 *HandleMessageNextExpierence for Handling {@link  com.oscar.data.packets.MNE MessageNextExpierence}
-	 */
-	public static class HMNE implements IMessageHandler<MNE, IMessage> {
 
-	    @Override
-	    public IMessage onMessage(MNE message, MessageContext ctx) {
-			    Minecraft.getMinecraft().addScheduledTask(() -> {
-
-			    	Minecraft.getMinecraft().player.getCapability(Capabilities.nexp, null).setnexp(message.nexp);
-		            
-		        });
-
-	        return null;
-	    }
-
-
-
+	@Override
+	public void process(EntityPlayer player, Side side) {
+		player.getCapability(Capabilities.nexp, null).setnexp(this.nexp);
+		
 	} 
 	
 }

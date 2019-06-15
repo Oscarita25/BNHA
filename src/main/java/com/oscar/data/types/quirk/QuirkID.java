@@ -1,7 +1,7 @@
 package com.oscar.data.types.quirk;
 
-import com.oscar.BNHA;
 import com.oscar.data.packets.MQID;
+import com.oscar.data.packets.PacketDispatcher;
 import com.oscar.data.types.interfaces.IQuirkID;
 import com.oscar.util.Reference;
 
@@ -64,7 +64,7 @@ public class QuirkID implements IQuirkID {
 	@Override
 	public void synchronize() {
 		if(this.player instanceof EntityPlayerMP){
-		BNHA.NETWORK.sendTo(new MQID(this.QID), (EntityPlayerMP) this.player);
+			PacketDispatcher.sendTo(new MQID(this.QID), (EntityPlayerMP) this.player);
 		}				
 	}
 

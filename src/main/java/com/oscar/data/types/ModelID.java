@@ -1,7 +1,7 @@
 package com.oscar.data.types;
 
-import com.oscar.BNHA;
 import com.oscar.data.packets.MM;
+import com.oscar.data.packets.PacketDispatcher;
 import com.oscar.data.types.interfaces.IModelID;
 import com.oscar.util.Reference;
 
@@ -64,7 +64,7 @@ public class ModelID implements IModelID {
 	@Override
 	public void synchronize() {
 		if(this.player instanceof EntityPlayerMP){
-			BNHA.NETWORK.sendTo(new MM(this.model), (EntityPlayerMP) this.player);
+			PacketDispatcher.sendToAllTrackingAndPlayer(new MM(this.model, (EntityPlayerMP) player), (EntityPlayerMP) this.player);
 
 		}				
 	}

@@ -1,14 +1,8 @@
 package com.oscar.proxy;
 
-import com.oscar.BNHA;
 import com.oscar.client.render.gui.Lvlgui;
 import com.oscar.client.render.gui.Statsgui;
 import com.oscar.client.render.layer.LayerEntityOnPlayerBack;
-import com.oscar.data.packets.ME;
-import com.oscar.data.packets.ML;
-import com.oscar.data.packets.MM;
-import com.oscar.data.packets.MNE;
-import com.oscar.data.packets.MQID;
 import com.oscar.models.ClothModel;
 import com.oscar.util.handlers.KeyInputHandler;
 import com.oscar.util.handlers.KeyInputHandler.Keybinds;
@@ -20,10 +14,10 @@ import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.util.IThreadListener;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
-import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -63,7 +57,6 @@ public class ClientProxy implements IProxy {
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		registerAllEntityRenders();
-		registerPackets();
 		initKeybindings();
 	}
 
@@ -96,7 +89,7 @@ public class ClientProxy implements IProxy {
 
 	@Override
 	public EntityPlayer getPlayerEntityFromContext(MessageContext ctx) {
-		return (ctx.side.isClient() ? Minecraft.getMinecraft().player : null);
+		return (ctx.side.isClient() ? Minecraft.getMinecraft().player : ctx.getServerHandler().player);
 	}
 	
 
@@ -113,12 +106,13 @@ public class ClientProxy implements IProxy {
 	}
 
 
-	public void registerPackets() {	      
-	       BNHA.NETWORK.registerMessage(MQID.HMQID.class, MQID.class, 2, Side.CLIENT);
-	       BNHA.NETWORK.registerMessage(MM.HMM.class, MM.class, 3, Side.CLIENT);
-	       BNHA.NETWORK.registerMessage(ME.HME.class, ME.class, 4, Side.CLIENT);
-	       BNHA.NETWORK.registerMessage(ML.HML.class, ML.class, 5, Side.CLIENT);
-	       BNHA.NETWORK.registerMessage(MNE.HMNE.class, MNE.class, 6, Side.CLIENT);	
+
+	@Override
+	public IThreadListener getThreadFromContext(MessageContext ctx) {
+		return (ctx.side.isClient() ? Minecraft.getMinecraft() : ctx.getServerHandler().player.getServerWorld());
 	}
+
+
+
 	
 }

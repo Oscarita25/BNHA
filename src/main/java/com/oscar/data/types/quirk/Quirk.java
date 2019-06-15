@@ -93,7 +93,8 @@ public class Quirk {
 		
 		float strengh = level,
 			  strenghexplosion = level * 1.3F,
-			  strenghIce = level * 0.5F;
+			  strenghIce = level * 1.1F,
+			  strenghDurQuirks = level * 1.7F;
 		
 		
 
@@ -123,6 +124,12 @@ public class Quirk {
 
 		case Reference.tail:
 			return strengh;
+			
+		case Reference.hardening:
+			return strenghDurQuirks;
+			
+		case Reference.steel:
+			return strenghDurQuirks;
 
 	}
 		return defaultstrengh;

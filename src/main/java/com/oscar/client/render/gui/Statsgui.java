@@ -64,6 +64,8 @@ public class Statsgui extends GuiScreen {
         ILevel level = player.getCapability(Capabilities.level, null);
         IQuirkID quirkid = player.getCapability(Capabilities.quirkid, null);
 
+        if(exp == null || nexp == null || level == null || quirkid == null) return;
+        
         this.drawDefaultBackground();
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
                 
