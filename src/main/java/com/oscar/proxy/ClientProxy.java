@@ -1,8 +1,10 @@
 package com.oscar.proxy;
 
+import com.oscar.client.render.entities.RenderFireball;
 import com.oscar.client.render.gui.Lvlgui;
 import com.oscar.client.render.gui.Statsgui;
 import com.oscar.client.render.layer.LayerEntityOnPlayerBack;
+import com.oscar.entity.Fireball;
 import com.oscar.models.ClothModel;
 import com.oscar.util.handlers.KeyInputHandler;
 import com.oscar.util.handlers.KeyInputHandler.Keybinds;
@@ -18,6 +20,7 @@ import net.minecraft.util.IThreadListener;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -61,14 +64,15 @@ public class ClientProxy implements IProxy {
 	}
 
 	private void registerAllEntityRenders() {
-		//registerEntityRenders(class,renderFactory);
+		//registerEntityRenders(Icicle.class, RenderIcicle.INSTANCE);
+		registerEntityRenders(Fireball.class, RenderFireball.RenderFireballFac.INSTANCE);
+
 	}
 
 
 
-	@SuppressWarnings("unused")
 	private <T extends Entity>void registerEntityRenders(Class<T> entityClass,IRenderFactory<? super T> renderFactory ) {
-		//RenderingRegistry.registerEntityRenderingHandler(entityClass,renderFactory);
+		RenderingRegistry.registerEntityRenderingHandler(entityClass,renderFactory);
 	}
 
 

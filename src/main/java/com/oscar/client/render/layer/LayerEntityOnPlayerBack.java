@@ -3,14 +3,16 @@ package com.oscar.client.render.layer;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.oscar.client.render.entities.RenderEngine;
+import com.oscar.data.Capabilities;
+import com.oscar.entity.Fireball;
+import com.oscar.models.EngineModel;
 import com.oscar.util.Reference;
 
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelParrot;
+import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.RenderLivingBase;
+import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.entity.RenderParrot;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,9 +25,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class LayerEntityOnPlayerBack implements LayerRenderer<EntityLivingBase>{
 
     private final RenderManager renderManager;
-    protected RenderLivingBase <? extends EntityLivingBase > Renderer;
-    private ModelBase Model = new ModelParrot();
-    private ResourceLocation Resource = RenderParrot.PARROT_TEXTURES[2];
+    protected Render<Fireball> Renderer;
+    private ModelBiped Model = new EngineModel(0F);
+    private ResourceLocation Resource = RenderEngine.ENGINE_TEXTURE;
 	public static List<EntityPlayer> playerlist = new ArrayList<EntityPlayer>();
 	public static List<NBTTagCompound> playerNBT = new ArrayList<NBTTagCompound>();
 
@@ -43,17 +45,16 @@ public class LayerEntityOnPlayerBack implements LayerRenderer<EntityLivingBase>{
 
     private void renderEngineModel(EntityLivingBase player, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
     	
-    	NBTTagCompound comp = new NBTTagCompound();
-    	player.writeToNBT(comp);
     	
-    	if (comp.getCompoundTag("ForgeCaps").getCompoundTag("bnha:model").getInteger("bnhamodel") == Reference.engine)
+    	if (player.getCapability(Capabilities.modelid, null).getModelDATA() == Reference.engine)
     	{
     		  
               GlStateManager.enableRescaleNormal();
               GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
               GlStateManager.pushMatrix();
+
               	if(Renderer == null) 
-              	Renderer = new RenderParrot(this.renderManager);
+              	Renderer = new RenderEngine(this.renderManager);
               	
               	Renderer.bindTexture(Resource);
               	
@@ -67,6 +68,10 @@ public class LayerEntityOnPlayerBack implements LayerRenderer<EntityLivingBase>{
                   Model.setLivingAnimations(player, limbSwing, limbSwingAmount, partialTicks);
                   Model.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, player);
                   Model.render(player, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
+                  
+                  Model.isSneak = player.isSneaking();
+                  Model.isRiding = player.isRiding();
+                  Model.isChild = player.isChild();
                   GlStateManager.popMatrix();
               GlStateManager.popMatrix();
 
@@ -77,12 +82,8 @@ public class LayerEntityOnPlayerBack implements LayerRenderer<EntityLivingBase>{
 	}
 
 	private void renderTailModel(EntityLivingBase player, float limbSwing, float limbSwingAmount, float partialTicks,float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-    	NBTTagCompound compound = new NBTTagCompound();
-    	player.writeToNBT(compound);
-    	
-    	if(player.ticksExisted % 20 == 0) {
-    	}
-    	  if (compound.getCompoundTag("ForgeCaps").getCompoundTag("bnha:model").getInteger("bnhamodel") == Reference.tail)
+
+    /*	  if (player.getCapability(Capabilities.modelid, null).getModelDATA() == Reference.tail)
         {
             GlStateManager.enableRescaleNormal();
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
@@ -106,7 +107,7 @@ public class LayerEntityOnPlayerBack implements LayerRenderer<EntityLivingBase>{
             
 
             GlStateManager.disableRescaleNormal();
-        }
+        }*/
 	}
 
 	public boolean shouldCombineTextures()

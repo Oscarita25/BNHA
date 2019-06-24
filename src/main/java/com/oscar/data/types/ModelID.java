@@ -9,11 +9,15 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 
 public class ModelID implements IModelID {
 	
+    private static final DataParameter<Integer> MODEL_ID = EntityDataManager.<Integer>createKey(EntityPlayer.class, DataSerializers.VARINT);
 	protected EntityPlayer player;
 	private int model = 1;
 	private static final String keyModel = "bnhamodel";
@@ -26,6 +30,7 @@ public class ModelID implements IModelID {
 	public ModelID() {}
 	public ModelID(EntityPlayer player) {
 		this.player = player;
+		player.getDataManager().register(MODEL_ID, 0);
 	}
 	
 	@Override
@@ -53,6 +58,11 @@ public class ModelID implements IModelID {
 	}
 
 
+	@Override
+	public int getModelDATA() {
+		return player.getDataManager().get(MODEL_ID).intValue();
+
+	}
 
 	@SuppressWarnings("static-access")
 	@Override
@@ -64,8 +74,8 @@ public class ModelID implements IModelID {
 	@Override
 	public void synchronize() {
 		if(this.player instanceof EntityPlayerMP){
-			PacketDispatcher.sendToAllTrackingAndPlayer(new MM(this.model, (EntityPlayerMP) player), (EntityPlayerMP) this.player);
-
+			PacketDispatcher.sendTo(new MM(this.model),(EntityPlayerMP) this.player);
+			player.getDataManager().set(MODEL_ID, this.model);
 		}				
 	}
 

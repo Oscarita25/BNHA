@@ -2,6 +2,7 @@ package com.oscar;
 
 import java.io.File;
 
+import com.dabigjoe.obsidianAPI.ObsidianEventHandler;
 import com.oscar.commands.QuirkChange;
 import com.oscar.commands.QuirkRoll;
 import com.oscar.data.Capabilities;
@@ -56,7 +57,8 @@ import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 	name = Reference.NAME,
 	version = Reference.VERSION,
 	acceptedMinecraftVersions = Reference.ACCEPTED_VERSIONS,
-	useMetadata = true)
+	useMetadata = true,
+	dependencies="required-after:obsidian_api")
 public class BNHA {
 	
     public static int ID = 0;
@@ -89,6 +91,7 @@ public class BNHA {
 		PacketDispatcher.registerPackets();
 	       		LoggingUtil.info("Loading - Handlers");
 	       MinecraftForge.EVENT_BUS.register(new Eventhandler()); 
+	       MinecraftForge.EVENT_BUS.register(new ObsidianEventHandler());
        proxy.init(event);
     }
     

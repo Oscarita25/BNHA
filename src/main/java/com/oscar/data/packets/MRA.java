@@ -79,16 +79,18 @@ public class MRA extends AbstractServerMessage<MRA> {
 					
 			case Reference.hellfire:
 				setLoc(sendingPlayer);
+				
     			playerWorldServer.spawnEntity(
     					new Fireball(playerWorldServer,
-    					sendingPlayer.lastTickPosX + getLoc().x *3 ,
+    					sendingPlayer.lastTickPosX + getLoc().x *2 ,
     					sendingPlayer.lastTickPosY + 1,
-    					sendingPlayer.lastTickPosZ + getLoc().z *3,
+    					sendingPlayer.lastTickPosZ + getLoc().z *2,
     					sendingPlayer,
     					getLoc().x,
     					getLoc().y,
     					getLoc().z,
     					Quirk.getQuirkStrengh(sendingPlayer)));
+			
 				break;
 				
 			case Reference.icequirk:

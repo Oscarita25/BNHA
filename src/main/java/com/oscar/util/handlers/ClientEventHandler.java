@@ -21,7 +21,8 @@ public class ClientEventHandler {
 			ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
 		}
     }
+    
 	
-	
+
 
 }

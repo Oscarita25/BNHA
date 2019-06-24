@@ -5,6 +5,7 @@ import com.oscar.data.types.interfaces.IExp;
 import com.oscar.data.types.interfaces.ILevel;
 import com.oscar.data.types.interfaces.INExp;
 import com.oscar.util.Reference;
+import com.oscar.util.handlers.KeyInputHandler;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
@@ -14,6 +15,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
@@ -82,13 +84,20 @@ public class Lvlgui extends GuiScreen{
 			drawsomeshitidunno(xPos, yPos + 2, 1, 12, nx , 11, ux);
 			
 			// Text for the Level Bar
-			String y = "Level " + level.getlvl();
-			String s = exp.getexp() + "/" + nexp.getnexp();
-			//String d = "x: " + x +"; nx: " +nx + "; ux: " + ux;
+			String a = "Level " + level.getlvl();
+			String b = exp.getexp() + "/" + nexp.getnexp();
+			//String c = "x: " + x +"; nx: " +nx + "; ux: " + ux;
+			String d = "";
+			if(KeyInputHandler.battlemode)
+				d = TextFormatting.WHITE+"Battle Mode: "+TextFormatting.GREEN+ "On";
+			else
+				d = TextFormatting.WHITE+"Battle Mode: "+TextFormatting.RED+ "Off";
+			
 			yPos -= 10;
-			Minecraft.getMinecraft().fontRenderer.drawString(s, xPos + 20, yPos, 2550000, true);
-			Minecraft.getMinecraft().fontRenderer.drawString(y, xPos + 20, yPos + 11, 2550000, true);
-			//Minecraft.getMinecraft().fontRenderer.drawString(d, xPos - 30, yPos - 20, 2550000, true);
+			Minecraft.getMinecraft().fontRenderer.drawString(a, xPos + 20, yPos, 2550000, true);
+			Minecraft.getMinecraft().fontRenderer.drawString(b, xPos + 20, yPos + 11, 2550000, true);
+			//Minecraft.getMinecraft().fontRenderer.drawString(c, xPos - 30, yPos - 20, 2550000, true);
+		    Minecraft.getMinecraft().fontRenderer.drawString(d, xPos , yPos - 10, 2550000, true);
 			}
 
 		

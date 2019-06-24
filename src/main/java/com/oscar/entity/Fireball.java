@@ -1,5 +1,4 @@
 package com.oscar.entity;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -13,7 +12,7 @@ public class Fireball extends EntityThrowable{
 
 	EnumParticleTypes type = EnumParticleTypes.LAVA;
 	private float damage;
-	
+
     public Fireball(World worldIn){
         super(worldIn);
     }	
@@ -56,47 +55,22 @@ public class Fireball extends EntityThrowable{
     protected void onImpact(RayTraceResult result)
     {
         EntityLivingBase entitylivingbase = this.getThrower();
+
         
-        if(result.entityHit == this.thrower) {
-        	return;
-        }
         
-        if (result.entityHit != null )
+        if (result.entityHit != null && entitylivingbase != null)
         {
+         	
         	result.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, entitylivingbase), getDamage());
         }
 
         for (int i = 0; i < 32; ++i)
         {
-        	  this.world.spawnParticle(EnumParticleTypes.LAVA, this.posX, this.posY + this.rand.nextDouble() * 2.0D, this.posZ, this.rand.nextGaussian(), 0.0D, this.rand.nextGaussian(), new int[0]);
+        	  this.world.spawnParticle(EnumParticleTypes.FLAME, this.posX, this.posY + this.rand.nextDouble() * 2.4D, this.posZ, this.rand.nextGaussian() * 0.1D, 0.2D, this.rand.nextGaussian() * 0.1D, new int[0]);
         }
+        
+        this.setDead();
 
-        if (!this.world.isRemote)
-        {
-            if (entitylivingbase instanceof EntityPlayerMP && 1 != 1)
-            {
-                EntityPlayerMP entityplayermp = (EntityPlayerMP)entitylivingbase;
-
-                if (entityplayermp.world == this.world && !entityplayermp.isPlayerSleeping())
-                {
-                    net.minecraftforge.event.entity.living.EnderTeleportEvent event = new net.minecraftforge.event.entity.living.EnderTeleportEvent(entityplayermp, this.posX, this.posY, this.posZ, 5.0F);
-                    if (!net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(event))
-                    { // Don't indent to lower patch size
-
-                    if (entitylivingbase.isRiding())
-                    {
-                        entitylivingbase.dismountEntity((Entity)null);
-                    }
-
-                    entitylivingbase.setPositionAndUpdate(event.getTargetX(), event.getTargetY(), event.getTargetZ());
-                    entitylivingbase.fallDistance = 0.0F;
-                    entitylivingbase.attackEntityFrom((new DamageSource("Hellfire")).setMagicDamage(), event.getAttackDamage());
-                    }
-                }
-            }
-            
-            this.setDead();
-        }
     }
 
     /**
@@ -107,12 +81,10 @@ public class Fireball extends EntityThrowable{
     	
         EntityLivingBase entitylivingbase = this.getThrower();
         
-        
-        
-        if (this.ticksExisted >= 150){
-        	setDead();
-        	}
-        
+        if(this.ticksExisted >= 100) {
+        	this.setDead();
+        }
+
         
         if (entitylivingbase != null && entitylivingbase instanceof EntityPlayer && !entitylivingbase.isEntityAlive())
         {

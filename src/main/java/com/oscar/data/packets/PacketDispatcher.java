@@ -1,5 +1,6 @@
 package com.oscar.data.packets;
 
+import com.dabigjoe.obsidianAPI.network.AnimationNetworkHandler;
 import com.oscar.BNHA;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,6 +28,8 @@ public class PacketDispatcher
 		registerMessage(MNE.class);
 		registerMessage(MQID.class);
 		registerMessage(MRA.class);
+		
+		AnimationNetworkHandler.init();
 
 	}
 

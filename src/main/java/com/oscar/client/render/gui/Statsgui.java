@@ -28,6 +28,7 @@ import net.minecraft.util.text.TextFormatting;
 
 public class Statsgui extends GuiScreen {
 	
+	GuiButton CharSheet = new GuiButton( 1, 250, 200, 50, 20, "CharSheet");
     protected int xSize = 748;
     protected int ySize = 457;
     
@@ -41,8 +42,8 @@ public class Statsgui extends GuiScreen {
 	
 	@Override
 	public void initGui() {
-		 this.buttonList.add(new GuiButton( 1, 250, 200, 50, 20, "Hello"));
-
+		 this.buttonList.add(CharSheet);
+		 super.initGui();
 
 	}
     
@@ -108,11 +109,24 @@ public class Statsgui extends GuiScreen {
 
     
     
-    
+    /*
+     * Button actions:
+     *  ID:
+     *  1 = Char Sheet
+     *  2 = Skill Tree  (Passive & Active Skills)
+     *  3 = Attacks
+     *  4 = Tutorial Tab
+     */
     @Override
     protected void actionPerformed(GuiButton button) throws IOException {
-    	if(button.id == 1)
-    	 {
+    	switch (button.id) {
+    		case 0:
+    			this.mc.player.closeScreen();
+    			break;
+    		case 1:
+    			System.out.println("YOU CLICKED ME BIATCH");
+    		default:
+    			break;
     	 }
     }
     
@@ -137,6 +151,7 @@ public class Statsgui extends GuiScreen {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
 		if (keyCode == KeyInputHandler.Keybinds.keyBindings[1].getKeyCode()) {
 			mc.player.closeScreen();
 		}

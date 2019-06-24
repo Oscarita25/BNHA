@@ -7,6 +7,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
@@ -59,6 +60,20 @@ public class Icicle extends EntityLiving{
 	}
 
     @Override
+    public void onCollideWithPlayer(EntityPlayer entityIn){
+        EntityLivingBase entitylivingbase = this.source;
+    	entityIn.attackEntityFrom(DamageSource.causeIndirectDamage(entityIn, entitylivingbase), getDamage());
+        ((EntityLivingBase) entityIn).addPotionEffect(new PotionEffect(Potion.getPotionById(Potion.getIdFromPotion(ModHolder.FROZEN))));
+    }
+    
+	
+	@Override
+    public boolean canBeCollidedWith()
+    {
+        return false;
+    }
+	
+    @Override
     public boolean canBePushed() {
     	return false;
     }
@@ -66,6 +81,11 @@ public class Icicle extends EntityLiving{
     @Override
     public boolean getIsInvulnerable() {
     	return true;
+    }
+    
+    @Override
+    protected boolean canEquipItem(ItemStack stack){
+        return false;
     }
     
     private float getDamage() {
@@ -89,9 +109,9 @@ public class Icicle extends EntityLiving{
 
         for (Entity entity : this.world.getEntitiesWithinAABBExcludingEntity(this, box))
         {
-            if (entity instanceof EntityLiving && !(entity instanceof Icicle) || entity instanceof EntityPlayer && entity != this.source)
+            if (entity instanceof EntityLiving && !(entity instanceof Icicle) && !(entity instanceof EntityPlayer))
             {
-            		entity.attackEntityFrom(DamageSource.MAGIC, getDamage());
+            		entity.attackEntityFrom(DamageSource.causeIndirectDamage(entity, entitylivingbase), getDamage());
                     ((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.getPotionById(Potion.getIdFromPotion(ModHolder.FROZEN))));
             	
             }
@@ -113,9 +133,12 @@ public class Icicle extends EntityLiving{
 
         if(ticksExisted % 1 == 0) {
         	if(entitylivingbase instanceof EntityPlayerMP) {
-        	this.setPositionAndUpdate((this.posX + (getXLook() * i)), this.posY, (this.posZ + (getZLook() * i)));
-      	  	this.world.spawnParticle(EnumParticleTypes.WATER_SPLASH, this.posX, this.posY , this.posZ, this.rand.nextGaussian(), 0.2D, this.rand.nextGaussian(), new int[0]);
-        	i += 0.009D;
+        		this.setPositionAndUpdate((this.posX + (getXLook() * i)), this.posY, (this.posZ + (getZLook() * i)));
+                for (int i = 0; i < 32; ++i)
+                {
+          	  	this.world.spawnParticle(EnumParticleTypes.FLAME, this.posX, this.posY + this.rand.nextDouble() * 2.4D, this.posZ, this.rand.nextGaussian() * 0.1D, 0.2D, this.rand.nextGaussian() * 0.1D, new int[0]);
+                }
+          	  	i += 0.009D;
         	}
         }
         

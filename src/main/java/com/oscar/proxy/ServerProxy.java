@@ -35,6 +35,7 @@ public class ServerProxy implements IProxy{
 	public IThreadListener getThreadFromContext(MessageContext ctx) {
 		return ctx.getServerHandler().player.getServerWorld();
 	}
+	
 
 
 }

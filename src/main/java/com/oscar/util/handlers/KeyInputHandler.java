@@ -8,25 +8,28 @@ import com.oscar.data.packets.MRA;
 import com.oscar.util.Reference;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public class KeyInputHandler {
 	
-	@SideOnly(Side.CLIENT)
+	public static boolean battlemode = false;
+	
 	@SubscribeEvent
 	public void onClientTickEvent(TickEvent.ClientTickEvent event) throws Exception {
 		if(event.phase.equals(Phase.END)){
 	    KeyBinding[] keyBindings = Keybinds.keyBindings;
-		if(keyBindings[0].isPressed()){
-			BNHA.NETWORK.sendToServer(new MRA());
-		}
+
 		if(keyBindings[1].isPressed()) {
 			Minecraft mc = Minecraft.getMinecraft();
 			
@@ -37,18 +40,44 @@ public class KeyInputHandler {
 		}
 	}
 	
+    @SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
+    public void onEvent(InputEvent.MouseInputEvent event){
+        GameSettings gs = Minecraft.getMinecraft().gameSettings;
+        if (gs.keyBindAttack.isPressed() && KeyInputHandler.battlemode){
+            KeyBinding.setKeyBindState(gs.keyBindAttack.getKeyCode(), false);
+			BNHA.NETWORK.sendToServer(new MRA());
+			
+        }
+    }
+	
+    @SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
+    public void onEvent(InputEvent.KeyInputEvent event){
+	    KeyBinding[] keyBindings = Keybinds.keyBindings;
+		if(keyBindings[0].isPressed()){
+			if(!battlemode) {
+			battlemode = true;			
+			}else if(battlemode) {
+			battlemode = false;
+			}
+		}
+    }
+
+
+	
 	public static class Keybinds {
 		public static KeyBinding[] keyBindings;
 		
 		
 		public static void initKeybindings() {
 			keyBindings = new KeyBinding[2]; 
-			keyBindings[0] = new KeyBinding("key.quirk", Keyboard.KEY_Y, "key.categories." + Reference.MOD_ID);
+			keyBindings[0] = new KeyBinding("key.quirk", Keyboard.KEY_R, "key.categories." + Reference.MOD_ID);
 			keyBindings[1] = new KeyBinding("key.stats", Keyboard.KEY_X, "key.categories." + Reference.MOD_ID);
 			
 			ClientRegistry.registerKeyBinding(keyBindings[0]);
 			ClientRegistry.registerKeyBinding(keyBindings[1]);
 		}
 	}
+	
+	
 
-}
+	}
