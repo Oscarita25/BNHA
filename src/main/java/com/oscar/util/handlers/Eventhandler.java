@@ -10,6 +10,7 @@ import com.oscar.data.types.interfaces.IQCool;
 import com.oscar.data.types.interfaces.IQMaxAct;
 import com.oscar.data.types.interfaces.IQMaxCool;
 import com.oscar.data.types.interfaces.IQuirkID;
+import com.oscar.data.types.interfaces.IStamina;
 import com.oscar.data.types.quirk.act.QActProvider;
 import com.oscar.data.types.quirk.cool.QCoolProvider;
 import com.oscar.data.types.quirk.maxact.QMaxActProvider;
@@ -52,12 +53,15 @@ public class Eventhandler {
 		INExp nexp = player.getCapability(Capabilities.nexp, null);
 		IQuirkID iqID = player.getCapability(Capabilities.quirkid, null);
 		IModelID model = player.getCapability(Capabilities.modelid, null);
+        IStamina stamina = player.getCapability(Capabilities.stamina, null);
+
 
 		level.synchronize();
 		exp.synchronize();
 		nexp.synchronize();
 		iqID.synchronize();
 		model.synchronize();
+		stamina.synchronize();
 		
 		
 		if(!player.world.isRemote) {
@@ -131,6 +135,9 @@ public class Eventhandler {
 		IModelID modelid = player.getCapability(Capabilities.modelid, null);
 		IModelID oldmodelid =  event.getOriginal().getCapability(Capabilities.modelid, null);
 		
+        IStamina stamina = player.getCapability(Capabilities.stamina, null);
+        IStamina oldstamina = event.getOriginal().getCapability(Capabilities.stamina, null);
+
 		
 		if(event.isWasDeath()) {
 		iqmact.setmact(oldiqmact.getmact());
@@ -142,13 +149,10 @@ public class Eventhandler {
 		exp.setexp(oldExp.getexp());
 		nexp.setnexp(oldNExp.getnexp());
 		modelid.setModelID(oldmodelid.getModelID());
+		stamina.setStamina(oldstamina.getStamina());
+		stamina.setMaxStamina(oldstamina.getMaxStamina());
 		
-		level.synchronize();
-		exp.synchronize();
-		nexp.synchronize();
-		iqid.synchronize();
-		modelid.synchronize();
-		
+
 		}
 	}
 	
@@ -160,6 +164,7 @@ public class Eventhandler {
 			IExp exp = player.getCapability(Capabilities.exp, null);
 			INExp nexp = player.getCapability(Capabilities.nexp, null);
 			ILevel level = player.getCapability(Capabilities.level, null);
+	        IStamina stamina = player.getCapability(Capabilities.stamina, null);
 		
 			if (!player.world.isRemote) {
 				EntityPlayerMP p = (EntityPlayerMP)event.player;
@@ -171,6 +176,20 @@ public class Eventhandler {
 						nexp.setnexp((nexp.getnexp() * 15)/10);
 						exp.setexp(0);
 						player.sendMessage(new TextComponentString("You reached Level " + level.getlvl()));
+					}
+					
+					if(stamina.getStamina() < stamina.getMaxStamina()) {
+						if(p.ticksExisted % 60 == 0 && stamina.getStamina() != 0) {
+							
+							stamina.setStamina(stamina.getStamina() + 1);
+						}
+						
+						if(p.ticksExisted % 100 == 0 && stamina.getStamina() == 0) {
+							
+							stamina.setStamina(stamina.getStamina() + 1);
+						}
+						
+						
 					}
 				}
 			}else return;

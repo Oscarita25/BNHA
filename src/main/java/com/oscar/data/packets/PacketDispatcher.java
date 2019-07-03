@@ -1,7 +1,7 @@
 package com.oscar.data.packets;
 
-import com.dabigjoe.obsidianAPI.network.AnimationNetworkHandler;
 import com.oscar.BNHA;
+import com.oscar.obsidianAPI.network.AnimationNetworkHandler;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -22,6 +22,7 @@ public class PacketDispatcher
 
 	public static final void registerPackets() {
 
+		registerMessage(MS.class);
 		registerMessage(ME.class);
 		registerMessage(ML.class);
 		registerMessage(MM.class);

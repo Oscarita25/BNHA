@@ -79,7 +79,8 @@ public class QuirkID implements IQuirkID {
 
 	@Override
 	public void deserialize(NBTBase nbt) {	
-		this.QID = ((NBTTagCompound) nbt).getInteger(keyQID);
+		NBTTagCompound n = (NBTTagCompound) nbt;
+		this.QID = n.getInteger(keyQID);
 		
 	}
 

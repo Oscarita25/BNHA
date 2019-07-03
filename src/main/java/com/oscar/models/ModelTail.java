@@ -1,7 +1,7 @@
 package com.oscar.models;
 
-import com.dabigjoe.obsidianAPI.render.ModelAnimated;
-import com.dabigjoe.obsidianAPI.render.wavefront.WavefrontObject;
+import com.oscar.obsidianAPI.render.ModelAnimated;
+import com.oscar.obsidianAPI.render.wavefront.WavefrontObject;
 
 import net.minecraft.util.ResourceLocation;
 

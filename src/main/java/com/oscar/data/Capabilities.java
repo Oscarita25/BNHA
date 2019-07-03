@@ -4,18 +4,19 @@ import com.oscar.data.types.Exp;
 import com.oscar.data.types.Level;
 import com.oscar.data.types.ModelID;
 import com.oscar.data.types.NExp;
+import com.oscar.data.types.Stamina;
 import com.oscar.data.types.api.CapabilityProvider;
 import com.oscar.data.types.interfaces.IExp;
 import com.oscar.data.types.interfaces.ILevel;
 import com.oscar.data.types.interfaces.IModelID;
 import com.oscar.data.types.interfaces.INExp;
 import com.oscar.data.types.interfaces.IQuirkID;
+import com.oscar.data.types.interfaces.IStamina;
 import com.oscar.data.types.quirk.QuirkID;
 import com.oscar.data.types.quirk.act.QActProvider;
 import com.oscar.data.types.quirk.cool.QCoolProvider;
 import com.oscar.data.types.quirk.maxact.QMaxActProvider;
 import com.oscar.data.types.quirk.maxcool.QMaxCoolProvider;
-import com.oscar.data.types.stamina.StaminaProvider;
 import com.oscar.util.LoggingUtil;
 import com.oscar.util.Reference;
 
@@ -45,6 +46,9 @@ public class Capabilities {
 	@CapabilityInject(IModelID.class)
 	public static Capability<IModelID> modelid;
 	
+	@CapabilityInject(IStamina.class)
+	public static Capability<IStamina> stamina;
+	
 	/*
 	 * 		Attaching Capabilities on the Player
 	 * 
@@ -53,7 +57,6 @@ public class Capabilities {
 	public static final ResourceLocation QACT_CAP = new ResourceLocation(Reference.MOD_ID, "qact"); 
 	public static final ResourceLocation COOL_CAP = new ResourceLocation(Reference.MOD_ID, "qcooldown"); 
 	public static final ResourceLocation MAXCOOl_CAP = new ResourceLocation(Reference.MOD_ID, "qmaxcooldown"); 
-	public static final ResourceLocation STAMINA_CAP = new ResourceLocation(Reference.MOD_ID, "stamina");
 	
 	@SubscribeEvent
 	public void attachCapability(AttachCapabilitiesEvent<Entity> event) {
@@ -68,6 +71,8 @@ public class Capabilities {
 				NExp capabilityNExp = new NExp((EntityPlayer)ent);
 				QuirkID capabilityQuirkID = new QuirkID((EntityPlayer)ent);
 				ModelID capabilityModel = new ModelID((EntityPlayer)ent);
+				Stamina capabilityStamina = new Stamina((EntityPlayer)ent);
+
 				
 				event.addCapability(capabilityNExp.getID(), new CapabilityProvider(Capabilities.nexp,capabilityNExp ,null));
 				event.addCapability(capabilityLevel.getID(), new CapabilityProvider(Capabilities.level,capabilityLevel ,null));					
@@ -80,7 +85,8 @@ public class Capabilities {
 				event.addCapability(COOL_CAP, new QCoolProvider()); 
 				event.addCapability(QACT_CAP, new QActProvider()); 
 				event.addCapability(QMaxAct_CAP, new QMaxActProvider());
-				event.addCapability(STAMINA_CAP, new StaminaProvider());
+				event.addCapability(capabilityStamina.getID(), new CapabilityProvider(Capabilities.stamina,capabilityStamina,null)); 
+
 				
 				LoggingUtil.BNHALogger.info("added Quirk Capability's");
 				

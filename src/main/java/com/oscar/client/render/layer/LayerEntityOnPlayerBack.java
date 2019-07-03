@@ -5,11 +5,11 @@ import java.util.List;
 
 import com.oscar.client.render.entities.RenderEngine;
 import com.oscar.data.Capabilities;
-import com.oscar.entity.Fireball;
 import com.oscar.models.EngineModel;
 import com.oscar.util.Reference;
 
 import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.model.ModelPlayer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -24,17 +24,21 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class LayerEntityOnPlayerBack implements LayerRenderer<EntityLivingBase>{
 
-    private final RenderManager renderManager;
-    protected Render<Fireball> Renderer;
-    private ModelBiped Model = new EngineModel(0F);
+	private RenderManager rendermanager;
+	@SuppressWarnings("rawtypes")
+	protected Render Renderer;
+    private ModelBiped Model;
     private ResourceLocation Resource = RenderEngine.ENGINE_TEXTURE;
+	private ModelBiped modelParent;
+	private boolean ChildModelsAdded = false;
 	public static List<EntityPlayer> playerlist = new ArrayList<EntityPlayer>();
 	public static List<NBTTagCompound> playerNBT = new ArrayList<NBTTagCompound>();
 
 	
-    public LayerEntityOnPlayerBack(RenderManager rendermanager)
+    public LayerEntityOnPlayerBack(RenderManager rendermanager, ModelPlayer modelPlayer)
     {
-        this.renderManager = rendermanager;
+        this.rendermanager = rendermanager;
+        this.modelParent = modelPlayer;
     }
 
     public void doRenderLayer(EntityLivingBase player, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale)
@@ -51,29 +55,59 @@ public class LayerEntityOnPlayerBack implements LayerRenderer<EntityLivingBase>{
     		  
               GlStateManager.enableRescaleNormal();
               GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-              GlStateManager.pushMatrix();
 
-              	if(Renderer == null) 
-              	Renderer = new RenderEngine(this.renderManager);
-              	
-              	Renderer.bindTexture(Resource);
-              	
-              	
+            	if(Renderer == null) { 
+                	Renderer = new RenderEngine(this.rendermanager);
+              	}
+
+              
+        		
+        		if(Model == null) {
+        			Model = new EngineModel(0F);
+        		}
                   GlStateManager.pushMatrix();
-                  float f = player.isSneaking() ? -1.3F : -1.5F;
+                  
+
+              	
+                  float f = player.isSneaking() ? 0.2F : 0F;
                   GlStateManager.translate(0.0F, f, 0.0F);
                   
+              	
+              	
                   ageInTicks = 0.0F;
-
-                  Model.setLivingAnimations(player, limbSwing, limbSwingAmount, partialTicks);
-                  Model.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, player);
-                  Model.render(player, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
                   
-                  Model.isSneak = player.isSneaking();
-                  Model.isRiding = player.isRiding();
-                  Model.isChild = player.isChild();
+                  Model.isSneak = modelParent.isSneak;
+                  Model.isRiding = modelParent.isRiding;
+                  Model.isChild = modelParent.isChild;
+                  Model.bipedBody = modelParent.bipedBody;
+                  Model.bipedHead = modelParent.bipedHead;
+                  Model.bipedHeadwear = modelParent.bipedHeadwear;
+                  Model.bipedLeftArm = modelParent.bipedLeftArm;
+
+                  if(Model instanceof EngineModel && ChildModelsAdded == false) {
+                	  ((EngineModel) Model).addChildmodels(modelParent);
+                	  ChildModelsAdded  = true;
+                  }
+
+                  Model.bipedLeftLeg = modelParent.bipedLeftLeg;
+                  
+                  Model.bipedRightArm = modelParent.bipedRightArm;
+                  
+                  Model.bipedRightLeg = modelParent.bipedRightLeg;
+                  
+                  
+                  Model.bipedRightLeg.showModel = false;
+                  Model.bipedLeftLeg.showModel = false;
+                  
+                  GlStateManager.pushMatrix();
+                  Renderer.bindTexture(Resource);
+
+                  Model.render(player, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
+                  Model.setModelAttributes(modelParent);
+                  
                   GlStateManager.popMatrix();
-              GlStateManager.popMatrix();
+
+                  GlStateManager.popMatrix();
 
 
               GlStateManager.disableRescaleNormal();

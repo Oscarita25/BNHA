@@ -2,7 +2,6 @@ package com.oscar;
 
 import java.io.File;
 
-import com.dabigjoe.obsidianAPI.ObsidianEventHandler;
 import com.oscar.commands.QuirkChange;
 import com.oscar.commands.QuirkRoll;
 import com.oscar.data.Capabilities;
@@ -11,6 +10,7 @@ import com.oscar.data.types.Exp;
 import com.oscar.data.types.Level;
 import com.oscar.data.types.ModelID;
 import com.oscar.data.types.NExp;
+import com.oscar.data.types.Stamina;
 import com.oscar.data.types.api.CapabilityStorage;
 import com.oscar.data.types.interfaces.IExp;
 import com.oscar.data.types.interfaces.ILevel;
@@ -31,10 +31,10 @@ import com.oscar.data.types.quirk.maxact.QMaxActFactory;
 import com.oscar.data.types.quirk.maxact.QMaxActStorage;
 import com.oscar.data.types.quirk.maxcool.QMaxCoolFactory;
 import com.oscar.data.types.quirk.maxcool.QMaxCoolStorage;
-import com.oscar.data.types.stamina.StaminaFactory;
-import com.oscar.data.types.stamina.StaminaStorage;
 import com.oscar.init.ModHolder;
+import com.oscar.obsidianAPI.event.ObsidianEventBus;
 import com.oscar.proxy.IProxy;
+import com.oscar.util.CombAtt;
 import com.oscar.util.LoggingUtil;
 import com.oscar.util.Reference;
 import com.oscar.util.handlers.Eventhandler;
@@ -57,8 +57,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 	name = Reference.NAME,
 	version = Reference.VERSION,
 	acceptedMinecraftVersions = Reference.ACCEPTED_VERSIONS,
-	useMetadata = true,
-	dependencies="required-after:obsidian_api")
+	useMetadata = true)
 public class BNHA {
 	
     public static int ID = 0;
@@ -75,6 +74,9 @@ public class BNHA {
 	public static Configuration config;
 	public static File dir;
     public static final SimpleNetworkWrapper NETWORK = NetworkRegistry.INSTANCE.newSimpleChannel(Reference.MOD_ID);
+    
+    public static final ObsidianEventBus ANIMATION_EVENT_BUS = new ObsidianEventBus();
+
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event)
@@ -91,7 +93,8 @@ public class BNHA {
 		PacketDispatcher.registerPackets();
 	       		LoggingUtil.info("Loading - Handlers");
 	       MinecraftForge.EVENT_BUS.register(new Eventhandler()); 
-	       MinecraftForge.EVENT_BUS.register(new ObsidianEventHandler());
+	       MinecraftForge.EVENT_BUS.register(ANIMATION_EVENT_BUS);
+	       CombAtt.init();
        proxy.init(event);
     }
     
@@ -119,7 +122,7 @@ public class BNHA {
 	       CapabilityManager.INSTANCE.register(IQAct.class, new QActStorage(), new QActFactory());
 	       CapabilityManager.INSTANCE.register(IQMaxAct.class, new QMaxActStorage(), new QMaxActFactory());
 	       CapabilityManager.INSTANCE.register(IModelID.class, new CapabilityStorage<IModelID>(), ModelID::new);		
-	       CapabilityManager.INSTANCE.register(IStamina.class, new StaminaStorage(), new StaminaFactory());		
+	       CapabilityManager.INSTANCE.register(IStamina.class, new CapabilityStorage<IStamina>(), Stamina::new);		
 
 	       
 	       MinecraftForge.EVENT_BUS.register(new Capabilities());

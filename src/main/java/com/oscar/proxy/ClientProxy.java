@@ -37,7 +37,8 @@ public class ClientProxy implements IProxy {
 	public void registerRenders() {	
 		
 		for (RenderPlayer playerRender : Minecraft.getMinecraft().getRenderManager().getSkinMap().values()) {
-			LayerEntityOnPlayerBack layer = new LayerEntityOnPlayerBack(playerRender.getRenderManager());	
+			LayerEntityOnPlayerBack layer = new LayerEntityOnPlayerBack(playerRender.getRenderManager() ,playerRender.getMainModel());	
+
 			playerRender.addLayer(layer);
 		}
 		

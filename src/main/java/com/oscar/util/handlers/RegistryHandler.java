@@ -100,8 +100,7 @@ public class RegistryHandler {
 	@SubscribeEvent
 	public static void registerPotions(RegistryEvent.Register<Potion> event) {
         final IForgeRegistry<Potion> registry = event.getRegistry();
-
-		
+        
         registry.register(new CustPotion(true,232323,"frozen"));
 		
 	}

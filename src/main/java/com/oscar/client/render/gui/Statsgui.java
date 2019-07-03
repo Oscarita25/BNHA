@@ -42,7 +42,6 @@ public class Statsgui extends GuiScreen {
 	
 	@Override
 	public void initGui() {
-		 this.buttonList.add(CharSheet);
 		 super.initGui();
 
 	}

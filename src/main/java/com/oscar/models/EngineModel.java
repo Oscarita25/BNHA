@@ -5,21 +5,10 @@ package com.oscar.models;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelBox;
 import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.math.MathHelper;
 
 public class EngineModel extends ModelBiped {
 
-	//RightControl
-	private final ModelRenderer rightcontrol;	
-	
-	//LeftControl
-	private final ModelRenderer leftcontrol;
-	
-
-	
 	//high
 	private final ModelRenderer highright;
 	private final ModelRenderer highleft;
@@ -57,49 +46,38 @@ public class EngineModel extends ModelBiped {
         this.textureWidth = 16;
         this.textureHeight = 16;
 
-    	rightcontrol = new ModelRenderer(this);
-    	rightcontrol.setRotationPoint(0F, 0F, 0F);
-		setRotationAngle(rightcontrol, 0F, 0.0F, 0.0F);
-
-
-    	
-    	leftcontrol = new ModelRenderer(this);
-    	leftcontrol.setRotationPoint(0F, 0F, 0F);
-		setRotationAngle(leftcontrol, 0F, 0.0F, 0.0F);
-
-
     	
 
 		lowright = new ModelRenderer(this);
-		lowright.setRotationPoint(0.0F, 23.5F, 0.5F);
+		lowright.setRotationPoint(1.5F, 9.5F, 2.5F);
 		setRotationAngle(lowright, 0.2618F, 0.0F, 0.0F);
 		
 
 		lowleft = new ModelRenderer(this);
-		lowleft.setRotationPoint(0.0F, 23.5F, 0.5F);
+		lowleft.setRotationPoint(-1.5F, 9.5F, 2.5F);
 		setRotationAngle(lowleft, 0.2618F, 0.0F, 0.0F);
 
 
 
 		middleright = new ModelRenderer(this);
-		middleright.setRotationPoint(0.0F, 20.5F, 0.5F);
+		middleright.setRotationPoint(1.5F, 6.5F, 2.5F);
 		setRotationAngle(middleright, 0.2618F, 0.0F, 0.0F);
 		
 
 		middleleft = new ModelRenderer(this);
-		middleleft.setRotationPoint(0.0F, 20.5F, 0.5F);
+		middleleft.setRotationPoint(-1.5F, 6.5F, 2.5F);
 		setRotationAngle(middleleft, 0.2618F, 0.0F, 0.0F);
 
 
 		highright = new ModelRenderer(this);
-		highright.setRotationPoint(0.0F, 17.5F, 0.5F);
+		highright.setRotationPoint(1.5F, 3.5F, 2.5F);
 		setRotationAngle(highright, 0.2618F, 0.0F, 0.0F);
 		
 		highleft = new ModelRenderer(this);
-		highleft.setRotationPoint(0.0F, 17.5F, 0.5F);
+		highleft.setRotationPoint(-1.5F, 3.5F, 2.5F);
 		setRotationAngle(highleft, 0.2618F, 0.0F, 0.0F);
 
-		
+
 		
 		//right high
 		righig = new ModelRenderer(this);
@@ -205,32 +183,31 @@ public class EngineModel extends ModelBiped {
 		leflow2.cubeList.add(new ModelBox(leflow2, 6, 13, -0.5F, -3.5F, -1.0F, 0, 1, 2, 0.0F, false));
 		leflow2.cubeList.add(new ModelBox(leflow2, 6, 13, 0.4F, -3.5F, -1.0F, 0, 1, 2, 0.0F, false));
 		
+
+	}
+	
+	public void addChildmodels(ModelBiped model) {
+		model.bipedRightLeg.addChild(highright);
+		model.bipedRightLeg.addChild(middleright);
+		model.bipedRightLeg.addChild(lowright);
 		
-		rightcontrol.addChild(highright);
-		rightcontrol.addChild(middleright);
-		rightcontrol.addChild(lowright);
-		
-				
-		leftcontrol.addChild(highleft);
-		leftcontrol.addChild(middleleft);
-		leftcontrol.addChild(lowleft);
-		
+		model.bipedLeftLeg.addChild(highleft);
+		model.bipedLeftLeg.addChild(middleleft);
+		model.bipedLeftLeg.addChild(lowleft);
 	}
 
 	@Override
 	public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-	        GlStateManager.pushMatrix();
-	        rightcontrol.render(scale);
-            leftcontrol.render(scale);
-   		 this.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, entityIn);
+		bipedLeftLeg.render(scale);
+		bipedRightLeg.render(scale);
+		
 
-	        GlStateManager.popMatrix();
 	}
 	
 	@Override
 	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn){
 		super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
-		
+/*		
         boolean flag = entityIn instanceof EntityLivingBase && ((EntityLivingBase)entityIn).getTicksElytraFlying() > 4;
 
         float f = 1.0F;
@@ -246,19 +223,42 @@ public class EngineModel extends ModelBiped {
         {
             f = 1.0F;
         }
-        
-	 this.rightcontrol.rotateAngleX = (MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount / f) /4F;
+       
+	 this.highright.rotateAngleX = (MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount / f) /4F;
+	 this.middleright.rotateAngleX = (MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount / f) /4F;
+	 this.lowright.rotateAngleX = (MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount / f) /4F;
 
-     this.leftcontrol.rotateAngleX = (MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount / f) /2.2F;
+
+     this.highleft.rotateAngleX = (MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount / f) /2.2F;
+     this.middleleft.rotateAngleX = (MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount / f) /2.2F;
+     this.lowleft.rotateAngleX = (MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount / f) /2.2F;
+
      
      if (this.isRiding)
      {
-         this.rightcontrol.rotateAngleX = -1.4137167F;
-         this.rightcontrol.rotateAngleY = ((float)Math.PI / 10F);
-         this.rightcontrol.rotateAngleZ = 0.07853982F;
-         this.leftcontrol.rotateAngleX = -1.4137167F;
-         this.leftcontrol.rotateAngleY = -((float)Math.PI / 10F);
-         this.leftcontrol.rotateAngleZ = -0.07853982F;
+         this.highright.rotateAngleX = -1.4137167F;
+         this.middleright.rotateAngleX = -1.4137167F;
+         this.lowright.rotateAngleX = -1.4137167F;
+         
+         this.highright.rotateAngleY = ((float)Math.PI / 10F);
+         this.middleright.rotateAngleY = ((float)Math.PI / 10F);
+         this.lowright.rotateAngleY = ((float)Math.PI / 10F);
+
+         this.highright.rotateAngleZ = 0.07853982F;
+         this.middleright.rotateAngleZ = 0.07853982F;
+         this.lowright.rotateAngleZ = 0.07853982F;
+
+         this.highleft.rotateAngleX = -1.4137167F;
+         this.middleleft.rotateAngleX = -1.4137167F;
+         this.lowleft.rotateAngleX = -1.4137167F;
+
+         this.highleft.rotateAngleY = -((float)Math.PI / 10F);
+         this.middleleft.rotateAngleY = -((float)Math.PI / 10F);
+         this.lowleft.rotateAngleY = -((float)Math.PI / 10F);
+
+         this.highleft.rotateAngleZ = -0.07853982F;
+         this.middleleft.rotateAngleZ = -0.07853982F;
+         this.lowleft.rotateAngleZ = -0.07853982F;
      }
      
 
@@ -270,7 +270,7 @@ public class EngineModel extends ModelBiped {
          this.rightcontrol.rotationPointY = 9.0F;
          this.leftcontrol.rotationPointY = 9.0F;
      }
-
+     */
 	}
 	
 	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {

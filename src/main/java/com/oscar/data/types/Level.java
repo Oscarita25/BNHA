@@ -80,6 +80,7 @@ public class Level implements ILevel {
 
 	@Override
 	public void deserialize(NBTBase nbt) {	
+		if(nbt instanceof NBTTagCompound)
 		this.level = ((NBTTagCompound) nbt).getInteger(keyLevel);
 		
 	}

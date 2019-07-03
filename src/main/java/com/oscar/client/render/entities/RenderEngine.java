@@ -16,7 +16,6 @@ public class RenderEngine extends Render<Fireball>{
         super(manager);
     }
 
-
     /**
      * Renders the desired {@code T} type Entity.
      */

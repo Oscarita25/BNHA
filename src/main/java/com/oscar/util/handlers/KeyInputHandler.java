@@ -5,6 +5,7 @@ import org.lwjgl.input.Keyboard;
 import com.oscar.BNHA;
 import com.oscar.client.render.gui.Statsgui;
 import com.oscar.data.packets.MRA;
+import com.oscar.util.CombAtt;
 import com.oscar.util.Reference;
 
 import net.minecraft.client.Minecraft;
@@ -40,24 +41,61 @@ public class KeyInputHandler {
 		}
 	}
 	
-    @SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
+    @SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = false)
     public void onEvent(InputEvent.MouseInputEvent event){
+    	
         GameSettings gs = Minecraft.getMinecraft().gameSettings;
-        if (gs.keyBindAttack.isPressed() && KeyInputHandler.battlemode){
+      
+        /*
+         * Left Mouse Press (in BattleMode)
+         */
+
+        if (gs.keyBindAttack.isPressed() ){
+        	
+            if(!(KeyInputHandler.battlemode) ) {
+            	KeyBinding.onTick(gs.keyBindAttack.getKeyCode());
+            }
+            if(KeyInputHandler.battlemode) {
             KeyBinding.setKeyBindState(gs.keyBindAttack.getKeyCode(), false);
 			BNHA.NETWORK.sendToServer(new MRA());
-			
+			CombAtt.onCombo("L");
+            }
         }
+        
+
+        
+
+        if (gs.keyBindUseItem.isPressed()){
+            if(!(KeyInputHandler.battlemode) ) {
+            	KeyBinding.onTick(gs.keyBindUseItem.getKeyCode());
+            }
+        	if(KeyInputHandler.battlemode) {
+            KeyBinding.setKeyBindState(gs.keyBindUseItem.getKeyCode(), false);
+			BNHA.NETWORK.sendToServer(new MRA());
+			CombAtt.onCombo("R");
+        	}
+        } 
+        
+        
+        
+        if(CombAtt.active_comb.size() == 5) {
+        	CombAtt.clearCombo();
+        
+    	}
     }
 	
     @SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
     public void onEvent(InputEvent.KeyInputEvent event){
 	    KeyBinding[] keyBindings = Keybinds.keyBindings;
+        /*
+         *  Deactivate & Activate BattleMode
+         */
 		if(keyBindings[0].isPressed()){
 			if(!battlemode) {
 			battlemode = true;			
 			}else if(battlemode) {
 			battlemode = false;
+			CombAtt.clearCombo();
 			}
 		}
     }

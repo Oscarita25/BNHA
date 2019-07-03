@@ -7,6 +7,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -62,8 +63,22 @@ public class Icicle extends EntityLiving{
     @Override
     public void onCollideWithPlayer(EntityPlayer entityIn){
         EntityLivingBase entitylivingbase = this.source;
+        if(entityIn != entitylivingbase) {
     	entityIn.attackEntityFrom(DamageSource.causeIndirectDamage(entityIn, entitylivingbase), getDamage());
-        ((EntityLivingBase) entityIn).addPotionEffect(new PotionEffect(Potion.getPotionById(Potion.getIdFromPotion(ModHolder.FROZEN))));
+    	
+        if(((EntityLivingBase) entityIn).isPotionActive(ModHolder.FROZEN)) {
+        	if(((EntityLivingBase) entityIn).getActivePotionEffect(ModHolder.FROZEN).getDuration() == 80) {
+                ((EntityLivingBase) entityIn).addPotionEffect(new PotionEffect(ModHolder.FROZEN, ((EntityLivingBase) entityIn).getActivePotionEffect(ModHolder.FROZEN).getDuration(), 0, false, true));
+
+        	}else {
+            ((EntityLivingBase) entityIn).addPotionEffect(new PotionEffect(ModHolder.FROZEN, ((EntityLivingBase) entityIn).getActivePotionEffect(ModHolder.FROZEN).getDuration() + 2, 0, false, true));
+        	}
+
+        }else {
+            ((EntityLivingBase) entityIn).addPotionEffect(new PotionEffect(ModHolder.FROZEN, 5, 0, false, true));
+
+        }
+        }
     }
     
 	
@@ -109,10 +124,22 @@ public class Icicle extends EntityLiving{
 
         for (Entity entity : this.world.getEntitiesWithinAABBExcludingEntity(this, box))
         {
-            if (entity instanceof EntityLiving && !(entity instanceof Icicle) && !(entity instanceof EntityPlayer))
+            if (entity instanceof EntityLiving && !(entity instanceof Icicle) && !(entity instanceof EntityPlayer) )
             {
             		entity.attackEntityFrom(DamageSource.causeIndirectDamage(entity, entitylivingbase), getDamage());
-                    ((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.getPotionById(Potion.getIdFromPotion(ModHolder.FROZEN))));
+                    if(((EntityLivingBase) entity).isPotionActive(ModHolder.FROZEN)) {
+                    	if(((EntityLivingBase) entity).getActivePotionEffect(ModHolder.FROZEN).getDuration() == 80) {
+                            ((EntityLivingBase) entity).addPotionEffect(new PotionEffect(ModHolder.FROZEN, ((EntityLivingBase) entity).getActivePotionEffect(ModHolder.FROZEN).getDuration(), 0, false, true));
+
+                    	}else {
+                        ((EntityLivingBase) entity).addPotionEffect(new PotionEffect(ModHolder.FROZEN, ((EntityLivingBase) entity).getActivePotionEffect(ModHolder.FROZEN).getDuration() + 2, 0, false, true));
+                    	}
+
+                    }else {
+                        ((EntityLivingBase) entity).addPotionEffect(new PotionEffect(ModHolder.FROZEN, 5, 0, false, true));
+
+                    }
+
             	
             }
         }
