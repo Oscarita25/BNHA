@@ -2,8 +2,6 @@ package ru.gloomyfolken.tcn2obj.obj;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.lwjgl.util.vector.Matrix3f;
 import org.lwjgl.util.vector.Vector3f;
